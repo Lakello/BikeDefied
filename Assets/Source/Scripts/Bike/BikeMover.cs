@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BikeMover : BikeBehaviour
 {
-    [SerializeField] private HingeJoint _driveWheel;
+    [SerializeField] private HingeJoint _backWheel;
     [SerializeField] private float _targetVelocity = 25;
     [SerializeField] private float _force = 50;
     [SerializeField] private float _brakeForce = 50;
@@ -26,7 +26,7 @@ public class BikeMover : BikeBehaviour
     {
         while (IsAlive)
         {
-            if (!IsGround)
+            if (!IsBackWheelGrounded)
             {
                 yield return null;
                 continue;
@@ -48,8 +48,8 @@ public class BikeMover : BikeBehaviour
         _motor.targetVelocity = _targetVelocity * value;
         _motor.force = _force;
 
-        _driveWheel.useMotor = true;
-        _driveWheel.motor = _motor;
+        _backWheel.useMotor = true;
+        _backWheel.motor = _motor;
     }
 
     private void Stop()
@@ -57,7 +57,7 @@ public class BikeMover : BikeBehaviour
         _motor.force = _brakeForce;
         _motor.targetVelocity = 0;
 
-        _driveWheel.useMotor = true;
-        _driveWheel.motor = _motor;
+        _backWheel.useMotor = true;
+        _backWheel.motor = _motor;
     }
 }

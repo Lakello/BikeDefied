@@ -830,8 +830,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.021433434, y: -0.6834537, z: -0.020083219, w: 0.7294028}
-  m_LocalPosition: {x: 3.4513304, y: 2.0165615, z: -0.22472672}
+  m_LocalRotation: {x: 0.013468591, y: -0.6836322, z: 0.0126201315, w: 0.7295933}
+  m_LocalPosition: {x: 3.453414, y: 2.2078164, z: -0.22486246}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -935,8 +935,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972960705}
-  m_LocalRotation: {x: -0.021433434, y: -0.6834537, z: -0.020083219, w: 0.7294028}
-  m_LocalPosition: {x: 3.4513304, y: 2.0165615, z: -0.22472672}
+  m_LocalRotation: {x: 0.013468591, y: -0.6836322, z: 0.0126201315, w: 0.7295933}
+  m_LocalPosition: {x: 3.453414, y: 2.2078164, z: -0.22486246}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1484,7 +1484,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1531918167}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2000008, z: 0}
+  m_LocalPosition: {x: 0, y: 1.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1504,7 +1504,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 305ff2240df97a344a6dc47dd35cb558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotateSpeed: 100
+  _rotateSpeed: 400
+  _bike: {fileID: 1531918168}
+  _bikeRigidbody: {fileID: 1531918172}
 --- !u!114 &1531918170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1517,10 +1519,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9876d360c23cc6e4e9ff8ac93e61e910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _driveWheel: {fileID: 2003767899}
-  _targetVelocity: 2500
-  _force: 300
-  _brakeForce: 1200
+  _backWheel: {fileID: 2003767899}
+  _targetVelocity: 5000
+  _force: 350
+  _brakeForce: 1500
 --- !u!114 &1531918171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1536,7 +1538,8 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 8
-  _selfCollider: {fileID: 2003767900}
+  _backCollider: {fileID: 2003767900}
+  _frontCollider: {fileID: 549697252}
 --- !u!54 &1531918172
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1545,9 +1548,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1531918167}
   serializedVersion: 4
-  m_Mass: 120
-  m_Drag: 0.2
-  m_AngularDrag: 200
+  m_Mass: 150
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1557,7 +1560,7 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 0
+  m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0

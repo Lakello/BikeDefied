@@ -4,33 +4,37 @@ using UnityEngine;
 public class GroundChecker : MonoBehaviour
 {
     [SerializeField] private LayerMask _groundMask;
-    [SerializeField] private Collider _selfCollider;
+    [SerializeField] private Collider _backCollider;
+    [SerializeField] private Collider _frontCollider;
 
     private float _checkRadius = 0.28f;
-    private bool _isGround;
+    private bool _isGrounded;
+    private bool _isBackWheelGround;
+    private bool _isFrontWheelGround;
 
     public event Action<bool> GroundChanged;
+    public event Action<bool> BackWheelGroundChanged;
 
     private void FixedUpdate()
     {
-        Check();
+        TryChangeGround(ref _isBackWheelGround, IsGround(_backCollider), BackWheelGroundChanged);
+        TryChangeGround(ref _isFrontWheelGround, IsGround(_frontCollider));
+        TryChangeGround(ref _isGrounded, _isBackWheelGround || _isFrontWheelGround, GroundChanged);
     }
 
-    private void Check()
+    private void TryChangeGround(ref bool isGround, bool condition, Action<bool> action = null)
     {
-        bool isGround = IsGround();
-
-        if (_isGround != isGround)
+        if (isGround != condition)
         {
-            GroundChanged?.Invoke(isGround);
-            _isGround = isGround;
+            isGround = condition;
+            action?.Invoke(isGround);
         }
     }
 
-    private bool IsGround()
+    private bool IsGround(Collider collider)
     {
-        return Physics.CheckCapsule(_selfCollider.bounds.center,
-                                    _selfCollider.bounds.center,
+        return Physics.CheckCapsule(collider.bounds.center,
+                                    collider.bounds.center,
                                     _checkRadius,
                                     _groundMask,
                                     QueryTriggerInteraction.Ignore);

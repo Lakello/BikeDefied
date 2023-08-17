@@ -2,12 +2,12 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class BikeFliper : BikeBehaviour
 {
     [SerializeField] private float _rotateSpeed;
 
-    [SerializeField] private Rigidbody _driveWheel;
+    [SerializeField] private Transform _bike;
+    [SerializeField] private Rigidbody _bikeRigidbody;
 
     private void Start()
     {
@@ -24,11 +24,14 @@ public class BikeFliper : BikeBehaviour
     {
         while (IsAlive)
         {
-            if (IsGround)
+            if (IsGrounded)
             {
+                ResetFlipRigidbody();
                 yield return null;
                 continue;
             }
+
+            SetFlipRigidbody();
 
             var horizontal = InputHandler.Horizontal;
 
@@ -41,6 +44,21 @@ public class BikeFliper : BikeBehaviour
 
     private void Flip(float direction)
     {
-        _driveWheel.AddForce(transform.up * -direction * _rotateSpeed * Time.deltaTime, ForceMode.Force);
+        Quaternion deltaRotation = Quaternion.Euler(new Vector3(_rotateSpeed * -direction * Time.deltaTime, 0, 0));
+
+        _bike.rotation *= deltaRotation;
+    }
+
+    private void SetFlipRigidbody()
+    {
+        _bikeRigidbody.constraints = RigidbodyConstraints.FreezeRotation |
+                                     RigidbodyConstraints.FreezePositionX;
+    }
+
+    private void ResetFlipRigidbody()
+    {
+        _bikeRigidbody.constraints = RigidbodyConstraints.FreezeRotationY |
+                                     RigidbodyConstraints.FreezeRotationZ |
+                                     RigidbodyConstraints.FreezePositionX;
     }
 }

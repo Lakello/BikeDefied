@@ -5,7 +5,8 @@ using UnityEngine;
 public abstract class BikeBehaviour : MonoBehaviour
 {
     protected IInputHandler InputHandler;
-    protected bool IsGround { get; private set; }
+    protected bool IsGrounded { get; private set; }
+    protected bool IsBackWheelGrounded { get; private set; }
     protected bool IsAlive { get; private set; }
 
     private GroundChecker _groundChecker;
@@ -19,14 +20,17 @@ public abstract class BikeBehaviour : MonoBehaviour
     private void OnEnable()
     {
         _groundChecker.GroundChanged += OnGroundChanged;
+        _groundChecker.BackWheelGroundChanged += OnBackWheelGroundChanged;
     }
 
     private void OnDisable()
     {
         _groundChecker.GroundChanged -= OnGroundChanged;
+        _groundChecker.BackWheelGroundChanged -= OnBackWheelGroundChanged;
     }
 
     protected abstract void Inject(IInputHandler input);
 
-    private void OnGroundChanged(bool value) => IsGround = value;
+    private void OnGroundChanged(bool value) => IsGrounded = value;
+    private void OnBackWheelGroundChanged(bool value) => IsBackWheelGrounded = value;
 }
