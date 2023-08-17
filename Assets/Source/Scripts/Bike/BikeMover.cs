@@ -2,7 +2,6 @@ using Reflex.Attributes;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class BikeMover : BikeBehaviour
 {
     [SerializeField] private HingeJoint _driveWheel;
@@ -11,11 +10,9 @@ public class BikeMover : BikeBehaviour
     [SerializeField] private float _brakeForce = 50;
 
     private JointMotor _motor = new();
-    private Rigidbody _selfRigidbody;
 
     private void Start()
     {
-        _selfRigidbody = GetComponent<Rigidbody>();
         StartCoroutine(Mover());
     }
 
@@ -34,8 +31,6 @@ public class BikeMover : BikeBehaviour
                 yield return null;
                 continue;
             }
-
-            SetMoveConstraints();
 
             var horizontal = InputHandler.Horizontal;
 
@@ -64,15 +59,5 @@ public class BikeMover : BikeBehaviour
 
         _driveWheel.useMotor = true;
         _driveWheel.motor = _motor;
-    }
-
-    private void SetMoveConstraints()
-    {
-        _selfRigidbody.constraints = RigidbodyConstraints.None;
-
-        _selfRigidbody.constraints = RigidbodyConstraints.FreezeRotationY;
-        _selfRigidbody.constraints = RigidbodyConstraints.FreezeRotationZ;
-
-        _selfRigidbody.constraints = RigidbodyConstraints.FreezePositionX;
     }
 }

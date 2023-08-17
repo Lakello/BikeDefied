@@ -7,11 +7,10 @@ public class BikeFliper : BikeBehaviour
 {
     [SerializeField] private float _rotateSpeed;
 
-    private Rigidbody _selfRigidbody;
+    [SerializeField] private Rigidbody _driveWheel;
 
     private void Start()
     {
-        _selfRigidbody = GetComponent<Rigidbody>();
         StartCoroutine(Fliper());
     }
 
@@ -31,8 +30,6 @@ public class BikeFliper : BikeBehaviour
                 continue;
             }
 
-            SetFlipConstraints();
-
             var horizontal = InputHandler.Horizontal;
 
             if (horizontal != 0)
@@ -44,17 +41,6 @@ public class BikeFliper : BikeBehaviour
 
     private void Flip(float direction)
     {
-        transform.Rotate(new Vector3(_rotateSpeed * -direction * Time.deltaTime, 0, 0));
-    }
-
-    private void SetFlipConstraints()
-    {
-        _selfRigidbody.constraints = RigidbodyConstraints.None;
-
-        _selfRigidbody.constraints = RigidbodyConstraints.FreezeRotationX;
-        _selfRigidbody.constraints = RigidbodyConstraints.FreezeRotationY;
-        _selfRigidbody.constraints = RigidbodyConstraints.FreezeRotationZ;
-
-        _selfRigidbody.constraints = RigidbodyConstraints.FreezePositionX;
+        _driveWheel.AddForce(transform.up * -direction * _rotateSpeed * Time.deltaTime, ForceMode.Force);
     }
 }

@@ -6,7 +6,7 @@ public class GroundChecker : MonoBehaviour
     [SerializeField] private LayerMask _groundMask;
     [SerializeField] private Collider _selfCollider;
 
-    private float _checkRadius = 0.01f;
+    private float _checkRadius = 0.28f;
     private bool _isGround;
 
     public event Action<bool> GroundChanged;
@@ -30,7 +30,7 @@ public class GroundChecker : MonoBehaviour
     private bool IsGround()
     {
         return Physics.CheckCapsule(_selfCollider.bounds.center,
-                                    _selfCollider.bounds.min,
+                                    _selfCollider.bounds.center,
                                     _checkRadius,
                                     _groundMask,
                                     QueryTriggerInteraction.Ignore);
