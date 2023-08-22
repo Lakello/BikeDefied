@@ -1,5 +1,4 @@
 using Reflex.Attributes;
-using System.Collections;
 using UnityEngine;
 
 public class BikeMover : BikeBehaviour
@@ -37,17 +36,18 @@ public class BikeMover : BikeBehaviour
 
     private void Move(float value)
     {
-        _motor.targetVelocity = _targetVelocity * value;
-        _motor.force = _force;
-
-        _backWheel.useMotor = true;
-        _backWheel.motor = _motor;
+        UpdateMotor(_targetVelocity * value, _force);
     }
 
     private void Stop()
     {
-        _motor.force = _brakeForce;
-        _motor.targetVelocity = 0;
+        UpdateMotor(force: _brakeForce);
+    }
+
+    private void UpdateMotor(float targetVelocity = 0, float force = 0)
+    {
+        _motor.targetVelocity = targetVelocity;
+        _motor.force = force;
 
         _backWheel.useMotor = true;
         _backWheel.motor = _motor;

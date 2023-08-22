@@ -1,5 +1,4 @@
 ﻿using Reflex.Attributes;
-using System.Collections;
 using UnityEngine;
 
 public class BikeFliper : BikeBehaviour
@@ -41,7 +40,7 @@ public class BikeFliper : BikeBehaviour
 
     private void Flip(float direction)
     {
-        Quaternion deltaRotation = Quaternion.Euler(new Vector3(_rotateSpeed * -direction * Time.deltaTime, 0, 0));
+        Quaternion deltaRotation = Quaternion.Euler(new Vector3(_rotateSpeed * direction * Time.deltaTime, 0, 0));
 
         _bike.rotation *= deltaRotation;
     }

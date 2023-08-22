@@ -556,8 +556,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4056490035346672125}
-  - component: {fileID: 2011731582290399239}
-  - component: {fileID: 5706607896732392220}
   m_Layer: 0
   m_Name: Character Ragdoll
   m_TagString: Untagged
@@ -580,47 +578,8 @@ Transform:
   - {fileID: 1619930258561230394}
   - {fileID: 8093605003445266237}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &2011731582290399239
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1618426780011835638}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 53d3f5afdeb76ef499b376268f750029, type: 3}
-  m_Controller: {fileID: 9100000, guid: e7a16eb85567d814985e4cbb8804a96d, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5706607896732392220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1618426780011835638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3c2088c72dff0b4590e937a6650eac3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _ikActive: 1
-  _rightHandTarget: {fileID: 0}
-  _leftHandTarget: {fileID: 0}
-  _rightFootTarget: {fileID: 0}
-  _leftFootTarget: {fileID: 0}
-  _lookAtTarget: {fileID: 0}
 --- !u!1 &1641803245722799632
 GameObject:
   m_ObjectHideFlags: 0

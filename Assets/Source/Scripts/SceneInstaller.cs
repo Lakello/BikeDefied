@@ -3,16 +3,28 @@ using UnityEngine;
 
 public class SceneInstaller : MonoBehaviour, IInstaller
 {
-    [SerializeField, Range(0, 1)] private float _weightForPhysicsFollow = 1.0f;
+    [SerializeField] private CharacterHead _characterHead;
 
+    private Game _game = new();
+ 
     public void InstallBindings(ContainerDescriptor descriptor)
     {
         var input = new PlayerInput();
         input.Enable();
         var inputHandler = new PCInputHandler(input);
 
-        descriptor.AddInstance(_weightForPhysicsFollow, typeof(float));
         descriptor.AddInstance(input);
         descriptor.AddInstance(inputHandler, typeof(IInputHandler));
+        descriptor.AddInstance(_game, typeof(IGameOver));
+    }
+
+    private void OnEnable()
+    {
+        _characterHead.Crash += _game.OnCrash;
+    }
+
+    private void OnDisable()
+    {
+        _characterHead.Crash -= _game.OnCrash;
     }
 }
