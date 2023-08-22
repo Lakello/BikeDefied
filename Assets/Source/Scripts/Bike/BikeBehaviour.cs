@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(GroundChecker))]
@@ -30,6 +31,22 @@ public abstract class BikeBehaviour : MonoBehaviour
     }
 
     protected abstract void Inject(IInputHandler input);
+
+    protected IEnumerator Behaviour(Func<bool> condition, Action action)
+    {
+        while (IsAlive)
+        {
+            if (condition())
+            {
+                yield return null;
+                continue;
+            }
+
+            action();
+
+            yield return null;
+        }
+    }
 
     private void OnGroundChanged(bool value) => IsGrounded = value;
     private void OnBackWheelGroundChanged(bool value) => IsBackWheelGrounded = value;

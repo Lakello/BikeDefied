@@ -13,34 +13,26 @@ public class BikeMover : BikeBehaviour
 
     private void Start()
     {
-        StartCoroutine(Mover());
-    }
-
-    [Inject]
-    protected override void Inject(IInputHandler input)
-    {
-        InputHandler = input;
-    }
-
-    private IEnumerator Mover()
-    {
-        while (IsAlive)
+        StartCoroutine(Behaviour(
+        condition: () =>
         {
-            if (!IsBackWheelGrounded)
-            {
-                yield return null;
-                continue;
-            }
-
+            return !IsBackWheelGrounded;
+        },
+        action: () =>
+        {
             var horizontal = InputHandler.Horizontal;
 
             if (horizontal != 0)
                 Move(horizontal);
             else
                 Stop();
+        }));
+    }
 
-            yield return null;
-        }
+    [Inject]
+    protected override void Inject(IInputHandler input)
+    {
+        InputHandler = input;
     }
 
     private void Move(float value)

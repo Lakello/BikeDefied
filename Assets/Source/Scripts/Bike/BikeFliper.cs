@@ -11,35 +11,32 @@ public class BikeFliper : BikeBehaviour
 
     private void Start()
     {
-        StartCoroutine(Fliper());
-    }
-
-    [Inject]
-    protected override void Inject(IInputHandler input)
-    {
-        InputHandler = input;
-    }
-
-    private IEnumerator Fliper()
-    {
-        while (IsAlive)
+        StartCoroutine(Behaviour(
+        condition: () =>
         {
             if (IsGrounded)
             {
                 ResetFlipRigidbody();
-                yield return null;
-                continue;
+                return true;
             }
 
+            return false;
+        },
+        action: () =>
+        {
             SetFlipRigidbody();
 
             var horizontal = InputHandler.Horizontal;
 
             if (horizontal != 0)
                 Flip(horizontal);
+        }));
+    }
 
-            yield return null;
-        }
+    [Inject]
+    protected override void Inject(IInputHandler input)
+    {
+        InputHandler = input;
     }
 
     private void Flip(float direction)
