@@ -8,7 +8,7 @@ public class ScoreView : MonoBehaviour
     [SerializeField] private TMP_Text _scoreText;
 
     private IReadOnlyList<IScoreCounter> _counters;
-    private int _currentScore;
+    private float _currentScore;
 
     private void OnEnable()
     {
@@ -26,26 +26,30 @@ public class ScoreView : MonoBehaviour
     private void Inject(IReadOnlyList<IScoreCounter> counters)
     {
         _counters = counters;
+
+        Subscribe();
     }
 
     private void Subscribe()
     {
         foreach (IScoreCounter counter in _counters)
-            counter.ScoreChanged += OnScoreChanged;
+            counter.ScoreUpdated += OnScoreChanged;
     }
 
     private void UnSubscribe()
     {
         foreach (IScoreCounter counter in _counters)
-            counter.ScoreChanged -= OnScoreChanged;
+            counter.ScoreUpdated -= OnScoreChanged;
     }
 
-    private void OnScoreChanged(int value)
+    private void OnScoreChanged(float value)
     {
         if (value < 1)
             return;
 
-        _currentScore += value;
-        _scoreText.text = _currentScore.ToString();
+        Debug.Log($"Invokeee");
+
+        _currentScore = value;
+        _scoreText.text = _currentScore.ToString("0.0");
     }
 }

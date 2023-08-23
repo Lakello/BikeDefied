@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     {
         if (_game != null)
             _game.GameOver += OnGameOver;
+
+        IsAlive = true;
     }
 
     private void OnDisable()
@@ -24,7 +26,7 @@ public class Player : MonoBehaviour
     {
         while (IsAlive)
         {
-            if (condition())
+            if (!condition())
             {
                 yield return null;
                 continue;

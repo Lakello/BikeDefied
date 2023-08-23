@@ -1,32 +1,25 @@
 using System;
-using System.Collections;
+using UnityEngine;
 
 public abstract class ScoreCounter : IScoreCounter
 {
     protected Bike Bike;
+    protected Player Player;
+    protected MonoBehaviour Context;
+    protected Coroutine BehaviourCoroutine;
+    protected IRead<RigidbodyConstraints> BikeRigidbodyConstraints;
 
-    public abstract event Action<int> ScoreChanged;
+    public abstract event Action<float> ScoreUpdated;
 
-    protected abstract void Inject(Bike bike);
-
-    protected void Init(Bike bike)
+    public ScoreCounter(ScoreCounterInject inject)
     {
-        Bike = bike;
+        Bike = inject.Bike;
+        Player = inject.Player;
+        Context = inject.Context;
+        BikeRigidbodyConstraints = inject.BikeRigidbodyConstraints;
+
+        Start();
     }
 
-    protected IEnumerator Counter(Func<bool> condition, Action action)
-    {
-        while (IsAlive)
-        {
-            if (condition())
-            {
-                yield return null;
-                continue;
-            }
-
-            action();
-
-            yield return null;
-        }
-    }
+    protected abstract void Start();
 }

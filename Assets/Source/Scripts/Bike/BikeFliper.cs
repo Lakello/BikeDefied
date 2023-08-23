@@ -6,20 +6,13 @@ public class BikeFliper : BikeBehaviour
     [SerializeField] private float _rotateSpeed;
 
     [SerializeField] private Transform _bike;
-    [SerializeField] private Rigidbody _bikeRigidbody;
 
     private void Start()
     {
         BehaviourCoroutine = StartCoroutine(Player.Behaviour(
         condition: () =>
         {
-            if (IsGrounded)
-            {
-                ResetFlipRigidbody();
-                return true;
-            }
-
-            return false;
+            return !IsGrounded;
         },
         action: () =>
         {
@@ -33,14 +26,14 @@ public class BikeFliper : BikeBehaviour
     }
 
     [Inject]
-    protected override void Inject(IInputHandler input, IGameOver game)
+    protected override void Inject(BikeBehaviourInject inject)
     {
-        Init(input, game);
+        Init(inject);
     }
 
     protected override void OnGameOver()
     {
-        _bikeRigidbody.constraints = RigidbodyConstraints.None;
+        BikeRigidbodyConstraints.Write(RigidbodyConstraints.None);
     }
 
     private void Flip(float direction)
@@ -52,11 +45,6 @@ public class BikeFliper : BikeBehaviour
 
     private void SetFlipRigidbody()
     {
-        _bikeRigidbody.constraints = BikeRigidbodySetting.GetFlipConstraints();
-    }
-
-    private void ResetFlipRigidbody()
-    {
-        _bikeRigidbody.constraints = BikeRigidbodySetting.GetMoveConstraints();
+        BikeRigidbodyConstraints.Write(BikeRigidbodySetting.GetFlipConstraints());
     }
 }

@@ -1,12 +1,13 @@
-using Reflex.Attributes;
 using System;
 
 public class FlipCounter : ScoreCounter
 {
-    public override event Action<int> ScoreChanged;
+    public override event Action<float> ScoreUpdated;
 
-    [Inject]
-    protected override void Inject(Bike bike) => Init(bike);
+    public FlipCounter(ScoreCounterInject inject) : base(inject) { }
 
-
+    protected override void Start()
+    {
+        
+    }
 }

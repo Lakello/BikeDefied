@@ -1,25 +1,41 @@
-using Reflex.Attributes;
-using Reflex.Core;
 using System;
+using UnityEngine;
 
-public class DistanceCounter : ScoreCounter, IStartable
+public class DistanceCounter : ScoreCounter
 {
-    private Bike _bike;
+    private float _startPosition;
+    private float _bestPosition;
 
-    private int _startPosition;
-    private int _bestPosition;
-    private int _currentPosition;
+    private float CurrentScore => _bestPosition - _startPosition;
+    private float CurrentPosition => Bike.transform.position.z;
 
-    public override event Action<int> ScoreChanged;
+    public DistanceCounter(ScoreCounterInject inject) : base(inject) { }
 
-    public void Start()
+    public override event Action<float> ScoreUpdated;
+
+    protected override void Start()
     {
-        _startPosition = _bestPosition = _currentPosition
-            = (int)_bike.transform.position.z;
+        Debug.Log($"Score: {CurrentScore}");
+        _startPosition = _bestPosition = CurrentPosition;
+
+        BehaviourCoroutine = Context.StartCoroutine(Player.Behaviour(
+        condition: () =>
+        {
+            return BikeRigidbodyConstraints.Read() == BikeRigidbodySetting.GetMoveConstraints();
+        },
+        action: () =>
+        {
+            TryUpdateScore();
+        }));
     }
 
-    [Inject]
-    protected override void Inject(Bike bike) => Init(bike);
+    private void TryUpdateScore()
+    {
+        if (CurrentPosition > _bestPosition)
+        {
+            _bestPosition = CurrentPosition;
 
-
+            ScoreUpdated?.Invoke(CurrentScore);
+        }
+    }
 }

@@ -3,10 +3,10 @@
 [RequireComponent(typeof(GroundChecker))]
 public abstract class BikeBehaviour : MonoBehaviour
 {
-    [SerializeField] protected Player Player;
-
+    protected Player Player;
     protected IInputHandler InputHandler;
     protected Coroutine BehaviourCoroutine;
+    protected IWrite<RigidbodyConstraints> BikeRigidbodyConstraints;
 
     protected bool IsGrounded { get; private set; }
     protected bool IsBackWheelGrounded { get; private set; }
@@ -30,7 +30,8 @@ public abstract class BikeBehaviour : MonoBehaviour
 
     private void OnDisable()
     {
-        StopCoroutine(BehaviourCoroutine);
+        if (BehaviourCoroutine != null)
+            StopCoroutine(BehaviourCoroutine);
 
         _game.GameOver -= OnGameOver;
 
@@ -38,14 +39,19 @@ public abstract class BikeBehaviour : MonoBehaviour
         _groundChecker.BackWheelGroundChanged -= OnBackWheelGroundChanged;
     }
 
-    protected void Init(IInputHandler input, IGameOver game)
+    protected void Init(BikeBehaviourInject inject)
     {
-        InputHandler = input;
-        _game = game;
+        InputHandler = inject.Input;
+
+        _game = inject.Game;
         _game.GameOver += OnGameOver;
+
+        Player = inject.Player;
+
+        BikeRigidbodyConstraints = inject.BikeRigidbodyConstraints;
     }
 
-    protected abstract void Inject(IInputHandler input, IGameOver game);
+    protected abstract void Inject(BikeBehaviourInject inject);
     protected abstract void OnGameOver();
 
     private void OnGroundChanged(bool value) => IsGrounded = value;
