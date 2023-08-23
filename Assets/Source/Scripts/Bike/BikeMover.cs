@@ -12,7 +12,7 @@ public class BikeMover : BikeBehaviour
 
     private void Start()
     {
-        StartCoroutine(Behaviour(
+        BehaviourCoroutine = StartCoroutine(Player.Behaviour(
         condition: () =>
         {
             return !IsBackWheelGrounded;
@@ -29,9 +29,15 @@ public class BikeMover : BikeBehaviour
     }
 
     [Inject]
-    protected override void Inject(IInputHandler input)
+    protected override void Inject(IInputHandler input, IGameOver game)
     {
-        InputHandler = input;
+        Init(input, game);
+    }
+
+    protected override void OnGameOver()
+    {
+        Stop();
+        _backWheel.useMotor = false;
     }
 
     private void Move(float value)

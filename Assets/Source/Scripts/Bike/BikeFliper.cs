@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class BikeFliper : BikeBehaviour
-{
+{ 
     [SerializeField] private float _rotateSpeed;
 
     [SerializeField] private Transform _bike;
@@ -10,7 +10,7 @@ public class BikeFliper : BikeBehaviour
 
     private void Start()
     {
-        StartCoroutine(Behaviour(
+        BehaviourCoroutine = StartCoroutine(Player.Behaviour(
         condition: () =>
         {
             if (IsGrounded)
@@ -33,9 +33,14 @@ public class BikeFliper : BikeBehaviour
     }
 
     [Inject]
-    protected override void Inject(IInputHandler input)
+    protected override void Inject(IInputHandler input, IGameOver game)
     {
-        InputHandler = input;
+        Init(input, game);
+    }
+
+    protected override void OnGameOver()
+    {
+        _bikeRigidbody.constraints = RigidbodyConstraints.None;
     }
 
     private void Flip(float direction)
@@ -47,14 +52,11 @@ public class BikeFliper : BikeBehaviour
 
     private void SetFlipRigidbody()
     {
-        _bikeRigidbody.constraints = RigidbodyConstraints.FreezeRotation |
-                                     RigidbodyConstraints.FreezePositionX;
+        _bikeRigidbody.constraints = BikeRigidbodySetting.GetFlipConstraints();
     }
 
     private void ResetFlipRigidbody()
     {
-        _bikeRigidbody.constraints = RigidbodyConstraints.FreezeRotationY |
-                                     RigidbodyConstraints.FreezeRotationZ |
-                                     RigidbodyConstraints.FreezePositionX;
+        _bikeRigidbody.constraints = BikeRigidbodySetting.GetMoveConstraints();
     }
 }

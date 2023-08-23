@@ -2,6 +2,6 @@
 {
     public interface IStartable
     {
-        void Start();
+        public void Start();
     }
 }
