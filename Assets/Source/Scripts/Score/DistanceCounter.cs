@@ -15,12 +15,13 @@ public class DistanceCounter : ScoreCounter
 
     protected override void Start()
     {
+        Debug.Log($"Score: {CurrentScore}");
         _startPosition = _bestPosition = CurrentPosition;
 
         BehaviourCoroutine = Context.StartCoroutine(Player.Behaviour(
         condition: () =>
         {
-            return IsGrounded;
+            return BikeRigidbodyConstraints.Read() == BikeRigidbodySetting.GetMoveConstraints();
         },
         action: () =>
         {

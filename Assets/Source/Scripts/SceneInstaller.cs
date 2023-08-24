@@ -9,10 +9,10 @@ public class SceneInstaller : MonoBehaviour, IInstaller
     [SerializeField] private CharacterHead _characterHead;
     [SerializeField] private Bike _bike;
     [SerializeField] private Rigidbody _bikeRigidbody;
-    [SerializeField] private GroundChecker _groundChecker;
 
     private Game _game = new();
     private List<IScoreCounter> _scoreCounters;
+    private BikeRigidbodyConstraints _bikeRigidbodyConstraints;
 
     private void OnEnable()
     {
@@ -42,11 +42,14 @@ public class SceneInstaller : MonoBehaviour, IInstaller
 
     private void InitBikeRigidbodyConstraints(ContainerDescriptor descriptor, IInputHandler inputHandler)
     {
+        _bikeRigidbodyConstraints = new BikeRigidbodyConstraints(_bikeRigidbody);
+
         var bikeBehaviourInject = new BikeBehaviourInject();
 
         bikeBehaviourInject.Input = inputHandler;
         bikeBehaviourInject.Game = _game;
         bikeBehaviourInject.Player = _player;
+        bikeBehaviourInject.BikeRigidbodyConstraints = _bikeRigidbodyConstraints;
 
         descriptor.AddInstance(bikeBehaviourInject);
     }
@@ -56,9 +59,9 @@ public class SceneInstaller : MonoBehaviour, IInstaller
         var scoreCounterInject = new ScoreCounterInject();
 
         scoreCounterInject.Bike = _bike;
+        scoreCounterInject.BikeRigidbodyConstraints = _bikeRigidbodyConstraints;
         scoreCounterInject.Player = _player;
         scoreCounterInject.Context = this;
-        scoreCounterInject.GroundChecker = _groundChecker;
 
         _scoreCounters = new List<IScoreCounter>()
         {

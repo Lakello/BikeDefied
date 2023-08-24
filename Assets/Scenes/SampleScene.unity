@@ -588,7 +588,6 @@ MonoBehaviour:
   _characterHead: {fileID: 1928188782}
   _bike: {fileID: 387597957}
   _bikeRigidbody: {fileID: 387597956}
-  _groundChecker: {fileID: 1531918171}
 --- !u!1001 &224810370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1346,7 +1345,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -2778,10 +2777,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 305ff2240df97a344a6dc47dd35cb558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotateSpeed: 3000
+  _rotateSpeed: 400
   _bike: {fileID: 387597955}
-  _backWheel: {fileID: 2003767898}
-  _frontWheel: {fileID: 549697250}
 --- !u!114 &1531918170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3301,7 +3298,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

@@ -47,6 +47,8 @@ public class ScoreView : MonoBehaviour
         if (value < 1)
             return;
 
+        Debug.Log($"Invokeee");
+
         _currentScore = value;
         _scoreText.text = _currentScore.ToString("0.0");
     }

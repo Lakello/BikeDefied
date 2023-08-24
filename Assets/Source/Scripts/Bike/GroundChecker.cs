@@ -13,10 +13,11 @@ public class GroundChecker : MonoBehaviour
     private bool _isFrontWheelGround;
 
     public event Action<bool> GroundChanged;
+    public event Action<bool> BackWheelGroundChanged;
 
     private void FixedUpdate()
     {
-        TryChangeGround(ref _isBackWheelGround, IsGround(_backCollider));
+        TryChangeGround(ref _isBackWheelGround, IsGround(_backCollider), BackWheelGroundChanged);
         TryChangeGround(ref _isFrontWheelGround, IsGround(_frontCollider));
         TryChangeGround(ref _isGrounded, _isBackWheelGround || _isFrontWheelGround, GroundChanged);
     }
