@@ -6,13 +6,11 @@ public abstract class BikeBehaviour : MonoBehaviour
     protected Player Player;
     protected IInputHandler InputHandler;
     protected Coroutine BehaviourCoroutine;
-    protected IWrite<RigidbodyConstraints> BikeRigidbodyConstraints;
-
-    protected bool IsGrounded { get; private set; }
-    protected bool IsBackWheelGrounded { get; private set; }
 
     private GroundChecker _groundChecker;
     private IGameOver _game;
+
+    public bool IsGrounded { get; private set; }
 
     private void Awake()
     {
@@ -25,7 +23,6 @@ public abstract class BikeBehaviour : MonoBehaviour
             _game.GameOver += OnGameOver;
 
         _groundChecker.GroundChanged += OnGroundChanged;
-        _groundChecker.BackWheelGroundChanged += OnBackWheelGroundChanged;
     }
 
     private void OnDisable()
@@ -36,7 +33,6 @@ public abstract class BikeBehaviour : MonoBehaviour
         _game.GameOver -= OnGameOver;
 
         _groundChecker.GroundChanged -= OnGroundChanged;
-        _groundChecker.BackWheelGroundChanged -= OnBackWheelGroundChanged;
     }
 
     protected void Init(BikeBehaviourInject inject)
@@ -47,13 +43,10 @@ public abstract class BikeBehaviour : MonoBehaviour
         _game.GameOver += OnGameOver;
 
         Player = inject.Player;
-
-        BikeRigidbodyConstraints = inject.BikeRigidbodyConstraints;
     }
 
     protected abstract void Inject(BikeBehaviourInject inject);
     protected abstract void OnGameOver();
 
     private void OnGroundChanged(bool value) => IsGrounded = value;
-    private void OnBackWheelGroundChanged(bool value) => IsBackWheelGrounded = value;
 }
