@@ -6,6 +6,7 @@ public abstract class BikeBehaviour : MonoBehaviour
     protected Player Player;
     protected IInputHandler InputHandler;
     protected Coroutine BehaviourCoroutine;
+    protected Transform BikeBody;
 
     protected bool IsGrounded { get; private set; }
     protected bool IsBackWheelGrounded { get; private set; }
@@ -46,6 +47,8 @@ public abstract class BikeBehaviour : MonoBehaviour
         _game.GameOver += OnGameOver;
 
         Player = inject.Player;
+
+        BikeBody = inject.BikeBody;
     }
 
     protected abstract void Inject(BikeBehaviourInject inject);

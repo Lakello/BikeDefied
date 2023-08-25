@@ -8,16 +8,19 @@ public abstract class ScoreCounter : IScoreCounter, IDisposable
     protected MonoBehaviour Context;
     protected Coroutine BehaviourCoroutine;
     protected GroundChecker GroundChecker;
+    protected Transform BikeBody;
+    protected Reward Reward;
 
     protected bool IsGrounded { get; private set; }
 
-    public abstract event Action<float> ScoreUpdated;
+    public abstract event Action<IReward> ScoreUpdated;
 
     public ScoreCounter(ScoreCounterInject inject)
     {
         Bike = inject.Bike;
         Player = inject.Player;
         Context = inject.Context;
+        BikeBody = inject.BikeBody;
         GroundChecker = inject.GroundChecker;
         GroundChecker.GroundChanged += OnGroundChanged;
 

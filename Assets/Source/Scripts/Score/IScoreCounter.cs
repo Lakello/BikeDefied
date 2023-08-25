@@ -1,4 +1,4 @@
 ﻿public interface IScoreCounter
 {
-    public abstract event System.Action<float> ScoreUpdated;
+    public abstract event System.Action<IReward> ScoreUpdated;
 }

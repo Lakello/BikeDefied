@@ -1,6 +1,9 @@
-﻿public class BikeBehaviourInject
+﻿using UnityEngine;
+
+public class BikeBehaviourInject
 {
     public IInputHandler Input;
     public IGameOver Game;
     public Player Player;
+    public Transform BikeBody;
 }

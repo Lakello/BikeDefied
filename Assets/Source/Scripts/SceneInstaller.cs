@@ -46,6 +46,7 @@ public class SceneInstaller : MonoBehaviour, IInstaller
         bikeBehaviourInject.Input = inputHandler;
         bikeBehaviourInject.Game = _game;
         bikeBehaviourInject.Player = _player;
+        bikeBehaviourInject.BikeBody = _bike.GetComponent<Transform>();
 
         descriptor.AddInstance(bikeBehaviourInject);
     }
@@ -58,6 +59,7 @@ public class SceneInstaller : MonoBehaviour, IInstaller
         scoreCounterInject.Player = _player;
         scoreCounterInject.Context = this;
         scoreCounterInject.GroundChecker = _groundChecker;
+        scoreCounterInject.BikeBody = _bike.GetComponent<Transform>();
 
         _scoreCounters = new List<IScoreCounter>()
         {

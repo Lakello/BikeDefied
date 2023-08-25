@@ -5,7 +5,8 @@ public class BikeFliper : BikeBehaviour
 { 
     [SerializeField] private float _rotateSpeed;
 
-    [SerializeField] private Transform _bike;
+    [SerializeField] private Rigidbody _backWheel;
+    [SerializeField] private Rigidbody _frontWheel;
 
     private void Start()
     {
@@ -31,11 +32,11 @@ public class BikeFliper : BikeBehaviour
 
     protected override void OnGameOver()
     {
-        
     }
 
     private void Flip(float direction)
     {
-        
+        _backWheel.AddForce(BikeBody.up * -direction * _rotateSpeed * Time.deltaTime, ForceMode.Acceleration);
+        _frontWheel.AddForce(BikeBody.up * direction * _rotateSpeed * Time.deltaTime, ForceMode.Acceleration);
     }
 }

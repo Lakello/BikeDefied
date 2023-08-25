@@ -6,6 +6,7 @@ using UnityEngine;
 public class ScoreView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _scoreText;
+    [SerializeField] private TMP_Text _messageText;
 
     private IReadOnlyList<IScoreCounter> _counters;
     private float _currentScore;
@@ -42,14 +43,16 @@ public class ScoreView : MonoBehaviour
             counter.ScoreUpdated -= OnScoreChanged;
     }
 
-    private void OnScoreChanged(float value)
+    private void OnScoreChanged(IReward reward)
     {
-        if (value < 1)
+        if (reward.Score < 1)
             return;
 
-        Debug.Log($"Invokeee");
+        _currentScore += reward.Score;
 
-        _currentScore = value;
         _scoreText.text = _currentScore.ToString("0.0");
+
+        if (reward.Message != "")
+            _messageText.text = reward.Message;
     }
 }
