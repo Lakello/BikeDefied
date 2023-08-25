@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -52,7 +50,7 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
         float widthMultiplier = 0.5f;
 
         float childPositionX = _scrollView.GetComponent<RectTransform>().rect.width * widthMultiplier - GetChildItemWidth(0) * widthMultiplier;
-        spacing = layoutGroup.spacing;
+        spacing = layoutGroup.Spacing;
 
         _childrenPositions.Add(childPositionX);
 
