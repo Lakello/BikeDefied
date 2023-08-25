@@ -1,13 +1,15 @@
 using System;
 using UnityEngine;
 
-public abstract class ScoreCounter : IScoreCounter
+public abstract class ScoreCounter : IScoreCounter, IDisposable
 {
     protected Bike Bike;
     protected Player Player;
     protected MonoBehaviour Context;
     protected Coroutine BehaviourCoroutine;
-    protected IRead<RigidbodyConstraints> BikeRigidbodyConstraints;
+    protected GroundChecker GroundChecker;
+
+    protected bool IsGrounded { get; private set; }
 
     public abstract event Action<float> ScoreUpdated;
 
@@ -16,10 +18,18 @@ public abstract class ScoreCounter : IScoreCounter
         Bike = inject.Bike;
         Player = inject.Player;
         Context = inject.Context;
-        BikeRigidbodyConstraints = inject.BikeRigidbodyConstraints;
+        GroundChecker = inject.GroundChecker;
+        GroundChecker.GroundChanged += OnGroundChanged;
 
         Start();
     }
 
+    public void Dispose()
+    {
+        GroundChecker.GroundChanged -= OnGroundChanged;
+    }
+
     protected abstract void Start();
+
+    private void OnGroundChanged(bool value) => IsGrounded = value;
 }

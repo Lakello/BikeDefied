@@ -8,6 +8,19 @@ public class FlipCounter : ScoreCounter
 
     protected override void Start()
     {
+        BehaviourCoroutine = Context.StartCoroutine(Player.Behaviour(
+        condition: () =>
+        {
+            return !IsGrounded;
+        },
+        action: () =>
+        {
+            TryUpdateScore();
+        }));
+    }
+
+    private void TryUpdateScore()
+    {
         
     }
 }

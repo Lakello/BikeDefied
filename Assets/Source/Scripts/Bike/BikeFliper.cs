@@ -16,8 +16,6 @@ public class BikeFliper : BikeBehaviour
         },
         action: () =>
         {
-            SetFlipRigidbody();
-
             var horizontal = InputHandler.Horizontal;
 
             if (horizontal != 0)
@@ -33,18 +31,11 @@ public class BikeFliper : BikeBehaviour
 
     protected override void OnGameOver()
     {
-        BikeRigidbodyConstraints.Write(RigidbodyConstraints.None);
+        
     }
 
     private void Flip(float direction)
     {
-        Quaternion deltaRotation = Quaternion.Euler(new Vector3(_rotateSpeed * direction * Time.deltaTime, 0, 0));
-
-        _bike.rotation *= deltaRotation;
-    }
-
-    private void SetFlipRigidbody()
-    {
-        BikeRigidbodyConstraints.Write(BikeRigidbodySetting.GetFlipConstraints());
+        
     }
 }

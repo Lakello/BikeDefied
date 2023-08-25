@@ -15,8 +15,6 @@ public class BikeMover : BikeBehaviour
         },
         action: () =>
         {
-            SetMoveRigidbody();
-
             var horizontal = InputHandler.Horizontal;
 
             if (horizontal != 0)
@@ -34,6 +32,7 @@ public class BikeMover : BikeBehaviour
 
     protected override void OnGameOver()
     {
+
     }
 
     private void Move(float value)
@@ -44,10 +43,5 @@ public class BikeMover : BikeBehaviour
     private void Stop()
     {
 
-    }
-
-    private void SetMoveRigidbody()
-    {
-        BikeRigidbodyConstraints.Write(BikeRigidbodySetting.GetMoveConstraints());
     }
 }

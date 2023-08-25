@@ -20,7 +20,7 @@ public class DistanceCounter : ScoreCounter
         BehaviourCoroutine = Context.StartCoroutine(Player.Behaviour(
         condition: () =>
         {
-            return BikeRigidbodyConstraints.Read() == BikeRigidbodySetting.GetMoveConstraints();
+            return IsGrounded;
         },
         action: () =>
         {
