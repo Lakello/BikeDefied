@@ -1,4 +1,6 @@
-﻿public class LevelInfo
+﻿using UnityEngine.UI;
+
+public class LevelInfo
 {
 
 }
