@@ -9,6 +9,7 @@ public class SceneInstaller : MonoBehaviour, IInstaller
     [SerializeField] private CharacterHead _characterHead;
     [SerializeField] private Bike _bike;
     [SerializeField] private GroundChecker _groundChecker;
+    [SerializeField] private LayerMask _flipTriggerMask;
 
     private Game _game = new();
     private List<IScoreCounter> _scoreCounters;
@@ -29,6 +30,8 @@ public class SceneInstaller : MonoBehaviour, IInstaller
         input.Enable();
 
         var inputHandler = new PCInputHandler(input);
+
+        descriptor.AddInstance(_bike);
 
         InitBikeRigidbodyConstraints(descriptor, inputHandler);
 
@@ -64,7 +67,7 @@ public class SceneInstaller : MonoBehaviour, IInstaller
         _scoreCounters = new List<IScoreCounter>()
         {
             new DistanceCounter(scoreCounterInject),
-            new FlipCounter(scoreCounterInject)
+            new FlipCounter(_flipTriggerMask, scoreCounterInject)
         };
 
         descriptor.AddInstance(_scoreCounters, typeof(IReadOnlyList<IScoreCounter>));

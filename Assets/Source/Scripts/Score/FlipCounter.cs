@@ -1,114 +1,225 @@
 using System;
 using System.Diagnostics;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class FlipCounter : ScoreCounter
 {
-    public override event Action<IReward> ScoreUpdated;
+    private LayerMask _mask;
+    private Flip _backFlip;
+    private Flip _frontFlip;
 
-    private float _previousAngle;
-    private float _minCounterZone = 60f;
-    private float _maxCounterZone = 300f;
+    private Flip _currentFlip;
+    private FlipTriggerDirection _previousFlip;
+    private int _currentState;
 
     private bool _isBackFlip;
     private bool _isFrontFlip;
 
-    private bool _isStartBackFlip;
-    private bool _isStartFrontFlip;
+    public override event Action<IReward> ScoreUpdated;
 
-    public FlipCounter(ScoreCounterInject inject) : base(inject) { }
+    public FlipCounter(LayerMask mask, ScoreCounterInject inject) : base(inject) { _mask = mask; }
+
+    protected struct Flip
+    {
+        public FlipTriggerDirection[] Directions;
+    }
 
     protected override void Start()
     {
+        _backFlip = new Flip();
+        _backFlip.Directions = new FlipTriggerDirection[4]
+        {
+            FlipTriggerDirection.Bottom,
+            FlipTriggerDirection.Front,
+            FlipTriggerDirection.Top,
+            FlipTriggerDirection.Back
+        };
+
+        _frontFlip = new Flip();
+        _frontFlip.Directions = new FlipTriggerDirection[4]
+        {
+            FlipTriggerDirection.Bottom,
+            FlipTriggerDirection.Back,
+            FlipTriggerDirection.Top,
+            FlipTriggerDirection.Front
+        };
+
+        _currentFlip = new Flip();
+        _currentFlip.Directions = new FlipTriggerDirection[4];
+
         BehaviourCoroutine = Context.StartCoroutine(Player.Behaviour(
         condition: () =>
         {
-            return true;
+            //if (IsGrounded)
+            //{
+            //    _currentFlip.Directions = new FlipTriggerDirection[4];
+
+            //    _currentState = 0;
+            //}
+            return !IsGrounded;
         },
         action: () =>
         {
-            UnityEngine.Debug.Log(_isStartFrontFlip);
+            string str = "";
 
-            if (_isFrontFlip || _isBackFlip)
-                CallReward();
+            foreach (var item in _currentFlip.Directions)
+            {
+                str = str + item.ToString() + " ";
+            }
 
-            CheckAngle();
+            UnityEngine.Debug.Log(str);
+
+            //UnityEngine.Debug.Log(_currentState);
+            Ray();
+
+            if (Check(out bool direction))
+                Rew(direction);
         }));
     }
 
-    private void CheckAngle()
+    private void Ray()
     {
-        var currentAngle = BikeBody.eulerAngles.x;
-
-        if (_isStartBackFlip)
-            if (currentAngle < _previousAngle)
-                Reset();
-
-        if (_isStartFrontFlip)
-            if (currentAngle > _previousAngle)
-                Reset();
-
-        if (_isStartBackFlip || _isStartFrontFlip)
-            WaitFlip(currentAngle);
-
-        if (currentAngle < _minCounterZone && !_isStartFrontFlip)
-            return;
-        else if (currentAngle > _minCounterZone && currentAngle < _maxCounterZone)
-            WaitFlip(currentAngle);
-        else if (currentAngle > _maxCounterZone && !_isStartBackFlip)
-            return;
+        if (Physics.Raycast(BikeBody.position, -BikeBody.up, out RaycastHit hit, Mathf.Infinity, _mask))
+        {
+            if (hit.transform.TryGetComponent(out FlipTrigger trigger))
+            {
+                if (trigger != null)
+                {
+                    if (trigger.Direction != _previousFlip)
+                    {
+                        UpdateCurrentFlip(trigger);
+                        _previousFlip = trigger.Direction;
+                    }
+                }
+            }
+        }
     }
 
-    private void WaitFlip(float currentAngle)
+    private void UpdateCurrentFlip(FlipTrigger trigger)
     {
-        UnityEngine.Debug.Log(_isStartFrontFlip);
-
-        if (_previousAngle == 0)
+        switch (_currentState)
         {
-            _previousAngle = currentAngle;
-            return;
+            case 0:
+                if (trigger.Direction == FlipTriggerDirection.Bottom)
+                {
+                    _currentFlip.Directions[_currentState] = trigger.Direction;
+                    _currentState++;
+                }
+                break;
+            case 1:
+                if (trigger.Direction == FlipTriggerDirection.Front)
+                {
+                    _isBackFlip = true;
+                    _isFrontFlip = false;
+                    _currentFlip.Directions[_currentState] = trigger.Direction;
+                    _currentState++;
+                    break;
+                }
+
+                if (trigger.Direction == FlipTriggerDirection.Back)
+                {
+                    _isFrontFlip = true;
+                    _isBackFlip = false;
+                    _currentFlip.Directions[_currentState] = trigger.Direction;
+                    _currentState++;
+                    break;
+                }
+             
+                _currentState--;
+                
+                break;
+            case 2:
+                if (trigger.Direction == FlipTriggerDirection.Top)
+                {
+                    _currentFlip.Directions[_currentState] = trigger.Direction;
+                    _currentState++;
+                    break;
+                }
+
+                _currentState--;
+                break;
+            case 3:
+                if (_isBackFlip)
+                {
+                    if (trigger.Direction == FlipTriggerDirection.Back)
+                    {
+                        _currentFlip.Directions[_currentState] = trigger.Direction;
+                        break;
+                    }
+
+                    _currentState--;
+                    break;
+                }
+
+                if (_isFrontFlip)
+                {
+                    if (trigger.Direction == FlipTriggerDirection.Front)
+                    {
+                        _currentFlip.Directions[_currentState] = trigger.Direction;
+                        break;
+                    }
+                    
+                    _currentState--;
+                    break;
+                }
+                break;
         }
-
-        if (!_isStartBackFlip && !_isStartFrontFlip)
-        {
-            if (_previousAngle > currentAngle)
-                _isStartFrontFlip = true;
-            else if (_previousAngle < currentAngle)
-                _isStartBackFlip = true;
-        }
-
-        if (_isStartBackFlip && currentAngle > _maxCounterZone)
-            _isBackFlip = true;
-
-        if (_isStartFrontFlip && currentAngle < _minCounterZone)
-            _isFrontFlip = true;
     }
 
-    private void CallReward()
+    private bool Check(out bool direction)
     {
-        if (_isBackFlip)
-        {
-            Reward.Message = "Back Flip!";
-            Reward.Score = 100f;
-        }
+        direction = false;
 
-        if (_isFrontFlip)
+        if (_currentState == _currentFlip.Directions.Length - 1)
+        {
+            if (_isBackFlip)
+            {
+                if (_currentFlip.Directions[1] == FlipTriggerDirection.Front && _currentFlip.Directions[3] == FlipTriggerDirection.Back)
+                    return true;
+
+                return false;
+            }
+
+            if (_isFrontFlip)
+            {
+                direction = true;
+
+                if (_currentFlip.Directions[1] == FlipTriggerDirection.Back && _currentFlip.Directions[3] == FlipTriggerDirection.Front)
+                    return true;
+
+                return false;
+            }
+        }
+        else
+            return false;
+
+        return true;
+    }
+
+    private void Rew(bool dir)
+    {
+        if (dir)
         {
             Reward.Message = "Front Flip!";
-            Reward.Score = 200f;
+            Reward.Score = 100;
+
+            ScoreUpdated?.Invoke(Reward);
+        }
+        else
+        {
+            Reward.Message = "Back Flip!";
+            Reward.Score = 100;
+
+            ScoreUpdated?.Invoke(Reward);
         }
 
-        ScoreUpdated?.Invoke(Reward);
+        _currentFlip.Directions = new FlipTriggerDirection[4];
 
-        Reset();
-    }
+        _currentState = 0;
 
-    private void Reset()
-    {
         _isBackFlip = false;
         _isFrontFlip = false;
-        _isStartBackFlip = false;
-        _isStartFrontFlip = false;
-        _previousAngle = 0;
     }
 }
