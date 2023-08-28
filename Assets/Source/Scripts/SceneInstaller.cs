@@ -10,6 +10,7 @@ public class SceneInstaller : MonoBehaviour, IInstaller
     [SerializeField] private Bike _bike;
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private LayerMask _flipTriggerMask;
+    [SerializeField] private SelectLevelScrollView _selectLevelScrollView;
 
     private Game _game = new();
     private List<IScoreCounter> _scoreCounters;
@@ -40,6 +41,8 @@ public class SceneInstaller : MonoBehaviour, IInstaller
         descriptor.AddInstance(_game, typeof(IGameOver));
 
         InitScoreCounters(descriptor);
+
+        descriptor.AddInstance(_selectLevelScrollView);
     }
 
     private void InitBikeRigidbodyConstraints(ContainerDescriptor descriptor, IInputHandler inputHandler)

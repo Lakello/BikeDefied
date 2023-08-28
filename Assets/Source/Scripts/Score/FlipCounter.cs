@@ -52,26 +52,10 @@ public class FlipCounter : ScoreCounter
         BehaviourCoroutine = Context.StartCoroutine(Player.Behaviour(
         condition: () =>
         {
-            //if (IsGrounded)
-            //{
-            //    _currentFlip.Directions = new FlipTriggerDirection[4];
-
-            //    _currentState = 0;
-            //}
             return !IsGrounded;
         },
         action: () =>
         {
-            string str = "";
-
-            foreach (var item in _currentFlip.Directions)
-            {
-                str = str + item.ToString() + " ";
-            }
-
-            UnityEngine.Debug.Log(str);
-
-            //UnityEngine.Debug.Log(_currentState);
             Ray();
 
             if (Check(out bool direction))

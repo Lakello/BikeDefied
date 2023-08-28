@@ -20,6 +20,8 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
 
     private int _currentCenterChildIndex;
 
+    public event System.Action<int> LevelChanged;
+
     public GameObject CurrentCenterChildItem
     {
         get
@@ -65,22 +67,20 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
 
     public void OnDrag(PointerEventData eventData)
     {
-        _targetPosition = FindClosestChildPos(_content.localPosition.x, out _currentCenterChildIndex);
-        SetCellScale();
+        UpdateTargetPositon();
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         _scrollView.StopMovement();
-        _targetPosition = FindClosestChildPos(_content.localPosition.x, out _currentCenterChildIndex);
+
+        UpdateTargetPositon();
         _content.DOLocalMoveX(_targetPosition, _toCenterTime);
-        SetCellScale();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         _content.DOKill();
-        _currentCenterChildIndex = -1;
     }
 
     private void SetStartContentPosition()
@@ -90,6 +90,13 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
         _targetPosition = _childrenPositions[_currentCenterChildIndex];
 
         _content.DOLocalMoveX(_targetPosition, _toCenterTime);
+        SetCellScale();
+    }
+
+    private void UpdateTargetPositon()
+    {
+        _targetPosition = FindClosestChildPosition(_content.localPosition.x);
+        LevelChanged?.Invoke(_currentCenterChildIndex);
         SetCellScale();
     }
 
@@ -107,11 +114,10 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
         }
     }
 
-    private float FindClosestChildPos(float currentPosition, out int currentCenterChildIndex)
+    private float FindClosestChildPosition(float currentPosition)
     {
         float closest = 0;
         float maxDistance = Mathf.Infinity;
-        currentCenterChildIndex = -1;
         for (int i = 0; i < _childrenPositions.Count; i++)
         {
             float position = _childrenPositions[i];
@@ -120,7 +126,7 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
             {
                 maxDistance = distance;
                 closest = position;
-                currentCenterChildIndex = i;
+                _currentCenterChildIndex = i;
             }
             else
                 break;
