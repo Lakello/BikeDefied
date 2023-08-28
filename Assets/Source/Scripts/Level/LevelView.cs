@@ -1,18 +1,17 @@
 using Reflex.Attributes;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelView : MonoBehaviour
 {
     [SerializeField] private List<Level> _levelPrefabs;
+    [SerializeField] private Button _selectButtonPrefab;
 
     private SelectLevelScrollView _scrollView;
     private LevelStateMachine _stateMachine;
 
-    private void Start()
+    private void Awake()
     {
         _stateMachine = new LevelStateMachine(() =>
         {

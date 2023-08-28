@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 using Unity.VisualScripting;
+using System.Collections;
 
 [RequireComponent(typeof(ScrollRect))]
 public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandler, IBeginDragHandler
@@ -22,19 +23,6 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
 
     public event System.Action<int> LevelChanged;
 
-    public GameObject CurrentCenterChildItem
-    {
-        get
-        {
-            GameObject centerChild = null;
-            if (_content != null && _currentCenterChildIndex >= 0 && _currentCenterChildIndex < _content.childCount)
-            {
-                centerChild = _content.GetChild(_currentCenterChildIndex).gameObject;
-            }
-            return centerChild;
-        }
-    }
-
     private void Awake()
     {
         _scrollView = GetComponent<ScrollRect>();
@@ -48,19 +36,7 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
 
         _scrollView.movementType = ScrollRect.MovementType.Unrestricted;
 
-        float spacing;
-        float widthMultiplier = 0.5f;
-
-        float childPositionX = _scrollView.GetComponent<RectTransform>().rect.width * widthMultiplier - GetChildItemWidth(0) * widthMultiplier;
-        spacing = layoutGroup.Spacing;
-
-        _childrenPositions.Add(childPositionX);
-
-        for (int i = 1; i < _content.childCount; i++)
-        {
-            childPositionX -= GetChildItemWidth(i) * widthMultiplier + GetChildItemWidth(i - 1) * widthMultiplier + spacing;
-            _childrenPositions.Add(childPositionX);
-        }
+        ContentInit(layoutGroup);
 
         SetStartContentPosition();
     }
@@ -81,6 +57,23 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
     public void OnBeginDrag(PointerEventData eventData)
     {
         _content.DOKill();
+    }
+
+    private void ContentInit(HorizontalLayoutGroup layoutGroup)
+    {
+        float spacing;
+        float widthMultiplier = 0.5f;
+
+        float childPositionX = _scrollView.GetComponent<RectTransform>().rect.width * widthMultiplier - GetChildItemWidth(0) * widthMultiplier;
+        spacing = layoutGroup.Spacing;
+
+        _childrenPositions.Add(childPositionX);
+
+        for (int i = 1; i < _content.childCount; i++)
+        {
+            childPositionX -= GetChildItemWidth(i) * widthMultiplier + GetChildItemWidth(i - 1) * widthMultiplier + spacing;
+            _childrenPositions.Add(childPositionX);
+        }
     }
 
     private void SetStartContentPosition()

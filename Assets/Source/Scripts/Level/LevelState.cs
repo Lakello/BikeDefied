@@ -12,7 +12,6 @@ public class LevelState
 
     public void Enter()
     {
-        UnityEngine.Debug.Log("Active");
         _level.gameObject.SetActive(true);
     }
 
