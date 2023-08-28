@@ -5,14 +5,18 @@ using UnityEngine;
 
 public class SceneInstaller : MonoBehaviour, IInstaller
 {
+    [Header("Bike")]
     [SerializeField] private Player _player;
     [SerializeField] private CharacterHead _characterHead;
     [SerializeField] private Bike _bike;
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private LayerMask _flipTriggerMask;
+
+    [Header("View")]
     [SerializeField] private SelectLevelScrollView _selectLevelScrollView;
 
-    private Game _game = new();
+    [Header("")]
+
     private List<IScoreCounter> _scoreCounters;
 
     private void OnEnable()
@@ -34,9 +38,9 @@ public class SceneInstaller : MonoBehaviour, IInstaller
 
         descriptor.AddInstance(_bike);
 
-        InitBikeRigidbodyConstraints(descriptor, inputHandler);
+        InitBikeBehaviour(descriptor, inputHandler);
 
-        descriptor.AddInstance(inputHandler, typeof(IInputHandler));
+        descriptor.AddInstance(input, typeof(PlayerInput));
 
         descriptor.AddInstance(_game, typeof(IGameOver));
 
@@ -45,7 +49,7 @@ public class SceneInstaller : MonoBehaviour, IInstaller
         descriptor.AddInstance(_selectLevelScrollView);
     }
 
-    private void InitBikeRigidbodyConstraints(ContainerDescriptor descriptor, IInputHandler inputHandler)
+    private void InitBikeBehaviour(ContainerDescriptor descriptor, IInputHandler inputHandler)
     {
         var bikeBehaviourInject = new BikeBehaviourInject();
 
