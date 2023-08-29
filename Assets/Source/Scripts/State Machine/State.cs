@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(StateMachine))]
-public abstract class State : MonoBehaviour
+public abstract class State<TMachine> : MonoBehaviour where TMachine : StateMachine<TMachine>
 {
-    protected StateMachine StateMachine;
+    protected TMachine StateMachine;
 
-    private void Start()
+    private void Awake()
     {
-        StateMachine = GetComponent<StateMachine>();
+        StateMachine = (TMachine)GetComponent<StateMachine<TMachine>>();
 
         StateMachine.AddState(this);
     }

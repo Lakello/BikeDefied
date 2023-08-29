@@ -30,13 +30,9 @@ public class BikeFliper : BikeBehaviour
         Init(inject);
     }
 
-    protected override void OnGameOver()
-    {
-    }
-
     private void Flip(float direction)
     {
-        _backWheel.AddForce(BikeBody.up * -direction * _rotateSpeed * Time.deltaTime, ForceMode.Acceleration);
-        _frontWheel.AddForce(BikeBody.up * direction * _rotateSpeed * Time.deltaTime, ForceMode.Acceleration);
+        _backWheel.AddForce(_rotateSpeed * -direction * Time.deltaTime * BikeBody.up, ForceMode.Acceleration);
+        _frontWheel.AddForce(_rotateSpeed * direction * Time.deltaTime * BikeBody.up, ForceMode.Acceleration);
     }
 }

@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class BikeMover : BikeBehaviour
 {
-    [SerializeField] private Rigidbody _bikeRigidbody;
     [SerializeField] private float _force = 50;
+    
+    private Rigidbody _bikeRigidbody;
 
     private void Start()
     {
+        _bikeRigidbody = BikeBody.GetComponent<Rigidbody>();
+
         BehaviourCoroutine = StartCoroutine(Player.Behaviour(
         condition: () =>
         {
@@ -19,8 +22,6 @@ public class BikeMover : BikeBehaviour
 
             if (horizontal != 0)
                 Move(horizontal);
-            else
-                Stop();
         }));
     }
 
@@ -30,18 +31,8 @@ public class BikeMover : BikeBehaviour
         Init(inject);
     }
 
-    protected override void OnGameOver()
-    {
-
-    }
-
     private void Move(float value)
     {
         _bikeRigidbody.AddForce(new Vector3(0, 0, _force * value * Time.deltaTime), ForceMode.Acceleration);
-    }
-
-    private void Stop()
-    {
-
     }
 }

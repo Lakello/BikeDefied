@@ -1,20 +1,11 @@
 ﻿using Reflex.Attributes;
 
-public class MenuState : State
+public class MenuState : GameState
 {
     public override void Enter()
     {
-        
+        StateMachine.SetWindow<MenuWindowState>();
     }
 
-    public override void Exit()
-    {
-        
-    }
-
-    [Inject]
-    private void Inject()
-    {
-
-    }
+    public override void Exit(){}
 }

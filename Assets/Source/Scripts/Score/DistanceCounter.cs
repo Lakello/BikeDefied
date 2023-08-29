@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 public class DistanceCounter : ScoreCounter
 {
@@ -7,11 +6,11 @@ public class DistanceCounter : ScoreCounter
     private float _bestPosition;
 
     private float CurrentDistance => _bestPosition - _startPosition;
-    private float CurrentPosition => Bike.transform.position.z;
+    private float CurrentPosition => BikeBody.position.z;
 
     public DistanceCounter(ScoreCounterInject inject) : base(inject) { }
 
-    public override event Action<IReward> ScoreUpdated;
+    public override event Action<IReward> ScoreAdd;
 
     protected override void Start()
     {
@@ -24,20 +23,20 @@ public class DistanceCounter : ScoreCounter
         },
         action: () =>
         {
-            TryUpdateScore();
+            TryAddScore();
         }));
     }
 
-    private void TryUpdateScore()
+    private void TryAddScore()
     {
         if (CurrentPosition > _bestPosition)
         {
             _bestPosition = CurrentPosition;
 
             Reward.Message = "";
-            Reward.Score = 1;
+            Reward.Value = 1;
 
-            ScoreUpdated?.Invoke(Reward);
+            ScoreAdd?.Invoke(Reward);
         }
     }
 }

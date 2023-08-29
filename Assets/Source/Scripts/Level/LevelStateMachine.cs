@@ -20,8 +20,5 @@ public class LevelStateMachine
         _currentState?.Exit();
         _currentState = _states[index];
         _currentState.Enter();
-
-        if (_currentState != null)
-            UnityEngine.Debug.Log($"NORM {index}");
     }
 }

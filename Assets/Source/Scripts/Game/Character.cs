@@ -1,4 +1,4 @@
-﻿using Reflex.Attributes;
+using Reflex.Attributes;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +17,7 @@ public class Character : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_game != null) 
+        if (_game != null)
             _game.GameOver += OnGameOver;
     }
 

@@ -1,11 +1,12 @@
 ﻿using Reflex.Attributes;
 
-public class PlayeState : State
+public class PlayState : GameState
 {
     private PlayerInput _input;
 
     public override void Enter()
     {
+        StateMachine.SetWindow<PlayWindowState>();
         _input.Enable();
     }
 

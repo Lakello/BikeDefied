@@ -2,15 +2,10 @@
 using System;
 using UnityEngine;
 
-public abstract class StateMachine : MonoBehaviour
+public abstract class StateMachine<TMachine> : MonoBehaviour where TMachine : StateMachine<TMachine>
 {
-    protected Dictionary<Type, State> States;
-    protected State CurrentState;
-
-    private void Awake()
-    {
-        States = new Dictionary<Type, State>();
-    }
+    protected Dictionary<Type, State<TMachine>> States = new Dictionary<Type, State<TMachine>>();
+    protected State<TMachine> CurrentState;
 
     protected abstract void Start();
 
@@ -19,12 +14,12 @@ public abstract class StateMachine : MonoBehaviour
         CurrentState?.Exit();
     }
 
-    public void EnterIn<TState>() where TState : State
+    public void EnterIn<TState>() where TState : State<TMachine>
     {
         if (States.ContainsKey(typeof(TState)) == false)
             throw new NullReferenceException(nameof(States));
 
-        if (States.TryGetValue(typeof(TState), out State state))
+        if (States.TryGetValue(typeof(TState), out State<TMachine> state))
         {
             CurrentState?.Exit();
             CurrentState = state;
@@ -32,7 +27,7 @@ public abstract class StateMachine : MonoBehaviour
         }
     }
 
-    public void AddState(State state)
+    public void AddState(State<TMachine> state)
     {
         Type type = state.GetType();
 

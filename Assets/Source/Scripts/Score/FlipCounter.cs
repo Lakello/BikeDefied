@@ -1,8 +1,5 @@
 using System;
-using System.Diagnostics;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class FlipCounter : ScoreCounter
 {
@@ -17,7 +14,7 @@ public class FlipCounter : ScoreCounter
     private bool _isBackFlip;
     private bool _isFrontFlip;
 
-    public override event Action<IReward> ScoreUpdated;
+    public override event Action<IReward> ScoreAdd;
 
     public FlipCounter(LayerMask mask, ScoreCounterInject inject) : base(inject) { _mask = mask; }
 
@@ -58,8 +55,8 @@ public class FlipCounter : ScoreCounter
         {
             Ray();
 
-            if (Check(out bool direction))
-                Rew(direction);
+            if (CheckFlip(out bool direction))
+                AddScore(direction);
         }));
     }
 
@@ -73,7 +70,7 @@ public class FlipCounter : ScoreCounter
                 {
                     if (trigger.Direction != _previousFlip)
                     {
-                        UpdateCurrentFlip(trigger);
+                        UpdateCurrentFlipState(trigger);
                         _previousFlip = trigger.Direction;
                     }
                 }
@@ -81,7 +78,7 @@ public class FlipCounter : ScoreCounter
         }
     }
 
-    private void UpdateCurrentFlip(FlipTrigger trigger)
+    private void UpdateCurrentFlipState(FlipTrigger trigger)
     {
         switch (_currentState)
         {
@@ -152,7 +149,7 @@ public class FlipCounter : ScoreCounter
         }
     }
 
-    private bool Check(out bool direction)
+    private bool CheckFlip(out bool direction)
     {
         direction = false;
 
@@ -182,21 +179,21 @@ public class FlipCounter : ScoreCounter
         return true;
     }
 
-    private void Rew(bool dir)
+    private void AddScore(bool dir)
     {
         if (dir)
         {
             Reward.Message = "Front Flip!";
-            Reward.Score = 100;
+            Reward.Value = 100;
 
-            ScoreUpdated?.Invoke(Reward);
+            ScoreAdd?.Invoke(Reward);
         }
         else
         {
             Reward.Message = "Back Flip!";
-            Reward.Score = 100;
+            Reward.Value = 100;
 
-            ScoreUpdated?.Invoke(Reward);
+            ScoreAdd?.Invoke(Reward);
         }
 
         _currentFlip.Directions = new FlipTriggerDirection[4];

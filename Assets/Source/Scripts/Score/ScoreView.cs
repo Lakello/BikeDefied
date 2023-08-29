@@ -34,21 +34,21 @@ public class ScoreView : MonoBehaviour
     private void Subscribe()
     {
         foreach (IScoreCounter counter in _counters)
-            counter.ScoreUpdated += OnScoreChanged;
+            counter.ScoreAdd += OnScoreChanged;
     }
 
     private void UnSubscribe()
     {
         foreach (IScoreCounter counter in _counters)
-            counter.ScoreUpdated -= OnScoreChanged;
+            counter.ScoreAdd -= OnScoreChanged;
     }
 
     private void OnScoreChanged(IReward reward)
     {
-        if (reward.Score < 1)
+        if (reward.Value < 1)
             return;
 
-        _currentScore += reward.Score;
+        _currentScore += reward.Value;
 
         _scoreText.text = _currentScore.ToString("0.0");
 

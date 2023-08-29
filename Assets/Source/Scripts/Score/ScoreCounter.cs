@@ -3,33 +3,32 @@ using UnityEngine;
 
 public abstract class ScoreCounter : IScoreCounter, IDisposable
 {
-    protected Bike Bike;
     protected Player Player;
     protected MonoBehaviour Context;
     protected Coroutine BehaviourCoroutine;
-    protected GroundChecker GroundChecker;
     protected Transform BikeBody;
-    protected Reward Reward;
+    protected ScoreReward Reward;
+    
+    private GroundChecker _groundChecker;
 
     protected bool IsGrounded { get; private set; }
 
-    public abstract event Action<IReward> ScoreUpdated;
+    public abstract event Action<IReward> ScoreAdd;
 
     public ScoreCounter(ScoreCounterInject inject)
     {
-        Bike = inject.Bike;
         Player = inject.Player;
         Context = inject.Context;
         BikeBody = inject.BikeBody;
-        GroundChecker = inject.GroundChecker;
-        GroundChecker.GroundChanged += OnGroundChanged;
+        _groundChecker = inject.GroundChecker;
+        _groundChecker.GroundChanged += OnGroundChanged;
 
         Start();
     }
 
     public void Dispose()
     {
-        GroundChecker.GroundChanged -= OnGroundChanged;
+        _groundChecker.GroundChanged -= OnGroundChanged;
     }
 
     protected abstract void Start();

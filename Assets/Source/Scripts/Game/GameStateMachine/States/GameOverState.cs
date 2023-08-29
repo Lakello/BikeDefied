@@ -1,12 +1,14 @@
-﻿public class GameOverState : State
+﻿using System;
+
+public class GameOverState : GameState, IGameOver
 {
+    public event Action GameOver;
+
     public override void Enter()
     {
-        throw new System.NotImplementedException();
+        StateMachine.SetWindow<GameOverWindowState>();
+        GameOver?.Invoke();
     }
 
-    public override void Exit()
-    {
-        throw new System.NotImplementedException();
-    }
+    public override void Exit(){}
 }

@@ -1,4 +1,3 @@
 ﻿using UnityEngine;
 
-public class Bike : MonoBehaviour
-{}
+public class Bike : MonoBehaviour{}
