@@ -1,14 +1,10 @@
 ﻿using Reflex.Core;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using IJunior.StateMachine;
 
 public class GameStateMachineInstaller : MonoBehaviour, IInstaller
 {
     [SerializeField] private GameStateMachine _gameStateMachine;
-    [SerializeField] private WindowStateMachine _windowStateMachine;
 
     [Header("Triggers for Transitions")]
     [SerializeField] private CharacterHead _characterHead;
@@ -31,9 +27,7 @@ public class GameStateMachineInstaller : MonoBehaviour, IInstaller
 
         _transitionInitializer.InitTransition<GameOverState>(_characterHead);
         _transitionInitializer.InitTransition<PlayState>(_startButton);
-        _transitionInitializer.InitTransition<PlayState>(_restartButton);
+        _transitionInitializer.InitTransition<RestartState>(_restartButton);
         _transitionInitializer.InitTransition<MenuState>(_mainMenuButton);
-
-        descriptor.AddInstance(_windowStateMachine);
     }
 }

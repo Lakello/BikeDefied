@@ -6,11 +6,9 @@ namespace IJunior.StateMachine
     {
         protected TMachine StateMachine;
 
-        private void Awake()
+        public void Init(TMachine machine)
         {
-            StateMachine = (TMachine)GetComponent<StateMachine<TMachine>>();
-
-            StateMachine.AddState(this);
+            StateMachine = machine;
         }
 
         public abstract void Enter();

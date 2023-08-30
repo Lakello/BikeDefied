@@ -4,15 +4,8 @@
     {
         private static WindowStateMachine _instance;
 
-        protected override void Start()
-        {
-            if (_instance == null)
-            {
-                _instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-                Destroy(gameObject);
-        }
+        protected override WindowStateMachine SelfType => this;
+
+        public void Init() => Init(ref _instance);
     }
 }

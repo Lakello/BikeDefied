@@ -7,5 +7,5 @@ public class GameInit : MonoBehaviour
 
     private void OnDisable() => YandexGame.GetDataEvent -= EndInit;
 
-    private void EndInit() => IJunior.TypedScenes.Game.Load();
+    private void EndInit() => IJunior.TypedScenes.Game.Load<MenuState>();
 }

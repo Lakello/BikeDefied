@@ -1,9 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using IJunior.StateMachine;
 
 namespace IJunior.TypedScenes
 {
+
     public class LoadingProcessor : MonoBehaviour
     {
         private static LoadingProcessor _instance;
@@ -33,15 +35,15 @@ namespace IJunior.TypedScenes
             LoadingModelAction = null;
         }
 
-        public void RegisterLoadingModel<T>(T loadingModel)
+        public void RegisterLoadingModel<TMachine, TState>() where TMachine : StateMachine<TMachine> where TState : State<TMachine>
         {
             LoadingModelAction = () =>
             {
                 foreach (var rootObjects in SceneManager.GetActiveScene().GetRootGameObjects())
                 {
-                    foreach (var handler in rootObjects.GetComponentsInChildren<ISceneLoadHandler<T>>())
+                    foreach (var handler in rootObjects.GetComponentsInChildren<ISceneLoadHandler<TMachine>>())
                     {
-                        handler.OnSceneLoaded(loadingModel);
+                        handler.OnSceneLoaded<TState>();
                     }
                 }
             };

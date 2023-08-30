@@ -8,6 +8,7 @@ namespace IJunior.StateMachine
 
         public override void Enter()
         {
+            UnityEngine.Debug.Log($"Window State = {StateMachine != null}");
             _window.gameObject.SetActive(true);
         }
 

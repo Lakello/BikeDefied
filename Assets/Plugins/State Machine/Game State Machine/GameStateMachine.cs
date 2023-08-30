@@ -1,33 +1,30 @@
-﻿using Reflex.Attributes;
+﻿using IJunior.TypedScenes;
+using UnityEngine;
 
 namespace IJunior.StateMachine
 {
-    public class GameStateMachine : StateMachine<GameStateMachine>
+    public class GameStateMachine : StateMachine<GameStateMachine>, ISceneLoadHandler<GameStateMachine>
     {
+        [SerializeField] private WindowStateMachine _windowStateMachine;
+        
         private static GameStateMachine _instance;
 
-        private WindowStateMachine _windowStateMachine;
+        public static GameStateMachine Instance => _instance;
 
-        protected override void Start()
-        {
-            if (_instance == null)
-            {
-                _instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-                Destroy(gameObject);
-        }
+        protected override GameStateMachine SelfType => this;
 
         public void SetWindow<TWindow>() where TWindow : WindowState
         {
             _windowStateMachine.EnterIn<TWindow>();
         }
 
-        [Inject]
-        private void Inject(WindowStateMachine windowStateMachine)
+        public void OnSceneLoaded<TState>() where TState : State<GameStateMachine>
         {
-            _windowStateMachine = windowStateMachine;
+            Init(ref _instance);
+
+            _windowStateMachine.Init();
+
+            _instance.EnterIn<TState>();
         }
     }
 }

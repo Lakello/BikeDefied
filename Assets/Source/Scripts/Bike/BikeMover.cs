@@ -1,5 +1,4 @@
 using Reflex.Attributes;
-using Source;
 using UnityEngine;
 
 public class BikeMover : BikeBehaviour
@@ -30,6 +29,12 @@ public class BikeMover : BikeBehaviour
     protected override void Inject(BikeBehaviourInject inject)
     {
         Init(inject);
+    }
+
+    [Inject]
+    private void Inject(IInputHandler inputHandler)
+    {
+        InputHandler = inputHandler;
     }
 
     private void Move(float value)

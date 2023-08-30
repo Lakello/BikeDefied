@@ -1,5 +1,9 @@
+using IJunior.StateMachine;
+using Reflex.Attributes;
 using Reflex.Core;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public class SceneInstaller : MonoBehaviour, IInstaller
@@ -15,25 +19,28 @@ public class SceneInstaller : MonoBehaviour, IInstaller
 
     private List<IScoreCounter> _scoreCounters;
 
+    private static PlayerInput _playerInput;
+
     public void InstallBindings(ContainerDescriptor descriptor)
     {
-        var input = new PlayerInput();
-        descriptor.AddInstance(input, typeof(PlayerInput));
+        InputHandler handler = new InputHandler();
+        handler.Init();
 
-        var inputHandler = new PCInputHandler(input);
+        var pc = new PCInputHandler();
 
-        InitBikeBehaviour(descriptor, inputHandler);
+        descriptor.AddInstance(pc, typeof(IInputHandler));
+
+        InitBikeBehaviour(descriptor);
         InitScoreCounters(descriptor);
 
         descriptor.AddInstance(_bike);
         descriptor.AddInstance(_selectLevelScrollView);
     }
 
-    private void InitBikeBehaviour(ContainerDescriptor descriptor, IInputHandler inputHandler)
+    private void InitBikeBehaviour(ContainerDescriptor descriptor)
     {
         var bikeBehaviourInject = new BikeBehaviourInject();
 
-        bikeBehaviourInject.Input = inputHandler;
         bikeBehaviourInject.Player = _player;
         bikeBehaviourInject.BikeBody = _bike.GetComponent<Transform>();
 

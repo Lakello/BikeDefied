@@ -37,7 +37,6 @@ public abstract class BikeBehaviour : MonoBehaviour
 
     protected void Init(BikeBehaviourInject inject)
     {
-        InputHandler = inject.Input;
         Player = inject.Player;
         BikeBody = inject.BikeBody;
     }

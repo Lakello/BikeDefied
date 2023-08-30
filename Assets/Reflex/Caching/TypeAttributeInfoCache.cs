@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Reflex.Attributes;
+using UnityEngine;
+using UnityEngine.Playables;
 
 namespace Reflex.Caching
 {

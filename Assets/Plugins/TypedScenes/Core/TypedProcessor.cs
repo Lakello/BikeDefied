@@ -14,7 +14,6 @@ namespace IJunior.TypedScenes
             }
 
             LoadingProcessor.Instance.ApplyLoadingModel();
-            LoadingProcessorInState<GameStateMachine>.Instance.ApplyLoadingModel();
         }
     }
 }

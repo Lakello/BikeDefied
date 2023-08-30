@@ -1,5 +1,4 @@
 ﻿using Reflex.Attributes;
-using Source;
 using UnityEngine;
 
 public class BikeFliper : BikeBehaviour
@@ -29,6 +28,12 @@ public class BikeFliper : BikeBehaviour
     protected override void Inject(BikeBehaviourInject inject)
     {
         Init(inject);
+    }
+
+    [Inject]
+    private void Inject(IInputHandler inputHandler)
+    {
+        InputHandler = inputHandler;
     }
 
     private void Flip(float direction)

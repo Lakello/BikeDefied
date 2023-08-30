@@ -11,9 +11,9 @@
 namespace IJunior.TypedScenes
 {
     using UnityEngine.SceneManagement;
+    using IJunior.StateMachine;
     
-    
-    public class Initialization : TypedScene
+    public class Initialization : TypedScene<GameStateMachine>
     {
         
         private const string _sceneName = "Initialization";

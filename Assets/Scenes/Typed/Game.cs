@@ -11,9 +11,9 @@
 namespace IJunior.TypedScenes
 {
     using UnityEngine.SceneManagement;
+    using IJunior.StateMachine;
     
-    
-    public class Game : TypedScene
+    public class Game : TypedScene<GameStateMachine>
     {
         
         private const string _sceneName = "Game";
@@ -26,6 +26,11 @@ namespace IJunior.TypedScenes
         public static UnityEngine.AsyncOperation LoadAsync(LoadSceneMode loadSceneMode = LoadSceneMode.Single)
         {
             return LoadScene(_sceneName, loadSceneMode);
+        }
+
+        public static void Load<TState>(LoadSceneMode loadSceneMode = LoadSceneMode.Single) where TState : State<GameStateMachine>
+        {
+            LoadScene<TState>(_sceneName, loadSceneMode);
         }
     }
 }
