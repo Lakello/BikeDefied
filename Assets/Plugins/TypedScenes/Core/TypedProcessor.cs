@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+using IJunior.StateMachine;
 
 namespace IJunior.TypedScenes
 {
@@ -11,7 +12,9 @@ namespace IJunior.TypedScenes
             {
                 handler.OnSceneAwake();
             }
+
             LoadingProcessor.Instance.ApplyLoadingModel();
+            LoadingProcessorInState<GameStateMachine>.Instance.ApplyLoadingModel();
         }
     }
 }

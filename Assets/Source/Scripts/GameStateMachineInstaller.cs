@@ -3,75 +3,37 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using IJunior.StateMachine;
 
 public class GameStateMachineInstaller : MonoBehaviour, IInstaller
 {
-    [SerializeField] private CharacterHead _characterHead;
-    [SerializeField] private StartButton _startButton;
-
-    [Header("Game State Machine")]
     [SerializeField] private GameStateMachine _gameStateMachine;
-
-    [Header("Window State Machine")]
     [SerializeField] private WindowStateMachine _windowStateMachine;
 
-    private GameState _gameOverState;
-    private List<Subscriber> _subscribes = new List<Subscriber>();
+    [Header("Triggers for Transitions")]
+    [SerializeField] private CharacterHead _characterHead;
+    [SerializeField] private StartButton _startButton;
+    [SerializeField] private RestartButton _restartButton;
+    [SerializeField] private MainMenuButton _mainMenuButton;
 
-    protected struct Subscriber
-    {
-        public ISubscribe Subscribe;
-        public Action Action;
+    private TransitionInitializer<GameStateMachine> _transitionInitializer;
+    private GameOverState _gameOverState;
 
-        public Subscriber(ISubscribe subscribe, Action action)
-        {
-            Subscribe = subscribe;
-            Action = action;
-        }
-    }
-     
-    private void OnEnable()
-    {
-        if (_subscribes != null)
-            Subscribe();
-    }
-
-    private void OnDisable()
-    {
-        if (_subscribes != null)
-            UnSubscribe();
-    }
+    private void OnEnable() => _transitionInitializer?.OnEnable();
+    private void OnDisable() => _transitionInitializer?.OnDisable();
 
     public void InstallBindings(ContainerDescriptor descriptor)
     {
-        descriptor.AddInstance(_windowStateMachine);
-
-        InitTransition(descriptor);
-
         _gameOverState = _gameStateMachine.gameObject.GetComponent<GameOverState>();
         descriptor.AddInstance(_gameOverState, typeof(IGameOver));
-    }
 
-    private void InitTransition(ContainerDescriptor descriptor)
-    {
-        var gameOverTransition = new Transition<GameStateMachine, GameOverState>(_gameStateMachine);
-        _subscribes.Add(new Subscriber(_characterHead, gameOverTransition.Transit));
+        _transitionInitializer = new TransitionInitializer<GameStateMachine>(_gameStateMachine);
 
-        var startTransition = new Transition<GameStateMachine, PlayState>(_gameStateMachine);
-        _subscribes.Add(new Subscriber(_startButton, startTransition.Transit));
+        _transitionInitializer.InitTransition<GameOverState>(_characterHead);
+        _transitionInitializer.InitTransition<PlayState>(_startButton);
+        _transitionInitializer.InitTransition<PlayState>(_restartButton);
+        _transitionInitializer.InitTransition<MenuState>(_mainMenuButton);
 
-        Subscribe();
-    }
-
-    private void Subscribe()
-    {
-        foreach (var subscriber in _subscribes)
-            subscriber.Subscribe.Action += subscriber.Action;
-    }
-
-    private void UnSubscribe()
-    {
-        foreach (var subscriber in _subscribes)
-            subscriber.Subscribe.Action -= subscriber.Action;
+        descriptor.AddInstance(_windowStateMachine);
     }
 }

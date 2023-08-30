@@ -7,7 +7,7 @@ namespace IJunior.TypedScenes
     public class LoadingProcessor : MonoBehaviour
     {
         private static LoadingProcessor _instance;
-        private Action _loadingModelAction;
+        protected Action LoadingModelAction;
 
         public static LoadingProcessor Instance
         {
@@ -29,13 +29,13 @@ namespace IJunior.TypedScenes
 
         public void ApplyLoadingModel()
         {
-            _loadingModelAction?.Invoke();
-            _loadingModelAction = null;
+            LoadingModelAction?.Invoke();
+            LoadingModelAction = null;
         }
 
         public void RegisterLoadingModel<T>(T loadingModel)
         {
-            _loadingModelAction = () =>
+            LoadingModelAction = () =>
             {
                 foreach (var rootObjects in SceneManager.GetActiveScene().GetRootGameObjects())
                 {

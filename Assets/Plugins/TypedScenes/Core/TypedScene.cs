@@ -15,5 +15,11 @@ namespace IJunior.TypedScenes
             LoadingProcessor.Instance.RegisterLoadingModel(argument);
             return SceneManager.LoadSceneAsync(sceneName, loadSceneMode);
         }
+
+        protected static AsyncOperation LoadSceneInState<TState>(string sceneName, LoadSceneMode loadSceneMode)
+        {
+
+            return SceneManager.LoadSceneAsync(sceneName, loadSceneMode);
+        }
     }
 }

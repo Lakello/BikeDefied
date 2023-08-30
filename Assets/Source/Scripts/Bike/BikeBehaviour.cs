@@ -7,7 +7,7 @@ public abstract class BikeBehaviour : MonoBehaviour
     protected IInputHandler InputHandler;
     protected Transform BikeBody;
     protected Coroutine BehaviourCoroutine;
-    
+
     private GroundChecker _groundChecker;
 
     protected bool IsGrounded { get; private set; }
@@ -32,7 +32,7 @@ public abstract class BikeBehaviour : MonoBehaviour
         _groundChecker.GroundChanged -= OnGroundChanged;
         _groundChecker.BackWheelGroundChanged -= OnBackWheelGroundChanged;
     }
-    
+
     protected abstract void Inject(BikeBehaviourInject inject);
 
     protected void Init(BikeBehaviourInject inject)
