@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BikeBehaviourInject
+public struct BikeBehaviourInject
 {
     public Player Player;
     public Transform BikeBody;

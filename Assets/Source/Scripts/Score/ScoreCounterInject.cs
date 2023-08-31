@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ScoreCounterInject
+public struct ScoreCounterInject
 {
     public Player Player;
     public MonoBehaviour Context;

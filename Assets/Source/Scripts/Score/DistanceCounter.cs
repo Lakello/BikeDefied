@@ -8,7 +8,6 @@ public class DistanceCounter : ScoreCounter
 
     public override string Name => "Distance";
 
-    private float CurrentDistance => _bestPosition - _startPosition;
     private float CurrentPosition => BikeBody.position.z;
 
     public DistanceCounter(float reward, ScoreCounterInject inject) : base(inject) { _reward = reward; }
@@ -22,7 +21,7 @@ public class DistanceCounter : ScoreCounter
         BehaviourCoroutine = Context.StartCoroutine(Player.Behaviour(
         condition: () =>
         {
-            return IsGrounded;
+            return true;
         },
         action: () =>
         {

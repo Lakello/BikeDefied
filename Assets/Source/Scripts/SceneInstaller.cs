@@ -36,7 +36,7 @@ public class SceneInstaller : MonoBehaviour, IInstaller
         descriptor.AddInstance(inputHandler, typeof(IInputHandler));
 
         InitBikeBehaviour(descriptor);
-        InitScoreCounters(descriptor);
+        InitScore(descriptor);
         InitLevelView(descriptor);
 
         descriptor.AddInstance(_bike);
@@ -53,7 +53,7 @@ public class SceneInstaller : MonoBehaviour, IInstaller
         descriptor.AddInstance(bikeBehaviourInject);
     }
 
-    private void InitScoreCounters(ContainerDescriptor descriptor)
+    private void InitScore(ContainerDescriptor descriptor)
     {
         var scoreCounterInject = new ScoreCounterInject();
 
