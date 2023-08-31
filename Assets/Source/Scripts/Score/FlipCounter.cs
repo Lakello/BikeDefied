@@ -14,9 +14,19 @@ public class FlipCounter : ScoreCounter
     private bool _isBackFlip;
     private bool _isFrontFlip;
 
+    private float _backReward;
+    private float _frontReward;
+
+    public override string Name => "Flip";
+
     public override event Action<IReward> ScoreAdd;
 
-    public FlipCounter(LayerMask mask, ScoreCounterInject inject) : base(inject) { _mask = mask; }
+    public FlipCounter(float backReward, float frontReward, LayerMask mask, ScoreCounterInject inject) : base(inject) 
+    {
+        _mask = mask;
+        _backReward = backReward;
+        _frontReward = frontReward;
+    }
 
     protected struct Flip
     {
@@ -184,14 +194,14 @@ public class FlipCounter : ScoreCounter
         if (dir)
         {
             Reward.Message = "Front Flip!";
-            Reward.Value = 100;
+            Reward.Value = _frontReward;
 
             ScoreAdd?.Invoke(Reward);
         }
         else
         {
             Reward.Message = "Back Flip!";
-            Reward.Value = 100;
+            Reward.Value = _backReward;
 
             ScoreAdd?.Invoke(Reward);
         }

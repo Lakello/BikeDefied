@@ -33,9 +33,9 @@ public class TransitionInitializer<TMachine> where TMachine : StateMachine<TMach
             UnSubscribe();
     }
 
-    public void InitTransition<TTargetState>(ISubscribe subscribe) where TTargetState : State<TMachine>
+    public void InitTransition<TTargetState>(ISubscribe subscribe, Action reloadScene = null) where TTargetState : State<TMachine>
     {
-        var transition = new Transition<TMachine, TTargetState>(_stateMachine);
+        var transition = new Transition<TMachine, TTargetState>(_stateMachine, reloadScene);
 
         subscribe.Action += transition.Transit;
 

@@ -1,6 +1,5 @@
 ﻿using IJunior.StateMachine;
 using System;
-using UnityEngine;
 
 public class GameOverState : GameState, IGameOver
 {
@@ -12,8 +11,5 @@ public class GameOverState : GameState, IGameOver
         GameOver?.Invoke();
     }
 
-    public override void Exit()
-    {
-        IJunior.TypedScenes.Game.Load<PlayState>();
-    }
+    public override void Exit(){}
 }

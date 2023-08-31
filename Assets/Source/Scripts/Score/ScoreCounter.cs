@@ -11,6 +11,8 @@ public abstract class ScoreCounter : IScoreCounter, IDisposable
     
     private GroundChecker _groundChecker;
 
+    public abstract string Name { get; }
+
     protected bool IsGrounded { get; private set; }
 
     public abstract event Action<IReward> ScoreAdd;

@@ -27,7 +27,7 @@ public class GameStateMachineInstaller : MonoBehaviour, IInstaller
 
         _transitionInitializer.InitTransition<GameOverState>(_characterHead);
         _transitionInitializer.InitTransition<PlayState>(_startButton);
-        _transitionInitializer.InitTransition<RestartState>(_restartButton);
-        _transitionInitializer.InitTransition<MenuState>(_mainMenuButton);
+        _transitionInitializer.InitTransition<PlayState>(_restartButton, () => IJunior.TypedScenes.Game.Load<PlayState>());
+        _transitionInitializer.InitTransition<MenuState>(_mainMenuButton, () => IJunior.TypedScenes.Game.Load<MenuState>());
     }
 }

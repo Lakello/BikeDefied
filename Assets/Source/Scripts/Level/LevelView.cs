@@ -1,6 +1,7 @@
 using IJunior.StateMachine;
 using IJunior.TypedScenes;
 using Reflex.Attributes;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,9 @@ public class LevelView : MonoBehaviour
 
     private SelectLevelScrollView _scrollView;
     private LevelStateMachine _stateMachine;
+
+    private Func<int> GetCurrentLevelIndex;
+    private Action<int> SetCurrentlevelIndex;
 
     private void Awake()
     {
@@ -26,8 +30,6 @@ public class LevelView : MonoBehaviour
 
             return states;
         });
-
-        _stateMachine.EnterIn(0);
     }
 
     private void OnEnable()
@@ -42,14 +44,25 @@ public class LevelView : MonoBehaviour
     }
 
     [Inject]
-    private void Inject(SelectLevelScrollView scrollView)
+    private void Inject(LevelViewInject inject)
     {
-        _scrollView = scrollView;
+        _scrollView = inject.SelectLevelScrollView;
         _scrollView.LevelChanged += OnLevelChanged;
+
+        GetCurrentLevelIndex = () => { return inject.CurrentLevelRead.Read().Index; };
+        SetCurrentlevelIndex = (index) => 
+        {
+            var level = new CurrentLevel();
+            level.Index = index;
+            inject.CurrentLevelWrite.Write(level);
+        };
+
+        _stateMachine.EnterIn(GetCurrentLevelIndex());
     }
 
     private void OnLevelChanged(int index)
     {
+        SetCurrentlevelIndex(index);
         _stateMachine.EnterIn(index);
     }
 }

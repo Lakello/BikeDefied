@@ -1,8 +1,4 @@
-using Reflex.Attributes;
-using Unity.VisualScripting;
-using UnityEngine;
-
-public class PCInputHandler : MonoBehaviour, IInputHandler
+public class PCInputHandler : IInputHandler
 {
     private PlayerInput _playerInput;
 

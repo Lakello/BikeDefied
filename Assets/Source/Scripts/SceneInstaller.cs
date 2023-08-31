@@ -14,8 +14,16 @@ public class SceneInstaller : MonoBehaviour, IInstaller
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private LayerMask _flipTriggerMask;
 
+    [Header("Score")]
+    [SerializeField] private float _distanceReward;
+    [SerializeField] private float _backFlipReward;
+    [SerializeField] private float _frontFlipReward;
+
     [Header("View")]
     [SerializeField] private SelectLevelScrollView _selectLevelScrollView;
+
+    [Header("Saves")]
+    [SerializeField] private Saves _saves;
 
     private List<IScoreCounter> _scoreCounters;
 
@@ -29,9 +37,9 @@ public class SceneInstaller : MonoBehaviour, IInstaller
 
         InitBikeBehaviour(descriptor);
         InitScoreCounters(descriptor);
+        InitLevelView(descriptor);
 
         descriptor.AddInstance(_bike);
-        descriptor.AddInstance(_selectLevelScrollView);
     }
 
     private void InitBikeBehaviour(ContainerDescriptor descriptor)
@@ -55,10 +63,21 @@ public class SceneInstaller : MonoBehaviour, IInstaller
 
         _scoreCounters = new List<IScoreCounter>()
         {
-            new DistanceCounter(scoreCounterInject),
-            new FlipCounter(_flipTriggerMask, scoreCounterInject)
+            new DistanceCounter(_distanceReward, scoreCounterInject),
+            new FlipCounter(_backFlipReward, _frontFlipReward, _flipTriggerMask, scoreCounterInject)
         };
 
         descriptor.AddInstance(_scoreCounters, typeof(IReadOnlyList<IScoreCounter>));
+    }
+
+    private void InitLevelView(ContainerDescriptor descriptor)
+    {
+        var levelViewInject = new LevelViewInject();
+
+        levelViewInject.SelectLevelScrollView = _selectLevelScrollView;
+        levelViewInject.CurrentLevelRead = _saves;
+        levelViewInject.CurrentLevelWrite = _saves;
+
+        descriptor.AddInstance(levelViewInject);
     }
 }

@@ -4,11 +4,14 @@ public class DistanceCounter : ScoreCounter
 {
     private float _startPosition;
     private float _bestPosition;
+    private float _reward;
+
+    public override string Name => "Distance";
 
     private float CurrentDistance => _bestPosition - _startPosition;
     private float CurrentPosition => BikeBody.position.z;
 
-    public DistanceCounter(ScoreCounterInject inject) : base(inject) { }
+    public DistanceCounter(float reward, ScoreCounterInject inject) : base(inject) { _reward = reward; }
 
     public override event Action<IReward> ScoreAdd;
 
@@ -34,7 +37,7 @@ public class DistanceCounter : ScoreCounter
             _bestPosition = CurrentPosition;
 
             Reward.Message = "";
-            Reward.Value = 1;
+            Reward.Value = _reward;
 
             ScoreAdd?.Invoke(Reward);
         }
