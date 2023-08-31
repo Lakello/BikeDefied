@@ -2,13 +2,7 @@
 
 public class RestartState : GameState
 {
-    public override void Enter()
-    {
-        
-    }
+    public override void Enter() { }
 
-    public override void Exit()
-    {
-        
-    }
+    public override void Exit() { }
 }

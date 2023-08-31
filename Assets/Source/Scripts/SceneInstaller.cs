@@ -21,12 +21,11 @@ public class SceneInstaller : MonoBehaviour, IInstaller
 
     public void InstallBindings(ContainerDescriptor descriptor)
     {
-        InputHandler handler = new InputHandler();
-        handler.Init();
+        var input = new PlayerInput();
+        var inputHandler = new PCInputHandler(input);
 
-        var pc = new PCInputHandler();
-
-        descriptor.AddInstance(pc, typeof(IInputHandler));
+        descriptor.AddInstance(input);
+        descriptor.AddInstance(inputHandler, typeof(IInputHandler));
 
         InitBikeBehaviour(descriptor);
         InitScoreCounters(descriptor);

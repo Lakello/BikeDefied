@@ -1,19 +1,40 @@
 ﻿using IJunior.StateMachine;
+using Reflex.Attributes;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayState : GameState
 {
+    private PlayerInput _playerInput;
+    private Coroutine _waitCoroutine;
+
     public override void Enter()
     {
-        Debug.Log("Play State enter");
         StateMachine.SetWindow<PlayWindowState>();
-        InputHandler.Instance.Input.Enable();
+        if (_playerInput == null)
+            _waitCoroutine = StartCoroutine(WaitInject());
+        else 
+            _playerInput.Enable();
     }
 
     public override void Exit()
     {
-        Debug.Log("Play State exit");
-        InputHandler.Instance.Input.Disable();
+        if (_waitCoroutine != null)
+            StopCoroutine(_waitCoroutine);
+
+        _playerInput.Disable();
+    }
+
+    [Inject]
+    private void Inject(PlayerInput input)
+    {
+        _playerInput = input;
+    }
+
+    private IEnumerator WaitInject()
+    {
+        yield return _playerInput != null;
+        _playerInput.Enable();
     }
 }
