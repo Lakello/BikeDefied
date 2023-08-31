@@ -32,5 +32,10 @@ namespace IJunior.TypedScenes
         {
             LoadScene<TState>(_sceneName, loadSceneMode);
         }
+
+        public static void Load<T>(T argument, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
+        {
+            LoadScene(_sceneName, loadSceneMode, argument);
+        }
     }
 }

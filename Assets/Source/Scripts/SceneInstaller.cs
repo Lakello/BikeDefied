@@ -19,8 +19,6 @@ public class SceneInstaller : MonoBehaviour, IInstaller
 
     private List<IScoreCounter> _scoreCounters;
 
-    private static PlayerInput _playerInput;
-
     public void InstallBindings(ContainerDescriptor descriptor)
     {
         InputHandler handler = new InputHandler();

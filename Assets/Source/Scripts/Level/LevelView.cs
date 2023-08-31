@@ -1,3 +1,5 @@
+using IJunior.StateMachine;
+using IJunior.TypedScenes;
 using Reflex.Attributes;
 using System.Collections.Generic;
 using UnityEngine;

@@ -41,9 +41,23 @@ namespace IJunior.TypedScenes
             {
                 foreach (var rootObjects in SceneManager.GetActiveScene().GetRootGameObjects())
                 {
-                    foreach (var handler in rootObjects.GetComponentsInChildren<ISceneLoadHandler<TMachine>>())
+                    foreach (var handler in rootObjects.GetComponentsInChildren<ISceneLoadHandlerState<TMachine>>())
                     {
                         handler.OnSceneLoaded<TState>();
+                    }
+                }
+            };
+        }
+
+        public void RegisterLoadingModel<T>(T argument)
+        {
+            LoadingModelAction = () =>
+            {
+                foreach (var rootObjects in SceneManager.GetActiveScene().GetRootGameObjects())
+                {
+                    foreach (var handler in rootObjects.GetComponentsInChildren<ISceneLoadHandler<T>>())
+                    {
+                        handler.OnSceneLoaded(argument);
                     }
                 }
             };

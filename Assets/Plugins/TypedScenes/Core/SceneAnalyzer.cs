@@ -19,7 +19,7 @@ namespace IJunior.TypedScenes
 
             loadParameters.AddRange(componentTypes
                 .Where(type => type.GetInterfaces()
-                    .Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ISceneLoadHandler<>)))
+                    .Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ISceneLoadHandlerState<>)))
                 .SelectMany(type => type.GetMethods().Where(method => method.Name == "OnSceneLoaded"),
                     (type, method) => method.GetParameters()[0].ParameterType));
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace IJunior.StateMachine
 {
-    public class GameStateMachine : StateMachine<GameStateMachine>, ISceneLoadHandler<GameStateMachine>
+    public class GameStateMachine : StateMachine<GameStateMachine>, ISceneLoadHandlerState<GameStateMachine>
     {
         [SerializeField] private WindowStateMachine _windowStateMachine;
         
