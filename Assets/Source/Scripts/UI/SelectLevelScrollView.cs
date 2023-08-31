@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 using Unity.VisualScripting;
-using System.Collections;
+using Reflex.Attributes;
 
 [RequireComponent(typeof(ScrollRect))]
 public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandler, IBeginDragHandler
@@ -21,9 +21,11 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
 
     private int _currentCenterChildIndex;
 
+    private System.Func<int> GetCurrentLevel;
+
     public event System.Action<int> LevelChanged;
 
-    private void Awake()
+    private void Start()
     {
         _scrollView = GetComponent<ScrollRect>();
 
@@ -80,6 +82,7 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
     {
         _content.DOKill();
 
+        _currentCenterChildIndex = GetCurrentLevel();
         _targetPosition = _childrenPositions[_currentCenterChildIndex];
 
         _content.DOLocalMoveX(_targetPosition, _toCenterTime);
@@ -130,5 +133,11 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
     private float GetChildItemWidth(int index)
     {
         return (_content.GetChild(index) as RectTransform).sizeDelta.x;
+    }
+
+    [Inject]
+    private void Inject(IRead<CurrentLevel> read)
+    {
+        GetCurrentLevel = () => read.Read().Index;
     }
 }

@@ -40,6 +40,7 @@ public class SceneInstaller : MonoBehaviour, IInstaller
         InitLevelView(descriptor);
 
         descriptor.AddInstance(_bike);
+        descriptor.AddInstance(_saves, typeof(IRead<CurrentLevel>));
     }
 
     private void InitBikeBehaviour(ContainerDescriptor descriptor)

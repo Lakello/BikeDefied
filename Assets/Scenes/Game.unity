@@ -426,9 +426,9 @@ MonoBehaviour:
   _flipTriggerMask:
     serializedVersion: 2
     m_Bits: 512
-  _distanceReward: 0
-  _backFlipReward: 0
-  _frontFlipReward: 0
+  _distanceReward: 1
+  _backFlipReward: 100
+  _frontFlipReward: 200
   _selectLevelScrollView: {fileID: 1141598984}
   _saves: {fileID: 187612247}
 --- !u!114 &187612246

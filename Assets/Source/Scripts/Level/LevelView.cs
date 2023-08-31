@@ -49,7 +49,7 @@ public class LevelView : MonoBehaviour
         _scrollView = inject.SelectLevelScrollView;
         _scrollView.LevelChanged += OnLevelChanged;
 
-        GetCurrentLevelIndex = () => { return inject.CurrentLevelRead.Read().Index; };
+        GetCurrentLevelIndex = () => inject.CurrentLevelRead.Read().Index;
         SetCurrentlevelIndex = (index) => 
         {
             var level = new CurrentLevel();
