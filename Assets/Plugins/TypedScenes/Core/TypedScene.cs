@@ -23,4 +23,18 @@ namespace IJunior.TypedScenes
             return SceneManager.LoadSceneAsync(sceneName, loadSceneMode);
         }
     }
+
+    public abstract class TypedScene
+    {
+        protected static AsyncOperation LoadScene(string sceneName, LoadSceneMode loadSceneMode)
+        {
+            return SceneManager.LoadSceneAsync(sceneName, loadSceneMode);
+        }
+
+        protected static AsyncOperation LoadScene<T>(string sceneName, LoadSceneMode loadSceneMode, T argument)
+        {
+            LoadingProcessor.Instance.RegisterLoadingModel(argument);
+            return SceneManager.LoadSceneAsync(sceneName, loadSceneMode);
+        }
+    }
 }

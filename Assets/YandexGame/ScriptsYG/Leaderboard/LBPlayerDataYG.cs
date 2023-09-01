@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 #if YG_TEXT_MESH_PRO
@@ -17,7 +18,7 @@ namespace YG
         [Serializable]
         public struct TextLegasy
         {
-            public Text rank, name, score;
+            public TMP_Text rank, name, score;
         }
         public TextLegasy textLegasy;
 
