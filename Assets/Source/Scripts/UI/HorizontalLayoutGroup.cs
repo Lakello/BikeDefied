@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 [ExecuteAlways]
 public class HorizontalLayoutGroup : LayoutGroup
@@ -101,27 +102,47 @@ public class HorizontalLayoutGroup : LayoutGroup
                 RectTransform child = rectChildren[i];
                 float min, preferred, flexible;
 
-                GetChildSizes(child, 1, !controlSize, !childForceExpandSize, out min, out preferred, out flexible);
+                if (child.gameObject.TryGetComponent(out SymmetrySize symmetry))
+                {
+                    GetChildSizes(child, 1, !controlSize, !childForceExpandSize, out min, out preferred, out flexible);
 
-                float requiredSpace = Mathf.Clamp(innerSize, min, flexible > 0 ? rectTransform.rect.size[1] : preferred);
+                    float requiredSpace = Mathf.Clamp(innerSize, min, flexible > 0 ? rectTransform.rect.size[1] : preferred);
 
-                GetChildSizes(child, 0, controlSize, childForceExpandSize, out min, out preferred, out flexible);
+                    GetChildSizes(child, 0, controlSize, childForceExpandSize, out min, out preferred, out flexible);
 
-                float childSize = Mathf.Lerp(min, preferred, minMaxLerp);
-                childSize += flexible * itemFlexibleMultiplier;
+                    float childSize = Mathf.Lerp(min, preferred, minMaxLerp);
+                    childSize += flexible * itemFlexibleMultiplier;
 
-                child.anchorMin = Vector2.up;
-                child.anchorMax = Vector2.up;
+                    child.anchorMin = Vector2.up;
+                    child.anchorMax = Vector2.up;
 
-                Vector2 sizeDelta = child.sizeDelta;
-                sizeDelta[axis] = requiredSpace;
-                child.sizeDelta = sizeDelta;
+                    Vector2 sizeDelta = child.sizeDelta;
+                    sizeDelta[axis] = requiredSpace;
+                    child.sizeDelta = sizeDelta;
 
-                Vector2 anchoredPosition = child.anchoredPosition;
-                anchoredPosition[axis] = (axis == 0) ? (pos + requiredSpace * child.pivot[axis] * 1f) : (-pos - requiredSpace * (1f - child.pivot[axis]) * 1f);
-                child.anchoredPosition = anchoredPosition;
+                    Vector2 anchoredPosition = child.anchoredPosition;
+                    anchoredPosition[axis] = (axis == 0) ? (pos + requiredSpace * child.pivot[axis] * 1f) : (-pos - requiredSpace * (1f - child.pivot[axis]) * 1f);
+                    child.anchoredPosition = anchoredPosition;
+                    pos += childSize + Spacing;
+                }
+                else
+                {
+                    GetChildSizes(child, axis, controlSize, childForceExpandSize, out min, out preferred, out flexible);
+                    float scaleFactor = 1f;
 
-                pos += childSize + Spacing;
+                    float childSize = Mathf.Lerp(min, preferred, minMaxLerp);
+                    childSize += flexible * itemFlexibleMultiplier;
+                    if (controlSize)
+                    {
+                        SetChildAlongAxisWithScale(child, axis, pos, childSize, scaleFactor);
+                    }
+                    else
+                    {
+                        float offsetInCell = (childSize - child.sizeDelta[axis]) * alignmentOnAxis;
+                        SetChildAlongAxisWithScale(child, axis, pos + offsetInCell, scaleFactor);
+                    }
+                    pos += childSize * scaleFactor + Spacing;
+                }
             }
         }
     }

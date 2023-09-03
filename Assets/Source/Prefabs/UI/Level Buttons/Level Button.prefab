@@ -93,7 +93,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 224.4
+  m_fontSize: 103.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 7795067151815261165}
   - component: {fileID: 7179672207719387762}
   - component: {fileID: 6723890962706557234}
+  - component: {fileID: 1155735867287623652}
   m_Layer: 5
   m_Name: Level Button
   m_TagString: Untagged
@@ -168,7 +169,7 @@ RectTransform:
   m_Children:
   - {fileID: 2464326231434901530}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -257,3 +258,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1155735867287623652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3509300724728205741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03519b805a73ae249ab741fd7a2979f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
