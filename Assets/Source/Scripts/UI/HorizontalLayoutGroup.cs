@@ -10,7 +10,11 @@ public class HorizontalLayoutGroup : LayoutGroup
     private bool _childForceExpandHeight = true;
     private bool _childControlHeight = true;
 
+    private bool _isHorizontalSizeSetted;
+    private bool _isVerticalSizeSetted;
+
     public float Spacing { get { return _spacing; } set { SetProperty(ref _spacing, value); } }
+    public bool IsSizeSetted => _isHorizontalSizeSetted && _isVerticalSizeSetted;
 
     protected void CalculationAlongAxis(int axis, bool isVertical)
     {
@@ -181,11 +185,13 @@ public class HorizontalLayoutGroup : LayoutGroup
     public override void SetLayoutHorizontal()
     {
         SetChildrenAlongAxis(0, false);
+        _isHorizontalSizeSetted = true;
     }
 
     public override void SetLayoutVertical()
     {
         SetChildrenAlongAxis(1, false);
+        _isVerticalSizeSetted = true;
     }
 
 #if UNITY_EDITOR
