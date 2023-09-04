@@ -5,17 +5,17 @@ using IJunior.StateMachine;
 public class TransitionInitializer<TMachine> where TMachine : StateMachine<TMachine>
 {
     private TMachine _stateMachine;
-    private List<Subscriber> _subscribes = new List<Subscriber>();
+    private List<Subscription> _subscribtions = new List<Subscription>();
 
-    private struct Subscriber
+    private struct Subscription
     {
-        public ISubscribe Subscribe;
-        public Action Action;
+        public ISubject Subject;
+        public Action Observer;
 
-        public Subscriber(ISubscribe subscribe, Action action)
+        public Subscription(ISubject subject, Action observer)
         {
-            Subscribe = subscribe;
-            Action = action;
+            Subject = subject;
+            Observer = observer;
         }
     }
 
@@ -23,34 +23,34 @@ public class TransitionInitializer<TMachine> where TMachine : StateMachine<TMach
 
     public void OnEnable()
     {
-        if (_subscribes != null)
+        if (_subscribtions != null)
             Subscribe();
     }
 
     public void OnDisable()
     {
-        if (_subscribes != null)
+        if (_subscribtions != null)
             UnSubscribe();
     }
 
-    public void InitTransition<TTargetState>(ISubscribe subscribe, Action reloadScene = null) where TTargetState : State<TMachine>
+    public void InitTransition<TTargetState>(ISubject subject, Action reloadScene = null) where TTargetState : State<TMachine>
     {
         var transition = new Transition<TMachine, TTargetState>(_stateMachine, reloadScene);
 
-        subscribe.Action += transition.Transit;
+        subject.Action += transition.Transit;
 
-        _subscribes.Add(new Subscriber(subscribe, transition.Transit));
+        _subscribtions.Add(new Subscription(subject, transition.Transit));
     }
 
     private void Subscribe()
     {
-        foreach (var subscriber in _subscribes)
-            subscriber.Subscribe.Action += subscriber.Action;
+        foreach (var action in _subscribtions)
+            action.Subject.Action += action.Observer;
     }
 
     private void UnSubscribe()
     {
-        foreach (var subscriber in _subscribes)
-            subscriber.Subscribe.Action -= subscriber.Action;
+        foreach (var action in _subscribtions)
+            action.Subject.Action -= action.Observer;
     }
 }

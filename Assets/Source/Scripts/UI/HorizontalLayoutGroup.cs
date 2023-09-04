@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.PlayerSettings;
 
 [ExecuteAlways]
 public class HorizontalLayoutGroup : LayoutGroup

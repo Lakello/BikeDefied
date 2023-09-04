@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CharacterHead : MonoBehaviour, ISubscribe
+public class CharacterHead : MonoBehaviour, ISubject
 {
     private bool _isInvoke;
 
