@@ -69,7 +69,7 @@ public class SceneInstaller : MonoBehaviour, IInstaller
     {
         var levelViewInject = new LevelViewInject();
 
-        //levelViewInject.SelectLevelScrollView = _selectLevelScrollView;
+        levelViewInject.SelectLevelScrollView = _selectLevelScrollView;
         levelViewInject.CurrentLevelRead = _saves;
         levelViewInject.CurrentLevelWrite = _saves;
 
