@@ -7,7 +7,7 @@ public class GameOverState : GameState, IGameOver
 
     public override void Enter()
     {
-        StateMachine.SetWindow<GameOverWindowState>();
+        GameStateMachine.Instance.SetWindow<GameOverWindowState>();
         GameOver?.Invoke();
     }
 

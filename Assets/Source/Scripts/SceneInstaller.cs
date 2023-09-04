@@ -29,12 +29,6 @@ public class SceneInstaller : MonoBehaviour, IInstaller
 
     public void InstallBindings(ContainerDescriptor descriptor)
     {
-        var input = new PlayerInput();
-        var inputHandler = new PCInputHandler(input);
-
-        descriptor.AddInstance(input);
-        descriptor.AddInstance(inputHandler, typeof(IInputHandler));
-
         InitBikeBehaviour(descriptor);
         InitScore(descriptor);
         InitLevelView(descriptor);
@@ -75,7 +69,7 @@ public class SceneInstaller : MonoBehaviour, IInstaller
     {
         var levelViewInject = new LevelViewInject();
 
-        levelViewInject.SelectLevelScrollView = _selectLevelScrollView;
+        //levelViewInject.SelectLevelScrollView = _selectLevelScrollView;
         levelViewInject.CurrentLevelRead = _saves;
         levelViewInject.CurrentLevelWrite = _saves;
 

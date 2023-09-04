@@ -1,6 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace IJunior.StateMachine
 {
-    public class Window : MonoBehaviour { }
+    public abstract class Window : MonoBehaviour
+    {
+        public abstract Type WindowType { get; }
+    }
 }

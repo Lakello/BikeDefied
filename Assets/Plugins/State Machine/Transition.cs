@@ -15,8 +15,8 @@ namespace IJunior.StateMachine
 
         public void Transit()
         {
-            _reloadScene?.Invoke();
             _machine.EnterIn<TTargetState>();
+            _reloadScene?.Invoke();
         }
     }
 }

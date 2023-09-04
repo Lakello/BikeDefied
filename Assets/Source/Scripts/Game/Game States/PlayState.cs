@@ -1,19 +1,24 @@
 ﻿using IJunior.StateMachine;
-using Reflex.Attributes;
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class PlayState : GameState
 {
-    private PlayerInput _playerInput;
+    private readonly MonoBehaviour _context;
+    private readonly PlayerInput _playerInput;
     private Coroutine _waitCoroutine;
+
+    public PlayState(MonoBehaviour context, PlayerInput input)
+    {
+        _context = context;
+        _playerInput = input;
+    }
 
     public override void Enter()
     {
-        StateMachine.SetWindow<PlayWindowState>();
+        GameStateMachine.Instance.SetWindow<PlayWindowState>();
         if (_playerInput == null)
-            _waitCoroutine = StartCoroutine(WaitInject());
+            _waitCoroutine = _context.StartCoroutine(WaitInject());
         else 
             _playerInput.Enable();
     }
@@ -21,15 +26,9 @@ public class PlayState : GameState
     public override void Exit()
     {
         if (_waitCoroutine != null)
-            StopCoroutine(_waitCoroutine);
+            _context.StopCoroutine(_waitCoroutine);
 
         _playerInput.Disable();
-    }
-
-    [Inject]
-    private void Inject(PlayerInput input)
-    {
-        _playerInput = input;
     }
 
     private IEnumerator WaitInject()

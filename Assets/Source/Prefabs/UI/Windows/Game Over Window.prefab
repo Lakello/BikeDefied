@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8770926076105500252}
   - component: {fileID: 2992382604564236421}
   - component: {fileID: 2046186216411411730}
-  - component: {fileID: 2237522993436960361}
+  - component: {fileID: 769886065298143700}
   m_Layer: 5
   m_Name: Game Over Window
   m_TagString: Untagged
@@ -40,7 +40,7 @@ RectTransform:
   - {fileID: 4591252101597668614}
   - {fileID: 1019223549168158865}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2237522993436960361
+--- !u!114 &769886065298143700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 19763990152570427}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eb9cbe420bbd32429ac658093c1d45a, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c51564f1bff7004188685c108c9e30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2502914251826659547

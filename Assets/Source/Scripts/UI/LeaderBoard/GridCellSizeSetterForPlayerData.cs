@@ -31,7 +31,6 @@ public class GridCellSizeSetterForPlayerData : GridCellSizeSetter
     private IEnumerator WaitAndSetSize()
     {
         yield return _setter.Setted;
-        yield return _group.IsSizeSetted;
         
         Grid.cellSize = CalculateSize();
     }

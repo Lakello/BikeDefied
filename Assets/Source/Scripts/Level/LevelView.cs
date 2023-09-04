@@ -11,7 +11,7 @@ public class LevelView : MonoBehaviour
     [SerializeField] private List<Level> _levelPrefabs;
     [SerializeField] private Button _selectButtonPrefab;
 
-    private SelectLevelScrollView _scrollView;
+    //private SelectLevelScrollView _scrollView;
     private LevelStateMachine _stateMachine;
 
     private Func<int> GetCurrentLevelIndex;
@@ -34,20 +34,20 @@ public class LevelView : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_scrollView != null)
-            _scrollView.LevelChanged += OnLevelChanged;
+        //if (_scrollView != null)
+        //    _scrollView.LevelChanged += OnLevelChanged;
     }
 
     private void OnDisable()
     {
-        _scrollView.LevelChanged -= OnLevelChanged;
+        //_scrollView.LevelChanged -= OnLevelChanged;
     }
 
     [Inject]
     private void Inject(LevelViewInject inject)
     {
-        _scrollView = inject.SelectLevelScrollView;
-        _scrollView.LevelChanged += OnLevelChanged;
+        //_scrollView = inject.SelectLevelScrollView;
+        //_scrollView.LevelChanged += OnLevelChanged;
 
         GetCurrentLevelIndex = () => inject.CurrentLevelRead.Read().Index;
         SetCurrentlevelIndex = (index) => 

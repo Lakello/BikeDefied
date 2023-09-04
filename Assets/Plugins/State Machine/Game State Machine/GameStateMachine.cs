@@ -1,30 +1,29 @@
 ﻿using IJunior.TypedScenes;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace IJunior.StateMachine
 {
-    public class GameStateMachine : StateMachine<GameStateMachine>, ISceneLoadHandlerState<GameStateMachine>
+    public class GameStateMachine : StateMachine<GameStateMachine>
     {
-        [SerializeField] private WindowStateMachine _windowStateMachine;
-        
-        private static GameStateMachine _instance;
-
-        public static GameStateMachine Instance => _instance;
+        public static GameStateMachine Instance { get; private set; }
 
         protected override GameStateMachine SelfType => this;
 
+        public GameStateMachine(Func<Dictionary<Type, State<GameStateMachine>>> getStates) : base(getStates) => Instance ??= this;
+
         public void SetWindow<TWindow>() where TWindow : WindowState
         {
-            _windowStateMachine.EnterIn<TWindow>();
+            WindowStateMachine.Instance.EnterIn<TWindow>();
         }
 
-        public void OnSceneLoaded<TState>() where TState : State<GameStateMachine>
+        public TState GetState<TState>() where TState : State<GameStateMachine>
         {
-            Init(ref _instance);
-
-            _windowStateMachine.Init();
-
-            _instance.EnterIn<TState>();
+            if (States.TryGetValue(typeof(TState), out State<GameStateMachine> state))
+                return (TState)state;
+            else
+                return null;
         }
     }
 }

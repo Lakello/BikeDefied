@@ -1,10 +1,10 @@
-﻿using UnityEngine;
-
-namespace IJunior.StateMachine
+﻿namespace IJunior.StateMachine
 {
     public abstract class WindowState : State<WindowStateMachine>
     {
-        [SerializeField] private Window _window;
+        private Window _window;
+
+        public void Init(Window window) => _window = window;
 
         public override void Enter()
         {

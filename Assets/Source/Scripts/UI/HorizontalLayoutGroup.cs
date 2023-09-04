@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteAlways]
 public class HorizontalLayoutGroup : LayoutGroup
 {
     [SerializeField] private float _spacing = 0;
@@ -9,11 +8,17 @@ public class HorizontalLayoutGroup : LayoutGroup
     private bool _childForceExpandHeight = true;
     private bool _childControlHeight = true;
 
-    private bool _isHorizontalSizeSetted;
-    private bool _isVerticalSizeSetted;
+    public float Spacing { get { return _spacing; } private set { SetProperty(ref _spacing, value); } }
 
-    public float Spacing { get { return _spacing; } set { SetProperty(ref _spacing, value); } }
-    public bool IsSizeSetted => _isHorizontalSizeSetted && _isVerticalSizeSetted;
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        CalculateLayoutInputHorizontal();
+        CalculateLayoutInputVertical();
+        SetLayoutHorizontal();
+        SetLayoutVertical();
+    }
 
     protected void CalculationAlongAxis(int axis, bool isVertical)
     {
@@ -161,9 +166,9 @@ public class HorizontalLayoutGroup : LayoutGroup
         }
         else
         {
-            min = LayoutUtility.GetMinSize(child, axis);
-            preferred = LayoutUtility.GetPreferredSize(child, axis);
-            flexible = LayoutUtility.GetFlexibleSize(child, axis);
+            min = UnityEngine.UI.LayoutUtility.GetMinSize(child, axis);
+            preferred = UnityEngine.UI.LayoutUtility.GetPreferredSize(child, axis);
+            flexible = UnityEngine.UI.LayoutUtility.GetFlexibleSize(child, axis);
         }
 
         if (childForceExpand)
@@ -184,13 +189,11 @@ public class HorizontalLayoutGroup : LayoutGroup
     public override void SetLayoutHorizontal()
     {
         SetChildrenAlongAxis(0, false);
-        _isHorizontalSizeSetted = true;
     }
 
     public override void SetLayoutVertical()
     {
         SetChildrenAlongAxis(1, false);
-        _isVerticalSizeSetted = true;
     }
 
 #if UNITY_EDITOR
@@ -227,7 +230,7 @@ public class HorizontalLayoutGroup : LayoutGroup
         }
 
         if (dirty)
-            LayoutRebuilder.MarkLayoutForRebuild(transform as RectTransform);
+            UnityEngine.UI.LayoutRebuilder.MarkLayoutForRebuild(transform as RectTransform);
     }
 
 #endif

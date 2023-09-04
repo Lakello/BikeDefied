@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 923295648863683034}
   - component: {fileID: 613539547034079799}
   - component: {fileID: 2689772992264247407}
-  - component: {fileID: 6374334018014319726}
+  - component: {fileID: 7676156288372894925}
   m_Layer: 5
   m_Name: Play Window
   m_TagString: Untagged
@@ -214,7 +214,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6374334018014319726
+--- !u!114 &7676156288372894925
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1168810302803923483}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eb9cbe420bbd32429ac658093c1d45a, type: 3}
+  m_Script: {fileID: 11500000, guid: c440a42a5b202e14599c5278be2c4b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4784742363394905165
@@ -397,6 +397,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scoreText: {fileID: 4104074011277706604}
   _messageText: {fileID: 569976179377084218}
+  _totalScoreText: {fileID: 0}
+  _totalScoreShowTime: 0
 --- !u!1 &9071318546461923211
 GameObject:
   m_ObjectHideFlags: 0
