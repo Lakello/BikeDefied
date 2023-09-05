@@ -25,24 +25,6 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
 
     public event System.Action<int> LevelChanged;
 
-    private void Start()
-    {
-        _scrollView = GetComponent<ScrollRect>();
-
-        _content = _scrollView.content;
-
-        if (!_content.TryGetComponent(out HorizontalLayoutGroup layoutGroup))
-        {
-            layoutGroup = _content.AddComponent<HorizontalLayoutGroup>();
-        }
-
-        _scrollView.movementType = ScrollRect.MovementType.Unrestricted;
-
-        ContentInit(layoutGroup);
-
-        SetStartContentPosition();
-    }
-
     public void OnDrag(PointerEventData eventData)
     {
         UpdateTargetPositon();
@@ -59,6 +41,32 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
     public void OnBeginDrag(PointerEventData eventData)
     {
         _content.DOKill();
+    }
+
+    [Inject]
+    private void Inject(IRead<CurrentLevel> read)
+    {
+        GetCurrentLevel = () => read.Read().Index;
+
+        Init();
+    }
+
+    private void Init()
+    {
+        _scrollView = GetComponent<ScrollRect>();
+
+        _content = _scrollView.content;
+
+        if (!_content.TryGetComponent(out HorizontalLayoutGroup layoutGroup))
+        {
+            layoutGroup = _content.AddComponent<HorizontalLayoutGroup>();
+        }
+
+        _scrollView.movementType = ScrollRect.MovementType.Unrestricted;
+
+        ContentInit(layoutGroup);
+
+        SetStartContentPosition();
     }
 
     private void ContentInit(HorizontalLayoutGroup layoutGroup)
@@ -133,11 +141,5 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
     private float GetChildItemWidth(int index)
     {
         return (_content.GetChild(index) as RectTransform).sizeDelta.x;
-    }
-
-    [Inject]
-    private void Inject(IRead<CurrentLevel> read)
-    {
-        GetCurrentLevel = () => read.Read().Index;
     }
 }

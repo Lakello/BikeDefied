@@ -35,6 +35,7 @@ public class SceneInstaller : MonoBehaviour, IInstaller
 
         descriptor.AddInstance(_bike);
         descriptor.AddInstance(_saves, typeof(IRead<CurrentLevel>));
+        descriptor.AddInstance(_groundChecker);
     }
 
     private void InitBikeBehaviour(ContainerDescriptor descriptor)

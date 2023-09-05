@@ -20,8 +20,6 @@ public class GameSceneLoaded : MonoBehaviour, ISceneLoadHandlerState<GameStateMa
         {
             var state = WindowStateMachine.Instance.GetState<WindowState>(window);
 
-            Debug.Log($"State {state}");
-
             state.Init(window);
         }
     }

@@ -9,7 +9,6 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
         var input = new PlayerInput();
         var inputHandler = new PCInputHandler(input);
 
-        descriptor.AddInstance(input);
         descriptor.AddInstance(inputHandler, typeof(IInputHandler));
 
         var gameStatemachine = new GameStateMachine(() =>

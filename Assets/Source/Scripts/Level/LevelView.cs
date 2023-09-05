@@ -15,21 +15,6 @@ public class LevelView : MonoBehaviour
     private Func<int> GetCurrentLevelIndex;
     private Action<int> SetCurrentlevelIndex;
 
-    private void Awake()
-    {
-        _stateMachine = new LevelStateMachine(() =>
-        {
-            var states = new List<LevelState>();
-
-            foreach (var level in _levelPrefabs)
-            {
-                states.Add(new LevelState(level, gameObject));
-            }
-
-            return states;
-        });
-    }
-
     private void OnEnable()
     {
         if (_scrollView != null)
@@ -42,7 +27,7 @@ public class LevelView : MonoBehaviour
     }
 
     [Inject]
-    private void Inject(LevelViewInject inject)
+    private void Inject(Finish finish, LevelViewInject inject)
     {
         _scrollView = inject.SelectLevelScrollView;
         _scrollView.LevelChanged += OnLevelChanged;
@@ -55,7 +40,24 @@ public class LevelView : MonoBehaviour
             inject.CurrentLevelWrite.Write(level);
         };
 
+        Init(finish);
+
         _stateMachine.EnterIn(GetCurrentLevelIndex());
+    }
+
+    private void Init(Finish finish)
+    {
+        _stateMachine = new LevelStateMachine(() =>
+        {
+            var states = new List<LevelState>();
+
+            foreach (var level in _levelPrefabs)
+            {
+                states.Add(new LevelState(level, gameObject, finish));
+            }
+
+            return states;
+        });
     }
 
     private void OnLevelChanged(int index)

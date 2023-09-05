@@ -9,20 +9,25 @@ public class GameStateMachineInstaller : MonoBehaviour, IInstaller
     [SerializeField] private StartButton _startButton;
     [SerializeField] private RestartButton _restartButton;
     [SerializeField] private MainMenuButton _mainMenuButton;
+    [SerializeField] private Finish _finish;
 
     private TransitionInitializer<GameStateMachine> _transitionInitializer;
-    private GameOverState _gameOverState;
 
     private void OnEnable() => _transitionInitializer?.OnEnable();
     private void OnDisable() => _transitionInitializer?.OnDisable();
 
     public void InstallBindings(ContainerDescriptor descriptor)
     {
-        _gameOverState = GameStateMachine.Instance.GetState<GameOverState>();
-        descriptor.AddInstance(_gameOverState, typeof(IGameOver));
+        var gameOverState = GameStateMachine.Instance.GetState<GameOverState>();
+        var gamePlayState = GameStateMachine.Instance.GetState<PlayState>();
+        descriptor.AddInstance(gameOverState, typeof(IGameOver));
+        descriptor.AddInstance(gamePlayState, typeof(IGamePlay));
+
+        descriptor.AddInstance(_finish);
 
         _transitionInitializer = new TransitionInitializer<GameStateMachine>(GameStateMachine.Instance);
 
+        _transitionInitializer.InitTransition<GameOverState>(_finish);
         _transitionInitializer.InitTransition<GameOverState>(_characterHead);
         _transitionInitializer.InitTransition<PlayState>(_startButton);
         _transitionInitializer.InitTransition<MenuState>(_restartButton, () => IJunior.TypedScenes.Game.Load<PlayState>());

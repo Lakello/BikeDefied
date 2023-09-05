@@ -33,15 +33,5 @@ namespace IJunior.StateMachine
                 CurrentState.Enter();
             }
         }
-
-        private void AddState(State<TMachine> state)
-        {
-            Type type = state.GetType();
-
-            if (States.ContainsKey(type) == false)
-            {
-                States.Add(type, state);
-            }
-        }
     }
 }
