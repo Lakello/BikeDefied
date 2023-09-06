@@ -14,6 +14,7 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
     [SerializeField] private float _centerScale = 1f;
     [SerializeField] private float _unCenterScale = 0.9f;
 
+    private HorizontalLayoutGroup _layoutGroup;
     private ScrollRect _scrollView;
     private Transform _content;
     private List<float> _childrenPositions = new List<float>();
@@ -24,6 +25,16 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
     private System.Func<int> GetCurrentLevel;
 
     public event System.Action<int> LevelChanged;
+
+    private void OnEnable()
+    {
+        Check.IfNotNullThen(_layoutGroup, () => _layoutGroup.LayoutUpdated += UpdateContentPosition);
+    }
+
+    private void OnDisable()
+    {
+        _layoutGroup.LayoutUpdated -= UpdateContentPosition;
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -49,6 +60,8 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
         GetCurrentLevel = () => read.Read().Index;
 
         Init();
+
+        UpdateContentPosition();
     }
 
     private void Init()
@@ -57,26 +70,32 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
 
         _content = _scrollView.content;
 
-        if (!_content.TryGetComponent(out HorizontalLayoutGroup layoutGroup))
+        if (!_content.TryGetComponent(out _layoutGroup))
         {
-            layoutGroup = _content.AddComponent<HorizontalLayoutGroup>();
+            _layoutGroup = _content.AddComponent<HorizontalLayoutGroup>();
         }
 
+        _layoutGroup.LayoutUpdated += UpdateContentPosition;
+
         _scrollView.movementType = ScrollRect.MovementType.Unrestricted;
-
-        ContentInit(layoutGroup);
-
-        SetStartContentPosition();
     }
 
-    private void ContentInit(HorizontalLayoutGroup layoutGroup)
+    private void UpdateContentPosition()
+    {
+        CalculateContentPosition();
+
+        SetContentPosition();
+    }
+
+    private void CalculateContentPosition()
     {
         float spacing;
         float widthMultiplier = 0.5f;
 
         float childPositionX = _scrollView.GetComponent<RectTransform>().rect.width * widthMultiplier - GetChildItemWidth(0) * widthMultiplier;
-        spacing = layoutGroup.Spacing;
+        spacing = _layoutGroup.Spacing;
 
+        _childrenPositions.Clear();
         _childrenPositions.Add(childPositionX);
 
         for (int i = 1; i < _content.childCount; i++)
@@ -86,7 +105,7 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
         }
     }
 
-    private void SetStartContentPosition()
+    private void SetContentPosition()
     {
         _content.DOKill();
 

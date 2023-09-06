@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +11,15 @@ public class HorizontalLayoutGroup : LayoutGroup
 
     public float Spacing { get { return _spacing; } private set { SetProperty(ref _spacing, value); } }
 
+    public event Action LayoutUpdated;
+
     protected override void OnEnable()
     {
         base.OnEnable();
 
         CalculateLayoutInputHorizontal();
-        CalculateLayoutInputVertical();
         SetLayoutHorizontal();
+        CalculateLayoutInputVertical();
         SetLayoutVertical();
     }
 
@@ -194,6 +197,7 @@ public class HorizontalLayoutGroup : LayoutGroup
     public override void SetLayoutVertical()
     {
         SetChildrenAlongAxis(1, false);
+        LayoutUpdated?.Invoke();
     }
 
 #if UNITY_EDITOR
