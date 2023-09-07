@@ -13,17 +13,13 @@ public class HorizontalLayoutGroup : LayoutGroup
 
     public event Action LayoutUpdated;
 
-    protected override void OnEnable()
+    protected enum Axis
     {
-        base.OnEnable();
+        Width,
+        Height
+    };
 
-        CalculateLayoutInputHorizontal();
-        SetLayoutHorizontal();
-        CalculateLayoutInputVertical();
-        SetLayoutVertical();
-    }
-
-    protected void CalculationAlongAxis(int axis, bool isVertical)
+    protected void CalculationAlongAxis(Axis axis)
     {
         float combinedPadding = (axis == 0 ? padding.horizontal : padding.vertical);
         bool controlSize = (axis != 0 && _childControlHeight);
@@ -33,15 +29,14 @@ public class HorizontalLayoutGroup : LayoutGroup
         float totalPreferred = combinedPadding;
         float totalFlexible = 0;
 
-        bool alongOtherAxis = (isVertical ^ (axis == 1));
         var rectChildrenCount = rectChildren.Count;
         for (int i = 0; i < rectChildrenCount; i++)
         {
             RectTransform child = rectChildren[i];
             float min, preferred, flexible;
-            GetChildSizes(child, axis, controlSize, childForceExpandSize, out min, out preferred, out flexible);
+            GetChildSizes(child, (int)axis, controlSize, childForceExpandSize, out min, out preferred, out flexible);
 
-            if (alongOtherAxis)
+            if (axis == Axis.Height)
             {
                 totalMin = Mathf.Max(min + combinedPadding, totalMin);
                 totalPreferred = Mathf.Max(preferred + combinedPadding, totalPreferred);
@@ -56,57 +51,56 @@ public class HorizontalLayoutGroup : LayoutGroup
             }
         }
 
-        if (!alongOtherAxis && rectChildren.Count > 0)
+        if (axis == Axis.Width && rectChildren.Count > 0)
         {
             totalMin -= Spacing;
             totalPreferred -= Spacing;
         }
         totalPreferred = Mathf.Max(totalMin, totalPreferred);
-        SetLayoutInputForAxis(totalMin, totalPreferred, totalFlexible, axis);
+        SetLayoutInputForAxis(totalMin, totalPreferred, totalFlexible, (int)axis);
     }
 
-    protected void SetChildrenAlongAxis(int axis, bool isVertical)
+    protected void SetChildrenAlongAxis(Axis axis)
     {
-        float size = rectTransform.rect.size[axis];
+        float size = rectTransform.rect.size[(int)axis];
         bool controlSize = (axis != 0 && _childControlHeight);
         bool childForceExpandSize = (axis != 0 && _childForceExpandHeight);
-        float alignmentOnAxis = GetAlignmentOnAxis(axis);
+        float alignmentOnAxis = GetAlignmentOnAxis((int)axis);
 
-        bool alongOtherAxis = (isVertical ^ (axis == 1));
         float innerSize = size - (axis == 0 ? padding.horizontal : padding.vertical);
 
-        if (alongOtherAxis)
+        if (axis == Axis.Height)
         {
             for (int i = 0; i < rectChildren.Count; i++)
             {
                 RectTransform child = rectChildren[i];
                 float min, preferred, flexible;
-                GetChildSizes(child, axis, controlSize, childForceExpandSize, out min, out preferred, out flexible);
+                GetChildSizes(child, (int)Axis.Height, controlSize, childForceExpandSize, out min, out preferred, out flexible);
 
                 float requiredSpace = Mathf.Clamp(innerSize, min, flexible > 0 ? size : preferred);
 
-                float startOffset = GetStartOffset(axis, requiredSpace);
+                float startOffset = GetStartOffset((int)Axis.Height, requiredSpace);
 
-                SetChildAlongAxis(child, axis, startOffset, requiredSpace);
+                SetChildAlongAxis(child, (int)Axis.Height, startOffset, requiredSpace);
             }
         }
         else
         {
             float pos = (axis == 0 ? padding.left : padding.top);
             float itemFlexibleMultiplier = 0;
-            float surplusSpace = size - GetTotalPreferredSize(axis);
+            float surplusSpace = size - GetTotalPreferredSize((int)Axis.Width);
 
             if (surplusSpace > 0)
             {
-                if (GetTotalFlexibleSize(axis) == 0)
-                    pos = GetStartOffset(axis, GetTotalPreferredSize(axis) - (axis == 0 ? padding.horizontal : padding.vertical));
-                else if (GetTotalFlexibleSize(axis) > 0)
-                    itemFlexibleMultiplier = surplusSpace / GetTotalFlexibleSize(axis);
+                if (GetTotalFlexibleSize((int)Axis.Width) == 0)
+                    pos = GetStartOffset((int)Axis.Width, GetTotalPreferredSize((int)Axis.Width) - (axis == 0 ? padding.horizontal : padding.vertical));
+                else if (GetTotalFlexibleSize((int)Axis.Width) > 0)
+                    itemFlexibleMultiplier = surplusSpace / GetTotalFlexibleSize((int)Axis.Width);
             }
 
             float minMaxLerp = 0;
-            if (GetTotalMinSize(axis) != GetTotalPreferredSize(axis))
-                minMaxLerp = Mathf.Clamp01((size - GetTotalMinSize(axis)) / (GetTotalPreferredSize(axis) - GetTotalMinSize(axis)));
+            if (GetTotalMinSize((int)Axis.Width) != GetTotalPreferredSize((int)Axis.Width))
+                minMaxLerp = Mathf.Clamp01((size - GetTotalMinSize((int)Axis.Width)) / (GetTotalPreferredSize((int)Axis.Width) - GetTotalMinSize((int)Axis.Width)));
 
             for (int i = 0; i < rectChildren.Count; i++)
             {
@@ -115,11 +109,11 @@ public class HorizontalLayoutGroup : LayoutGroup
 
                 if (child.gameObject.TryGetComponent(out SymmetrySize symmetry))
                 {
-                    GetChildSizes(child, 1, !controlSize, !childForceExpandSize, out min, out preferred, out flexible);
+                    GetChildSizes(child, (int)Axis.Height, !controlSize, !childForceExpandSize, out min, out preferred, out flexible);
 
-                    float requiredSpace = Mathf.Clamp(innerSize, min, flexible > 0 ? rectTransform.rect.size[1] : preferred);
+                    float requiredSpace = Mathf.Clamp(innerSize, min, flexible > 0 ? rectTransform.rect.size[(int)Axis.Height] : preferred);
 
-                    GetChildSizes(child, 0, controlSize, childForceExpandSize, out min, out preferred, out flexible);
+                    GetChildSizes(child, (int)Axis.Width, controlSize, childForceExpandSize, out min, out preferred, out flexible);
 
                     float childSize = Mathf.Lerp(min, preferred, minMaxLerp);
                     childSize += flexible * itemFlexibleMultiplier;
@@ -128,29 +122,29 @@ public class HorizontalLayoutGroup : LayoutGroup
                     child.anchorMax = Vector2.up;
 
                     Vector2 sizeDelta = child.sizeDelta;
-                    sizeDelta[axis] = requiredSpace;
+                    sizeDelta[(int)Axis.Width] = requiredSpace;
                     child.sizeDelta = sizeDelta;
 
                     Vector2 anchoredPosition = child.anchoredPosition;
-                    anchoredPosition[axis] = (axis == 0) ? (pos + requiredSpace * child.pivot[axis] * 1f) : (-pos - requiredSpace * (1f - child.pivot[axis]) * 1f);
+                    anchoredPosition[(int)Axis.Width] = (axis == 0) ? (pos + requiredSpace * child.pivot[(int)Axis.Width] * 1f) : (-pos - requiredSpace * (1f - child.pivot[(int)Axis.Width]) * 1f);
                     child.anchoredPosition = anchoredPosition;
                     pos += childSize + Spacing;
                 }
                 else
                 {
-                    GetChildSizes(child, axis, controlSize, childForceExpandSize, out min, out preferred, out flexible);
+                    GetChildSizes(child, (int)Axis.Width, controlSize, childForceExpandSize, out min, out preferred, out flexible);
                     float scaleFactor = 1f;
 
                     float childSize = Mathf.Lerp(min, preferred, minMaxLerp);
                     childSize += flexible * itemFlexibleMultiplier;
                     if (controlSize)
                     {
-                        SetChildAlongAxisWithScale(child, axis, pos, childSize, scaleFactor);
+                        SetChildAlongAxisWithScale(child, (int)Axis.Width, pos, childSize, scaleFactor);
                     }
                     else
                     {
-                        float offsetInCell = (childSize - child.sizeDelta[axis]) * alignmentOnAxis;
-                        SetChildAlongAxisWithScale(child, axis, pos + offsetInCell, scaleFactor);
+                        float offsetInCell = (childSize - child.sizeDelta[(int)Axis.Width]) * alignmentOnAxis;
+                        SetChildAlongAxisWithScale(child, (int)Axis.Width, pos + offsetInCell, scaleFactor);
                     }
                     pos += childSize * scaleFactor + Spacing;
                 }
@@ -181,22 +175,22 @@ public class HorizontalLayoutGroup : LayoutGroup
     public override void CalculateLayoutInputHorizontal()
     {
         base.CalculateLayoutInputHorizontal();
-        CalculationAlongAxis(0, false);
+        CalculationAlongAxis(Axis.Width);
     }
 
     public override void CalculateLayoutInputVertical()
     {
-        CalculationAlongAxis(1, false);
+        CalculationAlongAxis(Axis.Height);
     }
 
     public override void SetLayoutHorizontal()
     {
-        SetChildrenAlongAxis(0, false);
+        SetChildrenAlongAxis(Axis.Width);
     }
 
     public override void SetLayoutVertical()
     {
-        SetChildrenAlongAxis(1, false);
+        SetChildrenAlongAxis(Axis.Height);
         LayoutUpdated?.Invoke();
     }
 
