@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class HorizontalLayoutGroup : LayoutGroup
 {
+    [SerializeField] private RectTransform _rect;
     [SerializeField] private float _spacing = 0;
 
     private bool _childForceExpandHeight = true;
@@ -30,6 +31,7 @@ public class HorizontalLayoutGroup : LayoutGroup
         float totalFlexible = 0;
 
         var rectChildrenCount = rectChildren.Count;
+
         for (int i = 0; i < rectChildrenCount; i++)
         {
             RectTransform child = rectChildren[i];
@@ -56,6 +58,7 @@ public class HorizontalLayoutGroup : LayoutGroup
             totalMin -= Spacing;
             totalPreferred -= Spacing;
         }
+
         totalPreferred = Mathf.Max(totalMin, totalPreferred);
         SetLayoutInputForAxis(totalMin, totalPreferred, totalFlexible, (int)axis);
     }
@@ -69,6 +72,8 @@ public class HorizontalLayoutGroup : LayoutGroup
 
         float innerSize = size - (axis == 0 ? padding.horizontal : padding.vertical);
 
+        bool isWidthLessHeigth = _rect.rect.width <= _rect.rect.height;
+
         if (axis == Axis.Height)
         {
             for (int i = 0; i < rectChildren.Count; i++)
@@ -77,7 +82,17 @@ public class HorizontalLayoutGroup : LayoutGroup
                 float min, preferred, flexible;
                 GetChildSizes(child, (int)Axis.Height, controlSize, childForceExpandSize, out min, out preferred, out flexible);
 
-                float requiredSpace = Mathf.Clamp(innerSize, min, flexible > 0 ? size : preferred);
+                float requiredSpace;
+
+                if (isWidthLessHeigth)
+                {
+                    flexible = preferred = _rect.rect.width / _rect.rect.height;
+                    requiredSpace = Mathf.Clamp(innerSize, min, flexible * size);
+                }
+                else
+                {
+                    requiredSpace = Mathf.Clamp(innerSize, min, flexible > 0 ? size : preferred);
+                }
 
                 float startOffset = GetStartOffset((int)Axis.Height, requiredSpace);
 
@@ -107,7 +122,7 @@ public class HorizontalLayoutGroup : LayoutGroup
                 RectTransform child = rectChildren[i];
                 float min, preferred, flexible;
 
-                if (child.gameObject.TryGetComponent(out SymmetrySize symmetry))
+                if (child.gameObject.TryGetComponent(out EquilateralSize equilateral))
                 {
                     GetChildSizes(child, (int)Axis.Height, !controlSize, !childForceExpandSize, out min, out preferred, out flexible);
 
@@ -163,9 +178,9 @@ public class HorizontalLayoutGroup : LayoutGroup
         }
         else
         {
-            min = UnityEngine.UI.LayoutUtility.GetMinSize(child, axis);
-            preferred = UnityEngine.UI.LayoutUtility.GetPreferredSize(child, axis);
-            flexible = UnityEngine.UI.LayoutUtility.GetFlexibleSize(child, axis);
+            min = LayoutUtility.GetMinSize(child, axis);
+            preferred = LayoutUtility.GetPreferredSize(child, axis);
+            flexible = LayoutUtility.GetFlexibleSize(child, axis);
         }
 
         if (childForceExpand)
