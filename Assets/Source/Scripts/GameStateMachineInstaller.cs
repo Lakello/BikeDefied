@@ -20,8 +20,11 @@ public class GameStateMachineInstaller : MonoBehaviour, IInstaller
     {
         var gameOverState = GameStateMachine.Instance.GetState<GameOverState>();
         var gamePlayState = GameStateMachine.Instance.GetState<PlayState>();
-        descriptor.AddInstance(gameOverState, typeof(IGameOver));
-        descriptor.AddInstance(gamePlayState, typeof(IGamePlay));
+        var gameMenuState = GameStateMachine.Instance.GetState<MenuState>();
+
+        var stateInject = new GameStateInject(() => (gameMenuState, gamePlayState, gameOverState));
+
+        descriptor.AddInstance(stateInject);
 
         descriptor.AddInstance(_finish);
 

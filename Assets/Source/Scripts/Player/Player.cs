@@ -39,9 +39,9 @@ public class Player : MonoBehaviour
     }
 
     [Inject]
-    private void Inject(IGameOver game)
+    private void Inject(GameStateInject inject)
     {
-        _game = game;
+        _game = inject.Over;
         _game.GameOver += OnGameOver;
     }
 

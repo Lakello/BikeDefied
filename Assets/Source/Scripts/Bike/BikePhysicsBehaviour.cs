@@ -1,29 +1,26 @@
+using IJunior.StateMachine;
+using IJunior.TypedScenes;
 using Reflex.Attributes;
 using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class BikePhysicsBehaviour : MonoBehaviour
+public class BikePhysicsBehaviour : MonoBehaviour, ISceneLoadHandlerState<GameStateMachine>
 {
     [SerializeField] private float _maxGroundMassCenter;
     [SerializeField] private float _minGroundMassCenter;
     [SerializeField] private float _maxFlyMassCenter;
     [SerializeField] private float _minFlymassCenter;
     [SerializeField] private float _maxVelocityForMaxMassCenter;
+    
+    [SerializeField] private Rigidbody _rigidbody;
 
     private IGamePlay _play;
-    private IGameOver _over;
     private GroundChecker _checker;
 
     private Coroutine _movePhysicsCoroutine;
-    private Rigidbody _rigidbody;
     private bool _isAlive;
     private bool _isGrounded;
-
-    private void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody>();
-    }
 
     private void OnEnable()
     {
@@ -40,13 +37,22 @@ public class BikePhysicsBehaviour : MonoBehaviour
         Check.IfNotNullThen(_movePhysicsCoroutine, () => StopCoroutine(_movePhysicsCoroutine));
     }
 
-    [Inject]
-    private void Inject(IGamePlay gamePlay, IGameOver gameOver)
+    public void OnSceneLoaded<TState>() where TState : State<GameStateMachine>
     {
-        _play = gamePlay;
-        _over = gameOver;
+        if (typeof(TState) == typeof(MenuState))
+            _rigidbody.isKinematic = true;
+        else if (typeof(TState) == typeof(PlayState))
+            _rigidbody.isKinematic = false;
+    }
+
+    [Inject]
+    private void Inject(GameStateInject inject)
+    {
+        _play = inject.Play;
+        var over = inject.Over;
+
         _play.GamePlay += OnGamePlay;
-        _over.GameOver += () => _isAlive = false;
+        over.GameOver += () => _isAlive = false;
     }
 
     [Inject]

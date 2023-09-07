@@ -8,7 +8,7 @@ public class FlipCounterFollowPlayer : MonoBehaviour
     [Inject]
     private void Inject(Bike bike)
     {
-        _bike = bike.GetComponent<Transform>();
+        _bike = bike.transform;
     }
 
     private void Update()

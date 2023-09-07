@@ -21,7 +21,7 @@ public abstract class ScoreCounter : IScoreCounter, IDisposable
     {
         Player = inject.Player;
         Context = inject.Context;
-        BikeBody = inject.BikeBody;
+        BikeBody = inject.BikeBody.transform;
         _groundChecker = inject.GroundChecker;
         _groundChecker.GroundChanged += OnGroundChanged;
 

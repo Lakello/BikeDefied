@@ -40,22 +40,14 @@ public class SceneInstaller : MonoBehaviour, IInstaller
 
     private void InitBikeBehaviour(ContainerDescriptor descriptor)
     {
-        var bikeBehaviourInject = new BikeBehaviourInject();
-
-        bikeBehaviourInject.Player = _player;
-        bikeBehaviourInject.BikeBody = _bike.GetComponent<Transform>();
+        var bikeBehaviourInject = new BikeBehaviourInject(() => (_player, _bike));
 
         descriptor.AddInstance(bikeBehaviourInject);
     }
 
     private void InitScore(ContainerDescriptor descriptor)
     {
-        var scoreCounterInject = new ScoreCounterInject();
-
-        scoreCounterInject.Player = _player;
-        scoreCounterInject.Context = this;
-        scoreCounterInject.GroundChecker = _groundChecker;
-        scoreCounterInject.BikeBody = _bike.GetComponent<Transform>();
+        var scoreCounterInject = new ScoreCounterInject(() => (_player, this, _groundChecker, _bike));
 
         _scoreCounters = new List<IScoreCounter>()
         {
@@ -68,11 +60,7 @@ public class SceneInstaller : MonoBehaviour, IInstaller
 
     private void InitLevelView(ContainerDescriptor descriptor)
     {
-        var levelViewInject = new LevelViewInject();
-
-        levelViewInject.SelectLevelScrollView = _selectLevelScrollView;
-        levelViewInject.CurrentLevelRead = _saves;
-        levelViewInject.CurrentLevelWrite = _saves;
+        var levelViewInject = new LevelViewInject(() => (_selectLevelScrollView, _saves, _saves));
 
         descriptor.AddInstance(levelViewInject);
     }

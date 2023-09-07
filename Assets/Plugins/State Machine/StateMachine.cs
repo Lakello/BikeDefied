@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System;
-using UnityEngine;
 
 namespace IJunior.StateMachine
 {
     public abstract class StateMachine<TMachine> : IDisposable where TMachine : StateMachine<TMachine>
     {
-        [SerializeField] private List<State<TMachine>> _states;
+        private List<State<TMachine>> _states;
 
         protected Dictionary<Type, State<TMachine>> States;
 

@@ -38,7 +38,7 @@ public abstract class BikeBehaviour : MonoBehaviour
     protected void Init(BikeBehaviourInject inject)
     {
         Player = inject.Player;
-        BikeBody = inject.BikeBody;
+        BikeBody = inject.BikeBody.transform;
     }
 
     private void OnGroundChanged(bool value) => IsGrounded = value;

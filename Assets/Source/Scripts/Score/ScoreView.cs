@@ -43,9 +43,9 @@ public class ScoreView : MonoBehaviour
     }
 
     [Inject]
-    private void Inject(IGameOver gameOver)
+    private void Inject(GameStateInject inject)
     {
-        _gameOver = gameOver;
+        _gameOver = inject.Over;
         _gameOver.GameOver += OnGameOver;
     }
 
