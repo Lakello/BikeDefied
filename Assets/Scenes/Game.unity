@@ -240,7 +240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2295662443000948128, guid: 186d9b404a1474f7d9a2a4aaf0a66aa6, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 134.1259
+      value: 154.8641
       objectReference: {fileID: 0}
     - target: {fileID: 2295662443000948128, guid: 186d9b404a1474f7d9a2a4aaf0a66aa6, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2208,6 +2208,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1180047040}
   m_CullTransparentMesh: 1
+--- !u!224 &1205890914 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4378764262998264598, guid: f68225caa45f06e49a42dae29ef3c41e, type: 3}
+  m_PrefabInstance: {fileID: 223402187788419212}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1237605690 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3119423616804151251, guid: f68225caa45f06e49a42dae29ef3c41e, type: 3}
@@ -2272,8 +2277,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 870, y: -443}
-  m_SizeDelta: {x: 1740, y: 886}
+  m_AnchoredPosition: {x: 77.43237, y: -168.42834}
+  m_SizeDelta: {x: 154.8641, y: 336.8566}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1351753554
 MonoBehaviour:
@@ -2293,6 +2298,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
+  _rect: {fileID: 1351753553}
   _spacing: 0
 --- !u!114 &1351753555
 MonoBehaviour:
@@ -2682,7 +2688,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1635896984
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3797,6 +3803,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -75.64952
       objectReference: {fileID: 0}
+    - target: {fileID: 6783984725290074999, guid: f68225caa45f06e49a42dae29ef3c41e, type: 3}
+      propertyPath: _rect
+      value: 
+      objectReference: {fileID: 1205890914}
     - target: {fileID: 8071939719203339753, guid: f68225caa45f06e49a42dae29ef3c41e, type: 3}
       propertyPath: m_fontSize
       value: 51.95
