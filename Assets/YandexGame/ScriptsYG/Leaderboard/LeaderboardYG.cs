@@ -161,8 +161,6 @@ namespace YG
             {
                 GameObject playerObj = Instantiate(playerDataPrefab, rootSpawnPlayersData);
 
-
-
                 players[i] = playerObj.GetComponent<LBPlayerDataYG>();
 
                 int rank = lb.players[i].rank;
