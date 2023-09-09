@@ -1,14 +1,9 @@
-﻿public struct LevelInfo : ILevelInfo
+﻿
+using System;
+
+[Serializable]
+public struct LevelInfo
 {
-    private int _levelIndex;
-    private int _bestScore;
-
-    public int LevelIndex => _levelIndex;
-    public int BestScore => _bestScore;
-
-    public LevelInfo(int index, int score)
-    {
-        _levelIndex = index;
-        _bestScore = score;
-    }
+    public int LevelIndex;
+    public int BestScore;
 }

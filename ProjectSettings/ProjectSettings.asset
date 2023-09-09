@@ -448,6 +448,8 @@ PlayerSettings:
     BANNER_DYNAMIC_2: 
     BANNER_STATIC_1: 
     BANNER_STATIC_2: 
+    MOBILE_RENDER_SCALE: 
+    RENDER_SCALE: 
   mobileMTRendering:
     Android: 1
     iPhone: 1
@@ -723,10 +725,10 @@ PlayerSettings:
   webGLDebugSymbols: 0
   webGLEmscriptenArgs: 
   webGLModulesDirectory: 
-  webGLTemplate: PROJECT:PluginYG
+  webGLTemplate: PROJECT:FullscreenWindow
   webGLAnalyzeBuildSize: 0
   webGLUseEmbeddedResources: 0
-  webGLCompressionFormat: 0
+  webGLCompressionFormat: 1
   webGLWasmArithmeticExceptions: 0
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0

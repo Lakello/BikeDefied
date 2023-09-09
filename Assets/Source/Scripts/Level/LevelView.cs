@@ -27,17 +27,17 @@ public class LevelView : MonoBehaviour
     }
 
     [Inject]
-    private void Inject(Finish finish, LevelViewInject inject)
+    private void Inject(Finish finish, SelectLevelScrollView scrollView, IRead<CurrentLevel> currentLevelRead, IWrite<CurrentLevel> currentLevelWrite)
     {
-        _scrollView = inject.SelectLevelScrollView;
+        _scrollView = scrollView;
         _scrollView.LevelChanged += OnLevelChanged;
 
-        GetCurrentLevelIndex = () => inject.CurrentLevelRead.Read().Index;
+        GetCurrentLevelIndex = () => currentLevelRead.Read().Index;
         SetCurrentlevelIndex = (index) => 
         {
             var level = new CurrentLevel();
             level.Index = index;
-            inject.CurrentLevelWrite.Write(level);
+            currentLevelWrite.Write(level);
         };
 
         Init(finish);

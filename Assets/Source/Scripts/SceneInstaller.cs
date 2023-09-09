@@ -22,9 +22,6 @@ public class SceneInstaller : MonoBehaviour, IInstaller
     [Header("View")]
     [SerializeField] private SelectLevelScrollView _selectLevelScrollView;
 
-    [Header("Saves")]
-    [SerializeField] private Saves _saves;
-
     private List<IScoreCounter> _scoreCounters;
 
     public void InstallBindings(ContainerDescriptor descriptor)
@@ -34,7 +31,6 @@ public class SceneInstaller : MonoBehaviour, IInstaller
         InitLevelView(descriptor);
 
         descriptor.AddInstance(_bike);
-        descriptor.AddInstance(_saves, typeof(IRead<CurrentLevel>));
         descriptor.AddInstance(_groundChecker);
     }
 
@@ -60,8 +56,6 @@ public class SceneInstaller : MonoBehaviour, IInstaller
 
     private void InitLevelView(ContainerDescriptor descriptor)
     {
-        var levelViewInject = new LevelViewInject(() => (_selectLevelScrollView, _saves, _saves));
-
-        descriptor.AddInstance(levelViewInject);
+        descriptor.AddInstance(_selectLevelScrollView);
     }
 }

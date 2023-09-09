@@ -13,7 +13,9 @@ public class BikePhysicsBehaviour : MonoBehaviour, ISceneLoadHandlerState<GameSt
     [SerializeField] private float _minFlymassCenter;
     [SerializeField] private float _maxVelocityForMaxMassCenter;
     
-    [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private Rigidbody _bike;
+    [SerializeField] private Rigidbody _backWheel;
+    [SerializeField] private Rigidbody _frontWheel;
 
     private IGamePlay _play;
     private GroundChecker _checker;
@@ -40,9 +42,9 @@ public class BikePhysicsBehaviour : MonoBehaviour, ISceneLoadHandlerState<GameSt
     public void OnSceneLoaded<TState>() where TState : State<GameStateMachine>
     {
         if (typeof(TState) == typeof(MenuState))
-            _rigidbody.isKinematic = true;
+            _bike.isKinematic = _backWheel.isKinematic = _frontWheel.isKinematic = true;
         else if (typeof(TState) == typeof(PlayState))
-            _rigidbody.isKinematic = false;
+            _bike.isKinematic = _backWheel.isKinematic = _frontWheel.isKinematic = false;
     }
 
     [Inject]
@@ -66,7 +68,7 @@ public class BikePhysicsBehaviour : MonoBehaviour, ISceneLoadHandlerState<GameSt
 
     private void OnGamePlay()
     {
-        _rigidbody.isKinematic = false;
+        _bike.isKinematic = _backWheel.isKinematic = _frontWheel.isKinematic = false;
         _movePhysicsCoroutine = StartCoroutine(PhysicsBehaviour());
     }
 
@@ -76,11 +78,11 @@ public class BikePhysicsBehaviour : MonoBehaviour, ISceneLoadHandlerState<GameSt
         {
             if (_isGrounded)
             {
-                _rigidbody.centerOfMass = new Vector3(0, CalculateMassCenter(_maxGroundMassCenter, _minGroundMassCenter), 0);
+                _bike.centerOfMass = new Vector3(0, CalculateMassCenter(_maxGroundMassCenter, _minGroundMassCenter), 0);
             }
             else
             {
-                _rigidbody.centerOfMass = new Vector3(0, CalculateMassCenter(_maxFlyMassCenter, _minFlymassCenter), 0);
+                _bike.centerOfMass = new Vector3(0, CalculateMassCenter(_maxFlyMassCenter, _minFlymassCenter), 0);
             }
 
             yield return null;
@@ -89,9 +91,9 @@ public class BikePhysicsBehaviour : MonoBehaviour, ISceneLoadHandlerState<GameSt
 
     private float CalculateMassCenter(float max, float min)
     {
-        var current = Mathf.Abs(_rigidbody.centerOfMass.y);
-        var target = Mathf.Abs(_rigidbody.velocity.z) > 1f ? max : min;
-        var time = Mathf.Abs(_rigidbody.velocity.z) / _maxVelocityForMaxMassCenter;
+        var current = Mathf.Abs(_bike.centerOfMass.y);
+        var target = Mathf.Abs(_bike.velocity.z) > 1f ? max : min;
+        var time = Mathf.Abs(_bike.velocity.z) / _maxVelocityForMaxMassCenter;
 
         return -Mathf.Lerp(current, target, time);
     }
