@@ -1,8 +1,5 @@
-﻿
-using System;
-
-[Serializable]
-public struct LevelInfo
+﻿[System.Serializable]
+public class LevelInfo
 {
     public int LevelIndex;
     public int BestScore;

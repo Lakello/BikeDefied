@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class YandexInit : MonoBehaviour
 {
-    private Action _initSuccessCallBack;
+    private Action _sdkInitSuccessCallBack;
 
     private void Start()
     {
         StartCoroutine(InitSDK());
     }
 
-    public void Init(Action initSuccessCallBack)
+    public void Init(Action sdkInitSuccessCallBack)
     {
-        _initSuccessCallBack = initSuccessCallBack;
+        _sdkInitSuccessCallBack = sdkInitSuccessCallBack;
     }
 
     private IEnumerator InitSDK()
@@ -27,7 +27,7 @@ public class YandexInit : MonoBehaviour
             PlayerAccount.StartAuthorizationPolling(1500);
 #endif
         
-        _initSuccessCallBack?.Invoke();
+        _sdkInitSuccessCallBack?.Invoke();
 
         yield return null;
 

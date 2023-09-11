@@ -13,13 +13,15 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
 
         descriptor.AddInstance(inputHandler, typeof(IInputHandler));
 
+
+        GameOverState over = new GameOverState();
         var gameStatemachine = new GameStateMachine(() =>
         {
             return new System.Collections.Generic.Dictionary<System.Type, State<GameStateMachine>>()
             {
                 [typeof(MenuState)] = new MenuState(),
                 [typeof(PlayState)] = new PlayState(this, input),
-                [typeof(GameOverState)] = new GameOverState()
+                [typeof(GameOverState)] = over
             };
         });
 
@@ -33,13 +35,22 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
             };
         });
 
-        var saves = new Saves(GameStateMachine.Instance.GetState<GameOverState>());
+
+
+        var saves = new Saves(over);
+
+        var ad = new Ad(over, countOverBetweenShowsAd: 3);
 
         var yandexInit = new GameObject("Init").AddComponent<YandexInit>();
 
-        yandexInit.Init(saves.Init);
+        yandexInit.Init(sdkInitSuccessCallBack:() =>
+        {
+            saves.Init();
+            ad.Show();
+        });
 
-        descriptor.AddInstance(saves, typeof(IReadFromArray<LevelInfo>), typeof(IRead<CurrentLevel>),
-                                      typeof(IWrite<LevelInfo>), typeof(IWrite<CurrentLevel>));
+        descriptor.AddInstance(saves, typeof(ISaver<CurrentLevel>), typeof(ISaverArray<LevelInfo>));
+
+        
     }
 }

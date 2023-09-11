@@ -1319,8 +1319,8 @@ GameObject:
   m_Component:
   - component: {fileID: 549697248}
   - component: {fileID: 549697250}
-  - component: {fileID: 549697252}
   - component: {fileID: 549697253}
+  - component: {fileID: 549697254}
   m_Layer: 0
   m_Name: Wheel Front
   m_TagString: Untagged
@@ -1367,34 +1367,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!136 &549697252
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 549697247}
-  m_Material: {fileID: 13400000, guid: d3c57247c60f8b644ada59111bd29f2a, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.27
-  m_Height: 0.27
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!59 &549697253
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -1434,6 +1411,27 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!135 &549697254
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549697247}
+  m_Material: {fileID: 13400000, guid: d3c57247c60f8b644ada59111bd29f2a, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.27
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &573757889
 GameObject:
   m_ObjectHideFlags: 0
@@ -1932,8 +1930,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.10309682, y: -0.6768902, z: -0.09660218, w: 0.7223979}
-  m_LocalPosition: {x: 5.291198, y: 1.015072, z: -0.34452567}
+  m_LocalRotation: {x: -0.10309681, y: -0.6768902, z: -0.09660217, w: 0.7223979}
+  m_LocalPosition: {x: 5.291198, y: 1.0150719, z: -0.3445257}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2037,8 +2035,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972960705}
-  m_LocalRotation: {x: -0.10309682, y: -0.6768902, z: -0.09660218, w: 0.7223979}
-  m_LocalPosition: {x: 5.291198, y: 1.015072, z: -0.34452567}
+  m_LocalRotation: {x: -0.10309681, y: -0.6768902, z: -0.09660217, w: 0.7223979}
+  m_LocalPosition: {x: 5.291198, y: 1.0150719, z: -0.3445257}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2417,13 +2415,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelPrefabs:
-  - {fileID: 2632753991238239357, guid: 2677f5e2876fdac46a37b973eedfff61, type: 3}
-  - {fileID: -2962432071744999865, guid: 78dcfe6849cd1ab4f8a970e82381f973, type: 3}
-  - {fileID: 8072072869675369012, guid: da966fccc408ac141948a1e66d679671, type: 3}
-  - {fileID: -8040464179079823963, guid: eeacff1e007ac5b428390273f1bc6992, type: 3}
-  - {fileID: -417709890121396980, guid: dd600283a2c82dc4c8222b09eca6d2fc, type: 3}
-  - {fileID: 5475830979277943589, guid: c55d6685c0a87554386fd02a48444c2b, type: 3}
-  - {fileID: 8094068253661454147, guid: 84321ec4f0e950b4a9d8131187a2db8f, type: 3}
+  - {fileID: 7705373877859282340, guid: 30ff9e7231db2aa4099f63cd64882933, type: 3}
+  - {fileID: 6426157686510107778, guid: 78dcfe6849cd1ab4f8a970e82381f973, type: 3}
+  - {fileID: 4257431864971613877, guid: da966fccc408ac141948a1e66d679671, type: 3}
+  - {fileID: 627294267242513381, guid: eeacff1e007ac5b428390273f1bc6992, type: 3}
+  - {fileID: -27920308723568075, guid: dd600283a2c82dc4c8222b09eca6d2fc, type: 3}
+  - {fileID: -7766911478213883688, guid: c55d6685c0a87554386fd02a48444c2b, type: 3}
+  - {fileID: -8656944848226242992, guid: 84321ec4f0e950b4a9d8131187a2db8f, type: 3}
   _selectButtonPrefab: {fileID: 6723890962706557234, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
 --- !u!224 &1120896371 stripped
 RectTransform:
@@ -2981,8 +2979,8 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 8
-  _backCollider: {fileID: 2003767900}
-  _frontCollider: {fileID: 549697252}
+  _backCollider: {fileID: 2003767902}
+  _frontCollider: {fileID: 549697254}
 --- !u!114 &1531918172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3453,8 +3451,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2003767896}
   - component: {fileID: 2003767898}
-  - component: {fileID: 2003767900}
   - component: {fileID: 2003767901}
+  - component: {fileID: 2003767902}
   m_Layer: 0
   m_Name: Wheel Back
   m_TagString: Untagged
@@ -3501,34 +3499,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!136 &2003767900
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2003767893}
-  m_Material: {fileID: 13400000, guid: d3c57247c60f8b644ada59111bd29f2a, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.27
-  m_Height: 0.27
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!59 &2003767901
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -3568,6 +3543,27 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!135 &2003767902
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003767893}
+  m_Material: {fileID: 13400000, guid: d3c57247c60f8b644ada59111bd29f2a, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.27
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2006536059 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8802785107074770187, guid: a4d734a8bc95e0145bac5f30ecad7072, type: 3}

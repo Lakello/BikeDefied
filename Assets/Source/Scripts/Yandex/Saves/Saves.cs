@@ -1,55 +1,57 @@
 ﻿using Agava.YandexGames;
-using Reflex.Attributes;
 using System;
-using System.Runtime.InteropServices;
+using System.Linq;
 using UnityEngine;
 
-public class Saves : IReadFromArray<LevelInfo>, IRead<CurrentLevel>, IWrite<LevelInfo>, IWrite<CurrentLevel>, IDisposable
+public class Saves : ISaver<CurrentLevel>, ISaverArray<LevelInfo>, IDisposable
 {
     private PlayerData _playerData;
     private IGameOver _over;
 
     [Serializable]
-    protected struct PlayerData
+    private class PlayerData
     {
-        public LevelInfo[] Levelinfo;
-        public CurrentLevel CurrentLevel;
+        public LevelInfo[] LevelInfo = new LevelInfo[] { };
+        public CurrentLevel CurrentLevel = new CurrentLevel();
     }
 
     public Saves(IGameOver over)
     {
         _over = over;
-        _over.GameOver += Save;
+        _over.LateGameOver += Save;
 
         _playerData = new PlayerData();
-        _playerData.CurrentLevel.Index = 0;
-
-        var levelInfo = new LevelInfo[7];
-
-        for (int i = 0; i < levelInfo.Length; i++)
-        {
-            levelInfo[i].LevelIndex = i;
-            levelInfo[i].BestScore = 1;
-        }
-
-        _playerData.Levelinfo = levelInfo;
     }
+
+    public CurrentLevel Get() =>
+        _playerData.CurrentLevel;
+
+    public void Set(CurrentLevel value) =>
+        SetCurrentLevel(value);
+
+    public LevelInfo Get(int index) =>
+        _playerData.LevelInfo.FirstOrDefault(levelInfo => levelInfo.LevelIndex == index);
+
+    public void Set(LevelInfo value) =>
+        SetLevelInfo(value);
 
     public void Init()
     {
+        Debug.Log("SAVE INIT");
+
 #if !UNITY_EDITOR
         PlayerAccount.GetCloudSaveData((data) =>
         {
             var playerData = JsonUtility.FromJson<PlayerData>(data);
 
-            if (playerData.Levelinfo != null && playerData.Levelinfo.Length > 0)
+            if (playerData.LevelInfo != null && playerData.LevelInfo.Length > 0)
             {
-                for (int i = 0; i < playerData.Levelinfo.Length; i++)
+                foreach (var levelInfo in playerData.LevelInfo)
                 {
-                    _playerData.Levelinfo[i] = playerData.Levelinfo[i];
+                    SetLevelInfo(levelInfo);
                 }
 
-                _playerData.CurrentLevel = playerData.CurrentLevel;
+                SetCurrentLevel(playerData.CurrentLevel);
             }
 
             Debug.Log($"data = {data}");
@@ -59,41 +61,46 @@ public class Saves : IReadFromArray<LevelInfo>, IRead<CurrentLevel>, IWrite<Leve
 
     public void Dispose()
     {
-        _over.GameOver -= Save;
+        _over.LateGameOver -= Save;
     }
-
-    public LevelInfo Read(int index) => _playerData.Levelinfo[index];
-
-    public CurrentLevel Read() => _playerData.CurrentLevel;
-
-    public void Write(LevelInfo value)
-    {
-        if (ContainsLevelIndex(value.LevelIndex, out int index))
-            UpdateLevelInfo(value, index);
-        else
-            AddLevelInfo(value);
-    }
-
-    public void Write(CurrentLevel value) => _playerData.CurrentLevel = value;
 
     private void Save()
     {
-        var s = JsonUtility.ToJson(_playerData);
+        string strData = "";
+        PlayerAccount.GetCloudSaveData((data) => strData = data);
+        string s = JsonUtility.ToJson(_playerData);
         Debug.Log($"SAVE = {s}");
 #if !UNITY_EDITOR
-        PlayerAccount.SetCloudSaveData(s);
+        if (strData != s)
+            PlayerAccount.SetCloudSaveData(s);
 #endif
     }
 
-    private bool ContainsLevelIndex(int index, out int levelInfoIndex)
-    {
-        levelInfoIndex = -1;
+    private void SetCurrentLevel(CurrentLevel value) => _playerData.CurrentLevel = value;
 
-        for (int i = 0; i < _playerData.Levelinfo.Length; i++)
+    private void SetLevelInfo(LevelInfo levelInfo)
+    {
+        if (ContainsLevelInfo(levelInfo, out int index))
+            UpdateLevelInfo(levelInfo, index);
+        else
+            AddLevelInfo(levelInfo);
+    }
+
+    private void UpdateLevelInfo(LevelInfo value, int index)
+    {
+        if (_playerData.LevelInfo[index].BestScore < value.BestScore)
+            _playerData.LevelInfo[index] = value;
+    }
+
+    private bool ContainsLevelInfo(LevelInfo levelInfo, out int index)
+    {
+        index = -1;
+
+        for (int i = 0; i < _playerData.LevelInfo.Length; i++)
         {
-            if (_playerData.Levelinfo[i].LevelIndex == index)
+            if (_playerData.LevelInfo[i].LevelIndex == levelInfo.LevelIndex)
             {
-                levelInfoIndex = i;
+                index = i;
                 return true;
             }
         }
@@ -103,20 +110,15 @@ public class Saves : IReadFromArray<LevelInfo>, IRead<CurrentLevel>, IWrite<Leve
 
     private void AddLevelInfo(LevelInfo value)
     {
-        var newLevelInfo = new LevelInfo[_playerData.Levelinfo.Length + 1];
+        var newLevelInfo = new LevelInfo[_playerData.LevelInfo.Length + 1];
 
-        for (int i = 0; i < _playerData.Levelinfo.Length; i++)
+        for (int i = 0; i < _playerData.LevelInfo.Length; i++)
         {
-            newLevelInfo[i] = _playerData.Levelinfo[i];
+            newLevelInfo[i] = _playerData.LevelInfo[i];
         }
 
-        newLevelInfo[newLevelInfo.Length - 1] = value;
+        newLevelInfo[^1] = value;
 
-        _playerData.Levelinfo = newLevelInfo;
-    }
-
-    private void UpdateLevelInfo(LevelInfo value, int index)
-    {
-        _playerData.Levelinfo[index] = value;
+        _playerData.LevelInfo = newLevelInfo;
     }
 }

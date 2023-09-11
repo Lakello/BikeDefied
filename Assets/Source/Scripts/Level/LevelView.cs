@@ -10,7 +10,7 @@ public class LevelView : MonoBehaviour
     [SerializeField] private Button _selectButtonPrefab;
 
     private SelectLevelScrollView _scrollView;
-    private LevelStateMachine _stateMachine;
+    private LevelStateMachine _levelStateMachine;
 
     private Func<int> GetCurrentLevelIndex;
     private Action<int> SetCurrentlevelIndex;
@@ -27,27 +27,27 @@ public class LevelView : MonoBehaviour
     }
 
     [Inject]
-    private void Inject(Finish finish, SelectLevelScrollView scrollView, IRead<CurrentLevel> currentLevelRead, IWrite<CurrentLevel> currentLevelWrite)
+    private void Inject(Finish finish, SelectLevelScrollView scrollView, ISaver<CurrentLevel> currentLevel)
     {
         _scrollView = scrollView;
         _scrollView.LevelChanged += OnLevelChanged;
 
-        GetCurrentLevelIndex = () => currentLevelRead.Read().Index;
+        GetCurrentLevelIndex = () => currentLevel.Get().Index;
         SetCurrentlevelIndex = (index) => 
         {
             var level = new CurrentLevel();
             level.Index = index;
-            currentLevelWrite.Write(level);
+            currentLevel.Set(level);
         };
 
         Init(finish);
 
-        _stateMachine.EnterIn(GetCurrentLevelIndex());
+        _levelStateMachine.EnterIn(GetCurrentLevelIndex());
     }
 
     private void Init(Finish finish)
     {
-        _stateMachine = new LevelStateMachine(() =>
+        _levelStateMachine = new LevelStateMachine(() =>
         {
             var states = new List<LevelState>();
 
@@ -63,6 +63,6 @@ public class LevelView : MonoBehaviour
     private void OnLevelChanged(int index)
     {
         SetCurrentlevelIndex(index);
-        _stateMachine.EnterIn(index);
+        _levelStateMachine.EnterIn(index);
     }
 }

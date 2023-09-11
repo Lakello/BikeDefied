@@ -1,8 +1,5 @@
-﻿
-using System;
-
-[Serializable]
-public struct CurrentLevel
+﻿[System.Serializable]
+public class CurrentLevel
 {
     public int Index;
 }

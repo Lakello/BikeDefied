@@ -1,4 +1,5 @@
 using Reflex.Attributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,6 +16,7 @@ public class ScoreView : MonoBehaviour
     private IGameOver _gameOver;
     private float _currentScore;
     private Coroutine _totalScoreShowCoroutine;
+    private Action SaveScore;
 
     private void OnEnable()
     {
@@ -43,8 +45,17 @@ public class ScoreView : MonoBehaviour
     }
 
     [Inject]
-    private void Inject(GameStateInject inject)
+    private void Inject(GameStateInject inject, ISaverArray<LevelInfo> levelInfo, ISaver<CurrentLevel> currentLevel)
     {
+        SaveScore = () =>
+        {
+            var info = new LevelInfo();
+            info.LevelIndex = currentLevel.Get().Index;
+            info.BestScore = (int)_currentScore;
+
+            levelInfo.Set(info);
+        };
+
         _gameOver = inject.Over;
         _gameOver.GameOver += OnGameOver;
     }
@@ -65,6 +76,8 @@ public class ScoreView : MonoBehaviour
     {
         if (_totalScoreShowCoroutine != null)
             StopCoroutine(_totalScoreShowCoroutine);
+
+        SaveScore();
 
         _totalScoreShowCoroutine = StartCoroutine(ShowTotalScore());
     }
