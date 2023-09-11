@@ -15,7 +15,11 @@ namespace IJunior.StateMachine
 
         public void Transit()
         {
-            _machine.EnterIn<TTargetState>();
+            if (_machine.CurrentState.GetType() != typeof(TTargetState))
+            {
+                _machine.EnterIn<TTargetState>();
+            }
+            
             _reloadScene?.Invoke();
         }
     }

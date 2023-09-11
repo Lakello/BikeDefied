@@ -10,7 +10,6 @@ public class CharacterHead : MonoBehaviour, ISubject
         if (collision.gameObject.TryGetComponent(out Ground ground))
         {
             Action?.Invoke();
-            enabled = false;
         }
     }
 }
