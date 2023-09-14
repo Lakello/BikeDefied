@@ -2,47 +2,29 @@ using Reflex.Attributes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LevelView : MonoBehaviour
 {
     [SerializeField] private List<Level> _levelPrefabs;
-    [SerializeField] private Button _selectButtonPrefab;
+    [SerializeField] private Vector3 _levelOffset;
 
-    private SelectLevelScrollView _scrollView;
     private LevelStateMachine _levelStateMachine;
-
-    private Func<int> GetCurrentLevelIndex;
-    private Action<int> SetCurrentlevelIndex;
-
-    private void OnEnable()
-    {
-        if (_scrollView != null)
-            _scrollView.LevelChanged += OnLevelChanged;
-    }
+    private Action UnSubscribe;
 
     private void OnDisable()
     {
-        _scrollView.LevelChanged -= OnLevelChanged;
+        UnSubscribe?.Invoke();
     }
 
     [Inject]
-    private void Inject(Finish finish, SelectLevelScrollView scrollView, ISaver<CurrentLevel> currentLevel)
+    private void Inject(Finish finish, ISaver<CurrentLevel> currentLevel)
     {
-        _scrollView = scrollView;
-        _scrollView.LevelChanged += OnLevelChanged;
-
-        GetCurrentLevelIndex = () => currentLevel.Get().Index;
-        SetCurrentlevelIndex = (index) => 
-        {
-            var level = new CurrentLevel();
-            level.Index = index;
-            currentLevel.Set(level);
-        };
+        currentLevel.ValueUpdated += OnLevelChanged;
+        UnSubscribe = () => currentLevel.ValueUpdated -= OnLevelChanged;
 
         Init(finish);
 
-        _levelStateMachine.EnterIn(GetCurrentLevelIndex());
+        _levelStateMachine.EnterIn(currentLevel.Get().Index);
     }
 
     private void Init(Finish finish)
@@ -53,16 +35,15 @@ public class LevelView : MonoBehaviour
 
             foreach (var level in _levelPrefabs)
             {
-                states.Add(new LevelState(level, gameObject, finish));
+                states.Add(new LevelState(level, gameObject, finish, _levelOffset));
             }
 
             return states;
         });
     }
 
-    private void OnLevelChanged(int index)
+    private void OnLevelChanged(CurrentLevel currentLevel)
     {
-        SetCurrentlevelIndex(index);
-        _levelStateMachine.EnterIn(index);
+        _levelStateMachine.EnterIn(currentLevel.Index);
     }
 }

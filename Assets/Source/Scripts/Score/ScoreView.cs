@@ -47,14 +47,7 @@ public class ScoreView : MonoBehaviour
     [Inject]
     private void Inject(GameStateInject inject, ISaverArray<LevelInfo> levelInfo, ISaver<CurrentLevel> currentLevel)
     {
-        SaveScore = () =>
-        {
-            var info = new LevelInfo();
-            info.LevelIndex = currentLevel.Get().Index;
-            info.BestScore = (int)_currentScore;
-
-            levelInfo.Set(info);
-        };
+        SaveScore = () => levelInfo.Set(new LevelInfo(currentLevel.Get().Index, (int)_currentScore));
 
         _gameOver = inject.Over;
         _gameOver.GameOver += OnGameOver;
@@ -87,7 +80,7 @@ public class ScoreView : MonoBehaviour
         var targetScore = 0f;
         var previousTime = 0f;
 
-        while(targetScore <= _currentScore)
+        while (targetScore <= _currentScore)
         {
             var currentTime = (previousTime + Time.deltaTime) / _totalScoreShowTime;
 

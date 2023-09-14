@@ -19,16 +19,12 @@ public class SceneInstaller : MonoBehaviour, IInstaller
     [SerializeField] private float _backFlipReward;
     [SerializeField] private float _frontFlipReward;
 
-    [Header("View")]
-    [SerializeField] private SelectLevelScrollView _selectLevelScrollView;
-
     private List<IScoreCounter> _scoreCounters;
 
     public void InstallBindings(ContainerDescriptor descriptor)
     {
         InitBikeBehaviour(descriptor);
         InitScore(descriptor);
-        InitLevelView(descriptor);
 
         descriptor.AddInstance(_bike);
         descriptor.AddInstance(_groundChecker);
@@ -52,10 +48,5 @@ public class SceneInstaller : MonoBehaviour, IInstaller
         };
 
         descriptor.AddInstance(_scoreCounters, typeof(IReadOnlyList<IScoreCounter>));
-    }
-
-    private void InitLevelView(ContainerDescriptor descriptor)
-    {
-        descriptor.AddInstance(_selectLevelScrollView);
     }
 }

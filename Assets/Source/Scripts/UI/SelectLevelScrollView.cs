@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using Unity.VisualScripting;
 using Reflex.Attributes;
+using System;
 
 [RequireComponent(typeof(ScrollRect))]
 public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandler, IBeginDragHandler
@@ -22,9 +23,8 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
 
     private int _currentCenterChildIndex;
 
-    private System.Func<int> GetCurrentLevel;
-
-    public event System.Action<int> LevelChanged;
+    private Func<int> GetCurrentLevel;
+    private Action<int> SetCurrentLevel;
 
     private void OnEnable()
     {
@@ -58,6 +58,7 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
     private void Inject(ISaver<CurrentLevel> currentLevel)
     {
         GetCurrentLevel = () => currentLevel.Get().Index;
+        SetCurrentLevel = (index) => currentLevel.Set(new CurrentLevel(index));
 
         Init();
 
@@ -119,7 +120,7 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
     private void UpdateTargetPositon()
     {
         _targetPosition = FindClosestChildPosition(_content.localPosition.x);
-        LevelChanged?.Invoke(_currentCenterChildIndex);
+        SetCurrentLevel(_currentCenterChildIndex);
         SetCellScale();
     }
 

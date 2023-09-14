@@ -1,7 +1,5 @@
-﻿using Agava.YandexGames;
-using IJunior.StateMachine;
+﻿using IJunior.StateMachine;
 using Reflex.Core;
-using System.Collections;
 using UnityEngine;
 
 public class ProjectInstaller : MonoBehaviour, IInstaller
@@ -12,7 +10,6 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
         var inputHandler = new PCInputHandler(input);
 
         descriptor.AddInstance(inputHandler, typeof(IInputHandler));
-
 
         GameOverState over = new GameOverState();
         var gameStatemachine = new GameStateMachine(() =>
@@ -35,22 +32,18 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
             };
         });
 
+        var saves = new Saves();
 
+        var ad = new Ad(over, countOverBetweenShowsAd: 3, countOverBetweenShowsVideoAd: 10);
 
-        var saves = new Saves(over);
+        var yandexInitializer = new GameObject("Init").AddComponent<YandexInitializer>();
 
-        var ad = new Ad(over, countOverBetweenShowsAd: 3);
-
-        var yandexInit = new GameObject("Init").AddComponent<YandexInit>();
-
-        yandexInit.Init(sdkInitSuccessCallBack:() =>
+        yandexInitializer.Init(sdkInitSuccessCallBack:() =>
         {
             saves.Init();
             ad.Show();
         });
 
         descriptor.AddInstance(saves, typeof(ISaver<CurrentLevel>), typeof(ISaverArray<LevelInfo>));
-
-        
     }
 }
