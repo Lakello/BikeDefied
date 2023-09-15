@@ -2,67 +2,49 @@ using Reflex.Attributes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LevelView : MonoBehaviour
 {
     [SerializeField] private List<Level> _levelPrefabs;
-    [SerializeField] private Button _selectButtonPrefab;
+    [SerializeField] private Vector3 _levelOffset;
 
-    private SelectLevelScrollView _scrollView;
-    private LevelStateMachine _stateMachine;
-
-    private Func<int> GetCurrentLevelIndex;
-    private Action<int> SetCurrentlevelIndex;
-
-    private void OnEnable()
-    {
-        if (_scrollView != null)
-            _scrollView.LevelChanged += OnLevelChanged;
-    }
+    private LevelStateMachine _levelStateMachine;
+    private ISaver<CurrentLevel> _currentLevel;
 
     private void OnDisable()
     {
-        _scrollView.LevelChanged -= OnLevelChanged;
+        if (_currentLevel != null)
+            _currentLevel.ValueUpdated -= OnLevelChanged;
     }
 
     [Inject]
-    private void Inject(Finish finish, LevelViewInject inject)
+    private void Inject(Finish finish, ISaver<CurrentLevel> currentLevel)
     {
-        _scrollView = inject.SelectLevelScrollView;
-        _scrollView.LevelChanged += OnLevelChanged;
-
-        GetCurrentLevelIndex = () => inject.CurrentLevelRead.Read().Index;
-        SetCurrentlevelIndex = (index) => 
-        {
-            var level = new CurrentLevel();
-            level.Index = index;
-            inject.CurrentLevelWrite.Write(level);
-        };
+        _currentLevel = currentLevel;
+        _currentLevel.ValueUpdated += OnLevelChanged;
 
         Init(finish);
 
-        _stateMachine.EnterIn(GetCurrentLevelIndex());
+        _levelStateMachine.EnterIn(currentLevel.Get().Index);
     }
 
     private void Init(Finish finish)
     {
-        _stateMachine = new LevelStateMachine(() =>
+        _levelStateMachine = new LevelStateMachine(() =>
         {
             var states = new List<LevelState>();
 
             foreach (var level in _levelPrefabs)
             {
-                states.Add(new LevelState(level, gameObject, finish));
+                states.Add(new LevelState(level, gameObject, finish, _levelOffset));
             }
 
             return states;
         });
     }
 
-    private void OnLevelChanged(int index)
+    private void OnLevelChanged(CurrentLevel currentLevel)
     {
-        SetCurrentlevelIndex(index);
-        _stateMachine.EnterIn(index);
+        _levelStateMachine.EnterIn(currentLevel.Index);
     }
 }

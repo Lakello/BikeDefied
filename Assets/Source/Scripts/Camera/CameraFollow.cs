@@ -32,9 +32,11 @@ public class CameraFollow : MonoBehaviour
         _game.GameOver += OnGameOver;
     }
 
-    private void OnGameOver()
+    private bool OnGameOver()
     {
         enabled = false;
         _lookAt.parent = null;
+
+        return true;
     }
 }

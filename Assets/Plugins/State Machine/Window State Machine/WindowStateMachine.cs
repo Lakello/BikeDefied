@@ -7,8 +7,6 @@ namespace IJunior.StateMachine
     {
         public static WindowStateMachine Instance { get; private set; }
 
-        protected override WindowStateMachine SelfType => this;
-
         public WindowStateMachine(Func<Dictionary<Type, State<WindowStateMachine>>> getStates) : base(getStates) => Instance ??= this;
 
         public TState GetState<TState>(Window window) where TState : State<WindowStateMachine>

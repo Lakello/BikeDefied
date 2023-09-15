@@ -1,2 +1,0 @@
-Build path: G:/Unity/Repos/Builds/BikeDefied_Test
-Build number: 26

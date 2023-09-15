@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 public class GridCellSizeSetter : MonoBehaviour
 {
@@ -8,7 +7,7 @@ public class GridCellSizeSetter : MonoBehaviour
     [SerializeField] protected RectTransform Parent;
     [SerializeField] private int _countCells;
 
-    private void Awake()
+    private void Start()
     {
         Grid.cellSize = CalculateSize();
     }

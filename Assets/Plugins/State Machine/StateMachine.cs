@@ -9,9 +9,7 @@ namespace IJunior.StateMachine
 
         protected Dictionary<Type, State<TMachine>> States;
 
-        protected State<TMachine> CurrentState;
-
-        protected abstract TMachine SelfType { get; }
+        public State<TMachine> CurrentState { get; private set; }
 
         public StateMachine(Func<Dictionary<Type, State<TMachine>>> getStates) => States = getStates();
 

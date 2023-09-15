@@ -8,7 +8,10 @@ public class Finish : MonoBehaviour, ISubject
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out Bike bike))
+        {
             Action?.Invoke();
+            enabled = false;
+        }
     }
 
     public void OnPointEnabled(Vector3 position)

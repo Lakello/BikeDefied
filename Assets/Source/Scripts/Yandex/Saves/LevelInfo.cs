@@ -1,14 +1,15 @@
-﻿public struct LevelInfo : ILevelInfo
+﻿[System.Serializable]
+public class LevelInfo
 {
-    private int _levelIndex;
-    private int _bestScore;
+    [UnityEngine.SerializeField] private int _levelIndex;
+    [UnityEngine.SerializeField] private int _bestScore;
 
     public int LevelIndex => _levelIndex;
     public int BestScore => _bestScore;
 
-    public LevelInfo(int index, int score)
+    public LevelInfo(int levelIndex, int bestScore)
     {
-        _levelIndex = index;
-        _bestScore = score;
+        _levelIndex = levelIndex;
+        _bestScore = bestScore;
     }
 }

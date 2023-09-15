@@ -1,34 +1,140 @@
-﻿using System;
+﻿using Agava.YandexGames;
+using System;
+using System.Collections;
+using System.IO;
+using System.Linq;
 using UnityEngine;
-using YG;
 
-public sealed class Saves : MonoBehaviour, IReadFromArray<LevelInfo>, IRead<CurrentLevel>, IWrite<LevelInfo>, IWrite<CurrentLevel>
+public class Saves : ISaver<CurrentLevel>, ISaverArray<LevelInfo>
 {
-    public LevelInfo Read(int index) => YandexGame.savesData.LevelInfo[index];
+    private PlayerData _playerData = new();
+    private YandexSimulator _yandexSimulator = new();
 
-    public CurrentLevel Read() => YandexGame.savesData.CurrentLevelIndex;
-
-    public void Write(LevelInfo value)
-    {
-        if (ContainsLevelIndex(value.LevelIndex, out int index))
-            UpdateLevelInfo(value, index);
-        else
-            AddLevelInfo(value);
+    event Action<CurrentLevel> ISaver<CurrentLevel>.ValueUpdated
+    { 
+        add
+        { 
+            _currentLevelUpdated += value;
+        }
+        remove
+        {
+            _currentLevelUpdated -= value;
+        }
     }
 
-    public void Write(CurrentLevel value) => YandexGame.savesData.CurrentLevelIndex = value;
-
-    private bool ContainsLevelIndex(int index, out int levelInfoIndex)
+    event Action<LevelInfo> ISaverArray<LevelInfo>.ValueUpdated
     {
-        levelInfoIndex = -1;
-
-        var levelInfos = YandexGame.savesData.LevelInfo;
-
-        for (int i = 0; i < levelInfos.Length; i++)
+        add
         {
-            if (levelInfos[i].LevelIndex == index)
+            _levelInfoUpdated += value;
+        }
+        remove
+        {
+            _levelInfoUpdated -= value;
+        }
+    }
+
+    private Action<CurrentLevel> _currentLevelUpdated;
+    private Action<LevelInfo> _levelInfoUpdated;
+
+    [Serializable]
+    private class PlayerData
+    {
+        public LevelInfo[] LevelInfo = new LevelInfo[] { };
+        public CurrentLevel CurrentLevel = new CurrentLevel(0);
+    }
+
+    public CurrentLevel Get() =>
+        _playerData.CurrentLevel;
+
+    public void Set(CurrentLevel value)
+    {
+        if (_playerData.CurrentLevel != value)
+        {
+            _playerData.CurrentLevel = value;
+            Debug.Log("CURRENT LEVEL SET");
+            Save(_currentLevelUpdated, value);
+        }
+    }
+
+    public LevelInfo Get(int index) =>
+        _playerData.LevelInfo.FirstOrDefault(levelInfo => levelInfo.LevelIndex == index);
+
+    public void Set(LevelInfo value)
+    {
+        bool isSetted = true;
+
+        if (ContainsLevelInfo(value, out int index))
+        {
+            if (!TryUpdateLevelInfo(value, index))
+                isSetted = false;
+        }
+        else
+            AddLevelInfo(value);
+
+        if (isSetted)
+            Save(_levelInfoUpdated, value);
+    }
+
+    public void Init()
+    {
+        Debug.Log("SAVE INIT");
+
+#if !UNITY_EDITOR
+        PlayerAccount.GetCloudSaveData((data) =>
+        {
+            var playerData = JsonUtility.FromJson<PlayerData>(data);
+
+            if (playerData.LevelInfo != null && playerData.LevelInfo.Length > 0)
             {
-                levelInfoIndex = i;
+                foreach (var levelInfo in playerData.LevelInfo)
+                {
+                    AddLevelInfo(levelInfo);
+                }
+
+                Set(playerData.CurrentLevel);
+            }
+
+            Debug.Log($"data = {data}");
+        });
+#else
+        _yandexSimulator.Init((data) =>
+        {
+            var playerData = JsonUtility.FromJson<PlayerData>(data);
+
+            if (playerData.LevelInfo != null && playerData.LevelInfo.Length > 0)
+            {
+                foreach (var levelInfo in playerData.LevelInfo)
+                {
+                    AddLevelInfo(levelInfo);
+                }
+
+                Set(playerData.CurrentLevel);
+            }
+        });
+#endif
+    }
+
+    private void Save<T>(Action<T> saved, T valueCallback)
+    {
+        string save = JsonUtility.ToJson(_playerData);
+#if !UNITY_EDITOR
+        PlayerAccount.SetCloudSaveData(save);
+#else
+        _yandexSimulator.Save(save);
+#endif
+        saved?.Invoke(valueCallback);
+    }
+
+    private bool ContainsLevelInfo(LevelInfo levelInfo, out int index)
+    {
+        index = -1;
+
+        for (int i = 0; i < _playerData.LevelInfo.Length; i++)
+        {
+            if (_playerData.LevelInfo[i].LevelIndex == levelInfo.LevelIndex)
+            {
+                index = i;
                 return true;
             }
         }
@@ -36,23 +142,26 @@ public sealed class Saves : MonoBehaviour, IReadFromArray<LevelInfo>, IRead<Curr
         return false;
     }
 
-    private void AddLevelInfo(LevelInfo value)
+    private bool TryUpdateLevelInfo(LevelInfo value, int index)
     {
-        var levelInfo = YandexGame.savesData.LevelInfo;
-        var newLevelInfo = new LevelInfo[levelInfo.Length + 1];
-
-        for (int i = 0; i < levelInfo.Length; i++)
+        if (_playerData.LevelInfo[index].BestScore < value.BestScore)
         {
-            newLevelInfo[i] = levelInfo[i];
+            _playerData.LevelInfo[index] = value;
+            return true;
         }
 
-        newLevelInfo[newLevelInfo.Length - 1] = value;
-
-        YandexGame.savesData.LevelInfo = newLevelInfo;
+        return false;
     }
 
-    private void UpdateLevelInfo(LevelInfo value, int index)
+    private void AddLevelInfo(LevelInfo value)
     {
-        YandexGame.savesData.LevelInfo[index] = value;
+        var newLevelInfo = new LevelInfo[_playerData.LevelInfo.Length + 1];
+
+        for (int i = 0; i < _playerData.LevelInfo.Length; i++)
+            newLevelInfo[i] = _playerData.LevelInfo[i];
+
+        newLevelInfo[^1] = value;
+
+        _playerData.LevelInfo = newLevelInfo;
     }
 }
