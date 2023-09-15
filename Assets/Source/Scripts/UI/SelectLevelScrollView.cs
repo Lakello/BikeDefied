@@ -46,6 +46,9 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
         _scrollView.StopMovement();
 
         UpdateTargetPositon();
+
+        SetCurrentLevel(_currentCenterChildIndex);
+
         _content.DOLocalMoveX(_targetPosition, _toCenterTime);
     }
 
@@ -120,7 +123,6 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
     private void UpdateTargetPositon()
     {
         _targetPosition = FindClosestChildPosition(_content.localPosition.x);
-        SetCurrentLevel(_currentCenterChildIndex);
         SetCellScale();
     }
 

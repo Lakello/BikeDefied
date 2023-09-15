@@ -11,7 +11,10 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
 
         descriptor.AddInstance(inputHandler, typeof(IInputHandler));
 
-        GameOverState over = new GameOverState();
+        var context = new GameObject("context").AddComponent<Context>();
+        DontDestroyOnLoad(context);
+
+        GameOverState over = new(context);
         var gameStatemachine = new GameStateMachine(() =>
         {
             return new System.Collections.Generic.Dictionary<System.Type, State<GameStateMachine>>()

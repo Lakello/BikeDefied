@@ -23,12 +23,10 @@ public class LeaderboardViewer : MonoBehaviour
     private LeaderboardEntryResponse[] _allPlayers;
     private LeaderboardEntryResponse _playerEntry;
 
-    private HashSet<GameObject> _leaderboard = new HashSet<GameObject>();
-
     private void OnEnable() =>
         Show();
 
-    private void Start() =>
+    private void Awake() =>
         _playerDataSpawner = new ObjectSpawner<PlayerData>(new ObjectFactory<PlayerData>(_content), new ObjectPool<PlayerData>());
 
     private void OnDisable()
@@ -37,15 +35,18 @@ public class LeaderboardViewer : MonoBehaviour
             _levelInfo.ValueUpdated -= SetScore;
     }
 
+    [Inject]
+    private void Inject(ISaver<CurrentLevel> currentLevel, ISaverArray<LevelInfo> levelInfo)
+    {
+        _getCurrentLevel = () => currentLevel.Get();
+
+        _levelInfo = levelInfo;
+        _levelInfo.ValueUpdated += SetScore;
+    }
+
     private void Show()
     {
-        if (_leaderboard.Count > 0)
-        {
-            foreach (var player in _leaderboard)
-                player.SetActive(false);
-        }
-
-        if (true)
+        if (PlayerAccount.IsAuthorized)
         {
             if (_showCoroutine != null)
                 StopCoroutine(_showCoroutine);
@@ -53,18 +54,19 @@ public class LeaderboardViewer : MonoBehaviour
             _showCoroutine = StartCoroutine(ShowLeaderboard());
         }
         else
-        {
             ShowBestScore();
-        }
     }
 
     private void ShowBestScore()
     {
+        Debug.Log("GET INDEX");
         int index = _getCurrentLevel().Index;
+        Debug.Log("GET SCORE");
+        int score = _levelInfo.Get(index).BestScore;
+        Debug.Log("GET PLAYER DATA");
+        var data = GetPlayerData(rank: 1, name: "Player", score: score);
 
-        CreatePlayerDataInTable(GetPlayerData(rank: 1, 
-                                              name: "Player", 
-                                              score: _levelInfo.Get(index).BestScore));
+        CreatePlayerDataInTable(data);
     }
 
     private IEnumerator ShowLeaderboard()
@@ -95,15 +97,6 @@ public class LeaderboardViewer : MonoBehaviour
         }
     }
 
-    [Inject]
-    private void Inject(ISaver<CurrentLevel> currentLevel, ISaverArray<LevelInfo> levelInfo)
-    {
-        _getCurrentLevel = () => currentLevel.Get();
-
-        _levelInfo = levelInfo;
-        _levelInfo.ValueUpdated += SetScore;
-    }
-
     private PlayerData GetPlayerData(int rank, string name, int score)
     {
         int index = rank - 1;
@@ -122,27 +115,28 @@ public class LeaderboardViewer : MonoBehaviour
 
     private void CreatePlayerDataInTable(PlayerData data)
     {
-        var playerData = _playerDataSpawner.Spawn(_playerDataPrefab);
-        playerData.Init(data);
-        //playerData.SelfGameObject.transform.SetParent(_content);
-        Debug.Log("CREATE");
+        Debug.Log("ENTER CREATE");
 
-        _leaderboard.Add(playerData.SelfGameObject);
+        var playerData = _playerDataSpawner.Spawn(_playerDataPrefab);
+        Debug.Log("INIT");
+        playerData.Init(data);
+        Debug.Log("CREATE");
     }
 
     private void SetScore(LevelInfo levelInfo)
     {
+#if !UNITY_EDITOR
         int levelIndex = _getCurrentLevel().Index;
 
         int score = levelInfo.BestScore;
-#if !UNITY_EDITOR
-        Leaderboard.SetScore(GetLeaderboardName(), score);
+        if (PlayerAccount.IsAuthorized)
+            Leaderboard.SetScore(GetLeaderboardName(), score);
 #endif
     }
 
     private IEnumerator UpdateEntries()
     {
-        bool _isSuccess = false;
+        bool isSuccess = false;
 
 #if !UNITY_EDITOR
         Leaderboard.GetEntries(
@@ -150,20 +144,20 @@ public class LeaderboardViewer : MonoBehaviour
             (result) =>
             {
                 _allPlayers = result.entries;
-                _isSuccess = true;
+                isSuccess = true;
             });
 #else
         _allPlayers = _yandexSimulator.GetLeaderboardAllPlayers();
-        _isSuccess = true;
+        isSuccess = true;
 #endif
 
-        while (!_isSuccess)
+        while (!isSuccess)
             yield return null;
     }
 
     private IEnumerator UpdatePlayerEntry()
     {
-        bool _isSuccess = false;
+        bool isSuccess = false;
 
 #if !UNITY_EDITOR
         Leaderboard.GetPlayerEntry(
@@ -171,14 +165,14 @@ public class LeaderboardViewer : MonoBehaviour
             (result) =>
             {
                 _playerEntry = result;
-                _isSuccess = true;
+                isSuccess = true;
             });
 #else
         _playerEntry = _yandexSimulator.GetLeaderboardPlayerEntry();
-        _isSuccess = true;
+        isSuccess = true;
 #endif
 
-        while (!_isSuccess)
+        while (!isSuccess)
             yield return null;
     }
 

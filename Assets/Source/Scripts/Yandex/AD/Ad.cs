@@ -11,14 +11,14 @@ public class Ad : IDisposable
     public Ad(IGameOver over, int countOverBetweenShowsAd, int countOverBetweenShowsVideoAd)
     {
         _over = over;
-        _over.GameOver += OnGameOver;
+        _over.LateGameOver += OnGameOver;
         _countOverBetweenShowsAd = countOverBetweenShowsAd;
         _countOverBetweenShowsVideoAd = countOverBetweenShowsVideoAd;
     }
 
     public void Dispose()
     {
-        _over.GameOver -= OnGameOver;
+        _over.LateGameOver -= OnGameOver;
     }
 
     public void Show()

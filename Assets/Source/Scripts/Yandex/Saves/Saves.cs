@@ -1,5 +1,6 @@
 ﻿using Agava.YandexGames;
 using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -48,8 +49,12 @@ public class Saves : ISaver<CurrentLevel>, ISaverArray<LevelInfo>
 
     public void Set(CurrentLevel value)
     {
-        _playerData.CurrentLevel = value;
-        _currentLevelUpdated?.Invoke(value);
+        if (_playerData.CurrentLevel != value)
+        {
+            _playerData.CurrentLevel = value;
+            Debug.Log("CURRENT LEVEL SET");
+            Save(_currentLevelUpdated, value);
+        }
     }
 
     public LevelInfo Get(int index) =>
@@ -57,20 +62,18 @@ public class Saves : ISaver<CurrentLevel>, ISaverArray<LevelInfo>
 
     public void Set(LevelInfo value)
     {
+        bool isSetted = true;
+
         if (ContainsLevelInfo(value, out int index))
         {
-            if (TryUpdateLevelInfo(value, index))
-            {
-                Save();
-                _levelInfoUpdated?.Invoke(value);
-            }
+            if (!TryUpdateLevelInfo(value, index))
+                isSetted = false;
         }
         else
-        {
             AddLevelInfo(value);
-            Save();
-            _levelInfoUpdated?.Invoke(value);
-        }
+
+        if (isSetted)
+            Save(_levelInfoUpdated, value);
     }
 
     public void Init()
@@ -112,18 +115,15 @@ public class Saves : ISaver<CurrentLevel>, ISaverArray<LevelInfo>
 #endif
     }
 
-    private void Save()
+    private void Save<T>(Action<T> saved, T valueCallback)
     {
-        string strData = "";
         string save = JsonUtility.ToJson(_playerData);
-        Debug.Log($"SAVE = {save}");
 #if !UNITY_EDITOR
-        PlayerAccount.GetCloudSaveData((data) => strData = data);
-        if (strData != save)
-            PlayerAccount.SetCloudSaveData(save);
+        PlayerAccount.SetCloudSaveData(save);
 #else
         _yandexSimulator.Save(save);
 #endif
+        saved?.Invoke(valueCallback);
     }
 
     private bool ContainsLevelInfo(LevelInfo levelInfo, out int index)

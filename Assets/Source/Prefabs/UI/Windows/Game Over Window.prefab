@@ -453,9 +453,9 @@ MonoBehaviour:
   _playerDataPrefab: {fileID: 9160363217483271815, guid: b32a59a5127b44e48a6a0e07860e6611, type: 3}
   _content: {fileID: 705440303068649785}
   _countPlayers: 3
-  _firstPlayerIcon: {fileID: 0}
-  _secondPlayerIcon: {fileID: 0}
-  _otherPlayerIcon: {fileID: 0}
+  _firstPlayerIcon: {fileID: 21300000, guid: 756fe7d683c5a154687cb945a6057115, type: 3}
+  _secondPlayerIcon: {fileID: 21300000, guid: bf4e04761d65041479d079cb6703a381, type: 3}
+  _otherPlayerIcon: {fileID: 21300000, guid: a611b025914f6a7458367f13a433bddf, type: 3}
 --- !u!1 &5555124727250371193
 GameObject:
   m_ObjectHideFlags: 0

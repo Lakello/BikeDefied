@@ -11,6 +11,7 @@ namespace IJunior.Object
 
         public IPoolingObject<TInit> GetNewObject(IPoolingObject<TInit> prefab)
         {
+            Debug.Log("ENTER GET NEW OBJECT");
             var newObject = UnityEngine.Object.Instantiate(prefab.SelfGameObject);
             newObject.transform.SetParent(_parent);
             newObject.SetActive(false);

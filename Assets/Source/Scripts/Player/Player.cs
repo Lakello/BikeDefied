@@ -45,8 +45,10 @@ public class Player : MonoBehaviour
         _game.GameOver += OnGameOver;
     }
 
-    private void OnGameOver()
+    private bool OnGameOver()
     {
         IsAlive = false;
+
+        return true;
     }
 }

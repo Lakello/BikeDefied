@@ -16,6 +16,7 @@ namespace IJunior.Object
 
         public IPoolingObject<TInit> Spawn(IPoolingObject<TInit> @object, System.Func<Vector3> getSpawnPosition = null)
         {
+            Debug.Log("ENTER SPAWN");
             IPoolingObject<TInit> spawningObject = GetObject(@object);
 
             if (getSpawnPosition != null)
@@ -34,6 +35,7 @@ namespace IJunior.Object
 
         private IPoolingObject<TInit> GetObject(IPoolingObject<TInit> @object)
         {
+            Debug.Log("ENTER GET OBJECT");
             IPoolingObject<TInit> spawningObject = _pool.TryGetObjectByType(@object.SelfType) ?? CreateObject(@object);
 
             return spawningObject;
@@ -41,6 +43,7 @@ namespace IJunior.Object
 
         private IPoolingObject<TInit> CreateObject(IPoolingObject<TInit> @object)
         {
+            Debug.Log("ENTER CREATE OBJECT");
             IPoolingObject<TInit> newObject = _factory.GetNewObject(@object);
 
             return newObject;

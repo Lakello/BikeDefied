@@ -65,7 +65,7 @@ public class ScoreView : MonoBehaviour
             counter.ScoreAdd -= OnScoreChanged;
     }
 
-    private void OnGameOver()
+    private bool OnGameOver()
     {
         if (_totalScoreShowCoroutine != null)
             StopCoroutine(_totalScoreShowCoroutine);
@@ -73,6 +73,8 @@ public class ScoreView : MonoBehaviour
         SaveScore();
 
         _totalScoreShowCoroutine = StartCoroutine(ShowTotalScore());
+
+        return true;
     }
 
     private IEnumerator ShowTotalScore()

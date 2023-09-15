@@ -26,11 +26,13 @@ public class Character : MonoBehaviour
         _game.GameOver -= OnGameOver;
     }
 
-    private void OnGameOver()
+    private bool OnGameOver()
     {
         foreach (var joint in _joints)
         {
             joint.connectedBody = null;
         }
+
+        return true;
     }
 }

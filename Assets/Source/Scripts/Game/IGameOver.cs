@@ -1,5 +1,5 @@
 ﻿public interface IGameOver
 {
-    public event System.Action GameOver;
+    public event System.Func<bool> GameOver;
     public event System.Action LateGameOver;
 }
