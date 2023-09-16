@@ -31,7 +31,9 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
             {
                 [typeof(MenuWindowState)] = new MenuWindowState(),
                 [typeof(PlayWindowState)] = new PlayWindowState(),
-                [typeof(GameOverWindowState)] = new GameOverWindowState()
+                [typeof(GameOverWindowState)] = new GameOverWindowState(),
+                [typeof(LeaderboardWindowState)] = new LeaderboardWindowState(),
+                [typeof(SettingsWindowState)] = new SettingsWindowState()
             };
         });
 

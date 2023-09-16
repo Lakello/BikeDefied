@@ -177,8 +177,7 @@ GameObject:
   - component: {fileID: 705440303068649785}
   - component: {fileID: 3287410118301916809}
   - component: {fileID: 2422477669614227120}
-  - component: {fileID: 135984106850215958}
-  - component: {fileID: 5152689486433577327}
+  - component: {fileID: 7259990941240372940}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -244,7 +243,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &135984106850215958
+--- !u!114 &7259990941240372940
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -263,26 +262,11 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 0
   m_StartCorner: 0
-  m_StartAxis: 1
+  m_StartAxis: 0
   m_CellSize: {x: 100, y: 100}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &5152689486433577327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2857635118540308834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b7740811b280364c8c269711b3baebb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Grid: {fileID: 135984106850215958}
-  Parent: {fileID: 705440303068649785}
-  _countCells: 3
 --- !u!1 &3619205799474681792
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,6 +356,7 @@ GameObject:
   - component: {fileID: 6719496704053827067}
   - component: {fileID: 1394617550875711326}
   - component: {fileID: 589017628973472680}
+  - component: {fileID: 3395741484359694333}
   m_Layer: 5
   m_Name: Leaderboard
   m_TagString: Untagged
@@ -386,17 +371,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4071771569793826353}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 705440303068649785}
-  m_Father: {fileID: 5348006878230303212}
+  m_Father: {fileID: 2003683023846174357}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.14019404, y: 0.231}
-  m_AnchorMax: {x: 0.85980594, y: 0.4477987}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.41423845}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -456,6 +441,27 @@ MonoBehaviour:
   _firstPlayerIcon: {fileID: 21300000, guid: 756fe7d683c5a154687cb945a6057115, type: 3}
   _secondPlayerIcon: {fileID: 21300000, guid: bf4e04761d65041479d079cb6703a381, type: 3}
   _otherPlayerIcon: {fileID: 21300000, guid: a611b025914f6a7458367f13a433bddf, type: 3}
+--- !u!114 &3395741484359694333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071771569793826353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b7740811b280364c8c269711b3baebb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  Grid: {fileID: 7259990941240372940}
+  Parent: {fileID: 705440303068649785}
+  _countCells: 3
 --- !u!1 &5555124727250371193
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,7 +491,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 871009367884071313}
   m_Father: {fileID: 5348006878230303212}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -566,7 +573,6 @@ RectTransform:
   - {fileID: 6087138090155005410}
   - {fileID: 1866518887369147702}
   - {fileID: 6659848963725048318}
-  - {fileID: 871009367884071313}
   - {fileID: 4591252101597668614}
   - {fileID: 1019223549168158865}
   m_Father: {fileID: 8770926076105500252}
@@ -784,7 +790,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 150
+  m_fontSize: 138
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

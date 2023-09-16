@@ -46,7 +46,7 @@ public class LeaderboardViewer : MonoBehaviour
 
     private void Show()
     {
-        if (PlayerAccount.IsAuthorized)
+        if (true)
         {
             if (_showCoroutine != null)
                 StopCoroutine(_showCoroutine);
@@ -120,6 +120,7 @@ public class LeaderboardViewer : MonoBehaviour
         var playerData = _playerDataSpawner.Spawn(_playerDataPrefab);
         Debug.Log("INIT");
         playerData.Init(data);
+        playerData.SelfGameObject.transform.localScale = Vector3.one;
         Debug.Log("CREATE");
     }
 

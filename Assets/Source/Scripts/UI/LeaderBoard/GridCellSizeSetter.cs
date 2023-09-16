@@ -1,16 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GridCellSizeSetter : MonoBehaviour
+public class GridCellSizeSetter : LayoutGroup
 {
     [SerializeField] protected GridLayoutGroup Grid;
     [SerializeField] protected RectTransform Parent;
     [SerializeField] private int _countCells;
-
-    private void Start()
-    {
-        Grid.cellSize = CalculateSize();
-    }
 
     private Vector2 CalculateSize()
     {
@@ -19,6 +14,21 @@ public class GridCellSizeSetter : MonoBehaviour
         size.x = Parent.rect.size.x;
         size.y = Parent.rect.size.y / _countCells;
 
+        Debug.Log(size);
+
         return size;
+    }
+
+    public override void CalculateLayoutInputVertical()
+    {
+    }
+
+    public override void SetLayoutHorizontal()
+    {
+    }
+
+    public override void SetLayoutVertical()
+    {
+        Grid.cellSize = CalculateSize();
     }
 }
