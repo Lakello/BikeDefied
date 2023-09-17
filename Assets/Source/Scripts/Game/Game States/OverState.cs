@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class GameOverState : GameState, IGameOver
+public class OverState : GameState, IGameOver
 {
     private readonly MonoBehaviour _context;
     private Coroutine _gameOverWaitCoroutine;
@@ -11,7 +11,7 @@ public class GameOverState : GameState, IGameOver
     public event Func<bool> GameOver;
     public event Action LateGameOver;
 
-    public GameOverState(MonoBehaviour context) =>
+    public OverState(MonoBehaviour context) =>
         _context = context;
 
     public override void Enter()

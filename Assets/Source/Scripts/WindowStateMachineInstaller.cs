@@ -5,9 +5,7 @@ using UnityEngine;
 public class WindowStateMachineInstaller : MonoBehaviour, IInstaller
 {
     [SerializeField] private LeaderboardButton _leaderboardButton;
-    [SerializeField] private SettingsButton _settingsButton;
     [SerializeField] private MainMenuButton _backToMainMenuFromLeaderboardButton;
-    [SerializeField] private MainMenuButton _backToMainMenuFromSettingsButton;
 
     private TransitionInitializer<WindowStateMachine> _transitionInitializer;
 
@@ -22,8 +20,6 @@ public class WindowStateMachineInstaller : MonoBehaviour, IInstaller
         _transitionInitializer = new TransitionInitializer<WindowStateMachine>(WindowStateMachine.Instance);
 
         _transitionInitializer.InitTransition<LeaderboardWindowState>(_leaderboardButton);
-        _transitionInitializer.InitTransition<SettingsWindowState>(_settingsButton);
-        _transitionInitializer.InitTransition<MenuWindowState>(_backToMainMenuFromSettingsButton);
         _transitionInitializer.InitTransition<MenuWindowState>(_backToMainMenuFromLeaderboardButton);
     }
 }

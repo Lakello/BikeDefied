@@ -1,27 +1,39 @@
-﻿using IJunior.StateMachine;
+﻿using Agava.YandexGames;
+using IJunior.StateMachine;
 using Reflex.Core;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProjectInstaller : MonoBehaviour, IInstaller
 {
+    [SerializeField] private GameAudioHandler _gameAudioHandler;
+
     public void InstallBindings(ContainerDescriptor descriptor)
     {
         var input = new PlayerInput();
-        var inputHandler = new PCInputHandler(input);
 
-        descriptor.AddInstance(inputHandler, typeof(IInputHandler));
+        descriptor.AddInstance(input);
 
-        var context = new GameObject("context").AddComponent<Context>();
+        var context = new GameObject(nameof(Context)).AddComponent<Context>();
         DontDestroyOnLoad(context);
 
-        GameOverState over = new(context);
+        var backgoundAudio = new GameObject(nameof(AudioSource)).AddComponent<AudioSource>();
+        var gameAudio = backgoundAudio.AddComponent<AudioSource>();
+        DontDestroyOnLoad(backgoundAudio);
+        _gameAudioHandler.Init();
+        var audioController = new AudioController(gameAudio, backgoundAudio, _gameAudioHandler, context);
+
+        descriptor.AddInstance(audioController, typeof(IAudioController));
+
+        var playState = new PlayState(this, input, audioController);
+        var overState = new OverState(context);
         var gameStatemachine = new GameStateMachine(() =>
         {
             return new System.Collections.Generic.Dictionary<System.Type, State<GameStateMachine>>()
             {
                 [typeof(MenuState)] = new MenuState(),
-                [typeof(PlayState)] = new PlayState(this, input),
-                [typeof(GameOverState)] = over
+                [typeof(PlayState)] = playState,
+                [typeof(OverState)] = overState
             };
         });
 
@@ -32,14 +44,13 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
                 [typeof(MenuWindowState)] = new MenuWindowState(),
                 [typeof(PlayWindowState)] = new PlayWindowState(),
                 [typeof(GameOverWindowState)] = new GameOverWindowState(),
-                [typeof(LeaderboardWindowState)] = new LeaderboardWindowState(),
-                [typeof(SettingsWindowState)] = new SettingsWindowState()
+                [typeof(LeaderboardWindowState)] = new LeaderboardWindowState()
             };
         });
 
         var saves = new Saves();
 
-        var ad = new Ad(over, countOverBetweenShowsAd: 3, countOverBetweenShowsVideoAd: 10);
+        var ad = new Ad(overState, countOverBetweenShowsAd: 3, countOverBetweenShowsVideoAd: 10);
 
         var yandexInitializer = new GameObject("Init").AddComponent<YandexInitializer>();
 

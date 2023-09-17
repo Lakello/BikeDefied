@@ -46,7 +46,7 @@ public class LeaderboardViewer : MonoBehaviour
 
     private void Show()
     {
-        if (true)
+        if (PlayerAccount.IsAuthorized)
         {
             if (_showCoroutine != null)
                 StopCoroutine(_showCoroutine);

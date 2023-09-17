@@ -23,7 +23,7 @@ public class GameStateMachineInstaller : MonoBehaviour, IInstaller
 
     public void InstallBindings(ContainerDescriptor descriptor)
     {
-        var gameOverState = GameStateMachine.Instance.GetState<GameOverState>();
+        var gameOverState = GameStateMachine.Instance.GetState<OverState>();
         var gamePlayState = GameStateMachine.Instance.GetState<PlayState>();
         var gameMenuState = GameStateMachine.Instance.GetState<MenuState>();
 
@@ -35,8 +35,8 @@ public class GameStateMachineInstaller : MonoBehaviour, IInstaller
 
         _transitionInitializer = new TransitionInitializer<GameStateMachine>(GameStateMachine.Instance);
 
-        _transitionInitializer.InitTransition<GameOverState>(_finish);
-        _transitionInitializer.InitTransition<GameOverState>(_characterHead);
+        _transitionInitializer.InitTransition<OverState>(_finish);
+        _transitionInitializer.InitTransition<OverState>(_characterHead);
         _transitionInitializer.InitTransition<PlayState>(_startButton);
         _transitionInitializer.InitTransition<PlayState>(_restartFromGameOverButton, () => IJunior.TypedScenes.Game.Load<PlayState>());
         _transitionInitializer.InitTransition<MenuState>(_mainMenuFromGameOverButton, () => IJunior.TypedScenes.Game.Load<MenuState>());
