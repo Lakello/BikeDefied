@@ -14,6 +14,7 @@ public class LeaderboardViewer : MonoBehaviour
     [SerializeField] private Sprite _firstPlayerIcon;
     [SerializeField] private Sprite _secondPlayerIcon;
     [SerializeField] private Sprite _otherPlayerIcon;
+    [SerializeField] private bool _isAuthorizedSim;
 
     private Func<CurrentLevel> _getCurrentLevel;
     private ObjectSpawner<PlayerData> _playerDataSpawner;
@@ -46,7 +47,11 @@ public class LeaderboardViewer : MonoBehaviour
 
     private void Show()
     {
-        if (PlayerAccount.IsAuthorized)
+        bool isAuthorized = _isAuthorizedSim;
+#if !UNITY_EDITOR
+        isAuthorized = PlayerAccount.IsAuthorized;
+#endif
+        if (isAuthorized)
         {
             if (_showCoroutine != null)
                 StopCoroutine(_showCoroutine);

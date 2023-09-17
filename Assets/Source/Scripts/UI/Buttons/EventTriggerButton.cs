@@ -3,11 +3,15 @@ using UnityEngine;
 
 public abstract class EventTriggerButton : MonoBehaviour, ISubject
 {
+    public bool IsInteractable = true;
+
     public virtual event Action Action;
 
     public virtual void OnClick()
     {
-        Debug.Log($"CLICK");
+        if (!IsInteractable)
+            return;
+
         Action?.Invoke();
     }
 }
