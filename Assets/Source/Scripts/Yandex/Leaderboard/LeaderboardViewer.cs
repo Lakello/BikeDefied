@@ -5,6 +5,7 @@ using UnityEngine;
 using Agava.YandexGames;
 using System.Collections.Generic;
 using IJunior.Object;
+using Lean.Localization;
 
 public class LeaderboardViewer : MonoBehaviour
 {
@@ -64,12 +65,9 @@ public class LeaderboardViewer : MonoBehaviour
 
     private void ShowBestScore()
     {
-        Debug.Log("GET INDEX");
         int index = _getCurrentLevel().Index;
-        Debug.Log("GET SCORE");
         int score = _levelInfo.Get(index).BestScore;
-        Debug.Log("GET PLAYER DATA");
-        var data = GetPlayerData(rank: 1, name: "Player", score: score);
+        var data = GetPlayerData(rank: 1, name: GetLocalizationAnonymousName(), score: score);
 
         CreatePlayerDataInTable(data);
     }
@@ -98,6 +96,9 @@ public class LeaderboardViewer : MonoBehaviour
                                     ? (_playerEntry.rank, _playerEntry.player.publicName, _playerEntry.score)
                                     : (_allPlayers[i].rank, _allPlayers[i].player.publicName, _allPlayers[i].score);
 
+            if (string.IsNullOrEmpty(name))
+                name = GetLocalizationAnonymousName();
+
             CreatePlayerDataInTable(GetPlayerData(rank, name, score));
         }
     }
@@ -120,13 +121,9 @@ public class LeaderboardViewer : MonoBehaviour
 
     private void CreatePlayerDataInTable(PlayerData data)
     {
-        Debug.Log("ENTER CREATE");
-
         var playerData = _playerDataSpawner.Spawn(_playerDataPrefab);
-        Debug.Log("INIT");
         playerData.Init(data);
         playerData.SelfGameObject.transform.localScale = Vector3.one;
-        Debug.Log("CREATE");
     }
 
     private void SetScore(LevelInfo levelInfo)
@@ -180,6 +177,17 @@ public class LeaderboardViewer : MonoBehaviour
 
         while (!isSuccess)
             yield return null;
+    }
+
+    private string GetLocalizationAnonymousName()
+    {
+        return GameLanguage.Value switch
+        {
+            "ru" => "Анонимный",
+            "en" => "Anonymous",
+            "tr" => "Anonim",
+            _ => string.Empty,
+        };
     }
 
     private string GetLeaderboardName()

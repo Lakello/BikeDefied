@@ -259,6 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c55406ab05bab408448010a00de0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsInteractable: 1
 --- !u!114 &871994055152663530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,6 +783,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
+  _rect: {fileID: 0}
   _spacing: 0
 --- !u!114 &3797672358267501584
 MonoBehaviour:
@@ -897,6 +899,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2464326231434901530, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.3999939
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959070996182119186, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.76490784
+      objectReference: {fileID: 0}
     - target: {fileID: 3509300724728205741, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_Name
       value: Level Button
@@ -1010,6 +1020,14 @@ PrefabInstance:
     - target: {fileID: 2347357077053224589, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2464326231434901530, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.3999939
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959070996182119186, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.76490784
       objectReference: {fileID: 0}
     - target: {fileID: 3509300724728205741, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_Name
@@ -1125,6 +1143,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2464326231434901530, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.3999939
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959070996182119186, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.76490784
+      objectReference: {fileID: 0}
     - target: {fileID: 3509300724728205741, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_Name
       value: Level Button (7)
@@ -1238,6 +1264,14 @@ PrefabInstance:
     - target: {fileID: 2347357077053224589, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2464326231434901530, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.3999939
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959070996182119186, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.76490784
       objectReference: {fileID: 0}
     - target: {fileID: 3509300724728205741, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_Name
@@ -1353,6 +1387,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2464326231434901530, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.3999939
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959070996182119186, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.76490784
+      objectReference: {fileID: 0}
     - target: {fileID: 3509300724728205741, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_Name
       value: Level Button (9)
@@ -1462,6 +1504,14 @@ PrefabInstance:
     - target: {fileID: 2347357077053224589, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2464326231434901530, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.3999939
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959070996182119186, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.76490784
       objectReference: {fileID: 0}
     - target: {fileID: 3509300724728205741, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_Name
@@ -1577,6 +1627,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2464326231434901530, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.3999939
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959070996182119186, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.76490784
+      objectReference: {fileID: 0}
     - target: {fileID: 3509300724728205741, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_Name
       value: Level Button (6)
@@ -1690,6 +1748,14 @@ PrefabInstance:
     - target: {fileID: 2347357077053224589, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2464326231434901530, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.3999939
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959070996182119186, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.76490784
       objectReference: {fileID: 0}
     - target: {fileID: 3509300724728205741, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_Name
@@ -1805,6 +1871,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2464326231434901530, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.3999939
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959070996182119186, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.76490784
+      objectReference: {fileID: 0}
     - target: {fileID: 3509300724728205741, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_Name
       value: Level Button (2)
@@ -1918,6 +1992,14 @@ PrefabInstance:
     - target: {fileID: 2347357077053224589, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2464326231434901530, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.3999939
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959070996182119186, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.76490784
       objectReference: {fileID: 0}
     - target: {fileID: 3509300724728205741, guid: f65b33c62491ec94d8860ecbf27d6e5a, type: 3}
       propertyPath: m_Name

@@ -8,7 +8,6 @@ namespace IJunior.Object
 
         public void Return(IPoolingObject<TInit> @object)
         {
-            UnityEngine.Debug.Log("ENTER RETURN");
             @object.Disable -= Return;
 
             Add(@object);
@@ -16,7 +15,6 @@ namespace IJunior.Object
 
         public IPoolingObject<TInit> TryGetObjectByType(System.Type objectType)
         {
-            UnityEngine.Debug.Log("ENTER TRY GET OBJECT BY TYPE");
             if (_objects.TryGetValue(objectType, out Queue<IPoolingObject<TInit>> playersData))
             {
                 if (playersData.Count > 0)
@@ -32,7 +30,6 @@ namespace IJunior.Object
 
         private void Add(IPoolingObject<TInit> @object)
         {
-            UnityEngine.Debug.Log("ENTER ADD");
             if (!_objects.ContainsKey(@object.SelfType))
                 AddType(@object.SelfType);
 
@@ -45,7 +42,6 @@ namespace IJunior.Object
 
         private void AddType(System.Type type)
         {
-            UnityEngine.Debug.Log("ENTER ADD TYPE");
             _objects.Add(type, new Queue<IPoolingObject<TInit>>());
         }
     }

@@ -20,7 +20,6 @@ public class YandexInitializer : MonoBehaviour
     private IEnumerator InitSDK()
     {
 #if !UNITY_EDITOR
-        // Always wait for it if invoking something immediately in the first scene.
         yield return YandexGamesSdk.Initialize();
 
         if (PlayerAccount.IsAuthorized == false)

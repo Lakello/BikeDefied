@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class ScoreView : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _scoreText;
-    [SerializeField] private TMP_Text _messageText;
+    [SerializeField] private TextAnimation _scoreText;
+    [SerializeField] private TextAnimation _flipMessageText;
     [SerializeField] private TMP_Text _totalScoreText;
     [SerializeField] private float _totalScoreShowTime;
 
@@ -103,9 +103,12 @@ public class ScoreView : MonoBehaviour
 
         _currentScore += reward.Value;
 
-        _scoreText.text = _currentScore.ToString("0");
+        _scoreText.Play(_currentScore.ToString("0"));
 
         if (reward.Message != "")
-            _messageText.text = reward.Message;
+        {
+            _flipMessageText.gameObject.SetActive(true);
+            _flipMessageText.Play(reward.Message, () => _flipMessageText.gameObject.SetActive(false));
+        }
     }
 }

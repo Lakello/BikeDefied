@@ -193,14 +193,14 @@ public class FlipCounter : ScoreCounter
     {
         if (dir)
         {
-            Reward.Message = "Front Flip!";
+            Reward.Message = $"+{_frontReward}";
             Reward.Value = _frontReward;
 
             ScoreAdd?.Invoke(Reward);
         }
         else
         {
-            Reward.Message = "Back Flip!";
+            Reward.Message = $"+{_backReward}";
             Reward.Value = _backReward;
 
             ScoreAdd?.Invoke(Reward);

@@ -1,5 +1,6 @@
 ﻿using Agava.YandexGames;
 using IJunior.StateMachine;
+using Lean.Localization;
 using Reflex.Core;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -58,6 +59,12 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
         {
             saves.Init();
             ad.Show();
+
+            string lang = "tr";
+#if !UNITY_EDITOR
+            lang = YandexGamesSdk.Environment.i18n.lang;
+#endif
+            GameLanguage.Value = lang;
         });
 
         descriptor.AddInstance(saves, typeof(ISaver<CurrentLevel>), typeof(ISaverArray<LevelInfo>));

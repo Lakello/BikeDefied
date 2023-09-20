@@ -14,8 +14,6 @@ public class GridCellSizeSetter : LayoutGroup
         size.x = Parent.rect.size.x;
         size.y = Parent.rect.size.y / _countCells;
 
-        Debug.Log(size);
-
         return size;
     }
 

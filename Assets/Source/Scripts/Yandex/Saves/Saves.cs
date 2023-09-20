@@ -52,7 +52,6 @@ public class Saves : ISaver<CurrentLevel>, ISaverArray<LevelInfo>
         if (_playerData.CurrentLevel != value)
         {
             _playerData.CurrentLevel = value;
-            Debug.Log("CURRENT LEVEL SET");
             Save(_currentLevelUpdated, value);
         }
     }
@@ -78,8 +77,6 @@ public class Saves : ISaver<CurrentLevel>, ISaverArray<LevelInfo>
 
     public void Init()
     {
-        Debug.Log("SAVE INIT");
-
 #if !UNITY_EDITOR
         PlayerAccount.GetCloudSaveData((data) =>
         {
