@@ -1,7 +1,10 @@
-﻿public interface ISaver<TSave>
-{
-    public event System.Action<TSave> ValueUpdated;
+﻿using System;
 
-    public TSave Get();
-    public void Set(TSave value);
+public interface ISaver
+{
+    public TData Get<TData>(TData value = default) where TData : class, IPlayerData;
+
+    public void Set<TData>(TData value = default) where TData : class, IPlayerData;
+
+    public Action<TData> ValueUpdated<TData>() where TData : class, IPlayerData;
 }

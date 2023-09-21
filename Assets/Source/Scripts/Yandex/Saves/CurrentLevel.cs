@@ -1,5 +1,5 @@
 ﻿[System.Serializable]
-public class CurrentLevel
+public class CurrentLevel : IPlayerData
 {
     [UnityEngine.SerializeField] private int _index;
 

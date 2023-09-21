@@ -49,7 +49,7 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
             };
         });
 
-        var saves = new Saves();
+        var saves = new GamePlayerDataSaver();
 
         var ad = new Ad(overState, countOverBetweenShowsAd: 3, countOverBetweenShowsVideoAd: 10);
 
@@ -67,6 +67,6 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
             GameLanguage.Value = lang;
         });
 
-        descriptor.AddInstance(saves, typeof(ISaver<CurrentLevel>), typeof(ISaverArray<LevelInfo>));
+        descriptor.AddInstance(saves, typeof(ISaver));
     }
 }

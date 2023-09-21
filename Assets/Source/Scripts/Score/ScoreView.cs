@@ -45,9 +45,9 @@ public class ScoreView : MonoBehaviour
     }
 
     [Inject]
-    private void Inject(GameStateInject inject, ISaverArray<LevelInfo> levelInfo, ISaver<CurrentLevel> currentLevel)
+    private void Inject(GameStateInject inject, ISaver saver)
     {
-        SaveScore = () => levelInfo.Set(new LevelInfo(currentLevel.Get().Index, (int)_currentScore));
+        SaveScore = () => saver.Set(new LevelInfo(saver.Get<CurrentLevel>().Index, (int)_currentScore));
 
         _gameOver = inject.Over;
         _gameOver.GameOver += OnGameOver;

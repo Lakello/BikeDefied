@@ -58,10 +58,10 @@ public class SelectLevelScrollView : MonoBehaviour, IEndDragHandler, IDragHandle
     }
 
     [Inject]
-    private void Inject(ISaver<CurrentLevel> currentLevel)
+    private void Inject(ISaver saver)
     {
-        GetCurrentLevel = () => currentLevel.Get().Index;
-        SetCurrentLevel = (index) => currentLevel.Set(new CurrentLevel(index));
+        GetCurrentLevel = () => saver.Get<CurrentLevel>().Index;
+        SetCurrentLevel = (index) => saver.Set(new CurrentLevel(index));
 
         Init();
 

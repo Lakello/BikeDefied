@@ -1,15 +1,13 @@
-﻿using Reflex.Attributes;
+﻿using Agava.YandexGames;
+using IJunior.Object;
+using Reflex.Attributes;
 using System;
 using System.Collections;
 using UnityEngine;
-using Agava.YandexGames;
-using System.Collections.Generic;
-using IJunior.Object;
-using Lean.Localization;
 
 public class LeaderboardViewer : MonoBehaviour
 {
-    [SerializeField] private LeaderboardPlayerData _playerDataPrefab;
+    [SerializeField] private LeaderboardPlayerDataHandler _playerDataPrefab;
     [SerializeField] private Transform _content;
     [SerializeField] private int _countPlayers;
     [SerializeField] private Sprite _firstPlayerIcon;
@@ -18,8 +16,9 @@ public class LeaderboardViewer : MonoBehaviour
     [SerializeField] private bool _isAuthorizedSim;
 
     private Func<CurrentLevel> _getCurrentLevel;
-    private ObjectSpawner<PlayerData> _playerDataSpawner;
-    private ISaverArray<LevelInfo> _levelInfo;
+    private Func<int, LevelInfo> _getLevelInfo;
+    private ObjectSpawner<LeaderboardPlayerData> _playerDataSpawner;
+    private Action<LevelInfo> _levelInfoUpdated;
     private YandexSimulator _yandexSimulator = new();
     private Coroutine _showCoroutine;
     private LeaderboardEntryResponse[] _allPlayers;
@@ -29,21 +28,22 @@ public class LeaderboardViewer : MonoBehaviour
         Show();
 
     private void Awake() =>
-        _playerDataSpawner = new ObjectSpawner<PlayerData>(new ObjectFactory<PlayerData>(_content), new ObjectPool<PlayerData>());
+        _playerDataSpawner = new ObjectSpawner<LeaderboardPlayerData>(new ObjectFactory<LeaderboardPlayerData>(_content), new ObjectPool<LeaderboardPlayerData>());
 
     private void OnDisable()
     {
-        if (_levelInfo != null)
-            _levelInfo.ValueUpdated -= SetScore;
+        if (_levelInfoUpdated != null)
+            _levelInfoUpdated -= SetScore;
     }
 
     [Inject]
-    private void Inject(ISaver<CurrentLevel> currentLevel, ISaverArray<LevelInfo> levelInfo)
+    private void Inject(ISaver saver)
     {
-        _getCurrentLevel = () => currentLevel.Get();
+        _getCurrentLevel = () => saver.Get<CurrentLevel>();
+        _getLevelInfo = (index) => saver.Get(new LevelInfo(index, 0));
 
-        _levelInfo = levelInfo;
-        _levelInfo.ValueUpdated += SetScore;
+        _levelInfoUpdated = saver.ValueUpdated<LevelInfo>();
+        _levelInfoUpdated += SetScore;
     }
 
     private void Show()
@@ -66,7 +66,7 @@ public class LeaderboardViewer : MonoBehaviour
     private void ShowBestScore()
     {
         int index = _getCurrentLevel().Index;
-        int score = _levelInfo.Get(index).BestScore;
+        int score = _getLevelInfo(index).BestScore;
         var data = GetPlayerData(rank: 1, name: GetLocalizationAnonymousName(), score: score);
 
         CreatePlayerDataInTable(data);
@@ -103,11 +103,11 @@ public class LeaderboardViewer : MonoBehaviour
         }
     }
 
-    private PlayerData GetPlayerData(int rank, string name, int score)
+    private LeaderboardPlayerData GetPlayerData(int rank, string name, int score)
     {
         int index = rank - 1;
 
-        return new PlayerData
+        return new LeaderboardPlayerData
         {
             Rank = rank.ToString(),
             Name = name,
@@ -119,7 +119,7 @@ public class LeaderboardViewer : MonoBehaviour
         };
     }
 
-    private void CreatePlayerDataInTable(PlayerData data)
+    private void CreatePlayerDataInTable(LeaderboardPlayerData data)
     {
         var playerData = _playerDataSpawner.Spawn(_playerDataPrefab);
         playerData.Init(data);

@@ -1,5 +1,5 @@
 ﻿[System.Serializable]
-public class LevelInfo
+public class LevelInfo : IPlayerData
 {
     [UnityEngine.SerializeField] private int _levelIndex;
     [UnityEngine.SerializeField] private int _bestScore;
