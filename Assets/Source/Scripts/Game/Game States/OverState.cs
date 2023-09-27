@@ -31,7 +31,7 @@ public class OverState : GameState, IGameOver
     {
         yield return new WaitUntil(GameOver.Invoke);
 
-        GameStateMachine.Instance.SetWindow<GameOverWindowState>();
+        GameStateMachine.Instance.SetWindow<OverWindowState>();
         LateGameOver?.Invoke();
     }
 }

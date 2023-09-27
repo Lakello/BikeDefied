@@ -5,10 +5,16 @@ using UnityEngine.UI;
 public class AuthorizeForLeaderboard : MonoBehaviour
 {
     [SerializeField] private EventTriggerButton[] _disablingButtons;
+    [SerializeField] private bool _isAuthorizedSim;
 
     private void OnEnable()
     {
-        if (PlayerAccount.IsAuthorized)
+        bool isAuthorized = _isAuthorizedSim;
+#if !UNITY_EDITOR
+        isAuthorized = PlayerAccount.IsAuthorized;
+#endif
+
+        if (isAuthorized)
         {
             gameObject.SetActive(false);
             return;

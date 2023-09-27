@@ -9,7 +9,8 @@ namespace IJunior.StateMachine
     {
         public static GameStateMachine Instance { get; private set; }
 
-        public GameStateMachine(Func<Dictionary<Type, State<GameStateMachine>>> getStates) : base(getStates) => Instance ??= this;
+        public GameStateMachine(Func<Dictionary<Type, State<GameStateMachine>>> getStates) : base(getStates) =>
+            Instance ??= this;
 
         public void SetWindow<TWindow>() where TWindow : WindowState
         {

@@ -4,10 +4,12 @@ using Lean.Localization;
 using Reflex.Core;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ProjectInstaller : MonoBehaviour, IInstaller
 {
     [SerializeField] private GameAudioHandler _gameAudioHandler;
+    [SerializeField] private TutorialCanvas _tutorialPrefab;
 
     public void InstallBindings(ContainerDescriptor descriptor)
     {
@@ -30,7 +32,7 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
         var overState = new OverState(context);
         var gameStatemachine = new GameStateMachine(() =>
         {
-            return new System.Collections.Generic.Dictionary<System.Type, State<GameStateMachine>>()
+            return new Dictionary<System.Type, State<GameStateMachine>>()
             {
                 [typeof(MenuState)] = new MenuState(),
                 [typeof(PlayState)] = playState,
@@ -40,11 +42,11 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
 
         var windowStateMachine = new WindowStateMachine(() =>
         {
-            return new System.Collections.Generic.Dictionary<System.Type, State<WindowStateMachine>>()
+            return new Dictionary<System.Type, State<WindowStateMachine>>()
             {
                 [typeof(MenuWindowState)] = new MenuWindowState(),
                 [typeof(PlayWindowState)] = new PlayWindowState(),
-                [typeof(GameOverWindowState)] = new GameOverWindowState(),
+                [typeof(OverWindowState)] = new OverWindowState(),
                 [typeof(LeaderboardWindowState)] = new LeaderboardWindowState()
             };
         });
@@ -60,11 +62,20 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
             saves.Init();
             ad.Show();
 
-            string lang = "tr";
+            string lang = "ru";
 #if !UNITY_EDITOR
             lang = YandexGamesSdk.Environment.i18n.lang;
 #endif
             GameLanguage.Value = lang;
+
+            if (saves.Get<NotFirstSession>().IsNotFirstSession == false)
+            {
+                var tutorial = Instantiate(_tutorialPrefab);
+                DontDestroyOnLoad(tutorial);
+                saves.Set(new NotFirstSession(true));
+            }
+
+            return true;
         });
 
         descriptor.AddInstance(saves, typeof(ISaver));

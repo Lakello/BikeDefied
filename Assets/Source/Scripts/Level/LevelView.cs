@@ -9,19 +9,16 @@ public class LevelView : MonoBehaviour
     [SerializeField] private Vector3 _levelOffset;
 
     private LevelStateMachine _levelStateMachine;
-    private Action<CurrentLevel> _currentLevelUpdated;
+    private ISaver _saver;
 
-    private void OnDisable()
-    {
-        if (_currentLevelUpdated != null)
-            _currentLevelUpdated -= OnLevelChanged;
-    }
+    private void OnDisable() =>
+        _saver?.UnsubscribeValueUpdated<CurrentLevel>(OnLevelChanged);
 
     [Inject]
     private void Inject(Finish finish, ISaver saver)
     {
-        _currentLevelUpdated = saver.ValueUpdated<CurrentLevel>();
-        _currentLevelUpdated += OnLevelChanged;
+        _saver = saver;
+        _saver.SubscribeValueUpdated<CurrentLevel>(OnLevelChanged);
 
         Init(finish);
 

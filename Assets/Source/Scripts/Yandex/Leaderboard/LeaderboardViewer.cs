@@ -4,6 +4,7 @@ using Reflex.Attributes;
 using System;
 using System.Collections;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class LeaderboardViewer : MonoBehaviour
 {
@@ -15,35 +16,29 @@ public class LeaderboardViewer : MonoBehaviour
     [SerializeField] private Sprite _otherPlayerIcon;
     [SerializeField] private bool _isAuthorizedSim;
 
-    private Func<CurrentLevel> _getCurrentLevel;
-    private Func<int, LevelInfo> _getLevelInfo;
     private ObjectSpawner<LeaderboardPlayerData> _playerDataSpawner;
-    private Action<LevelInfo> _levelInfoUpdated;
+    private ISaver _saver;
     private YandexSimulator _yandexSimulator = new();
     private Coroutine _showCoroutine;
+
     private LeaderboardEntryResponse[] _allPlayers;
     private LeaderboardEntryResponse _playerEntry;
 
+    private void Awake() =>
+        _playerDataSpawner = new ObjectSpawner<LeaderboardPlayerData>(new ObjectFactory<LeaderboardPlayerData>(_content),
+                                                                      new ObjectPool<LeaderboardPlayerData>());
+    
     private void OnEnable() =>
         Show();
 
-    private void Awake() =>
-        _playerDataSpawner = new ObjectSpawner<LeaderboardPlayerData>(new ObjectFactory<LeaderboardPlayerData>(_content), new ObjectPool<LeaderboardPlayerData>());
-
-    private void OnDisable()
-    {
-        if (_levelInfoUpdated != null)
-            _levelInfoUpdated -= SetScore;
-    }
+    private void OnDisable() =>
+        _saver?.UnsubscribeValueUpdated<LevelInfo>(SetScore);
 
     [Inject]
     private void Inject(ISaver saver)
     {
-        _getCurrentLevel = () => saver.Get<CurrentLevel>();
-        _getLevelInfo = (index) => saver.Get(new LevelInfo(index, 0));
-
-        _levelInfoUpdated = saver.ValueUpdated<LevelInfo>();
-        _levelInfoUpdated += SetScore;
+        _saver = saver;
+        saver.SubscribeValueUpdated<LevelInfo>(SetScore);
     }
 
     private void Show()
@@ -65,8 +60,8 @@ public class LeaderboardViewer : MonoBehaviour
 
     private void ShowBestScore()
     {
-        int index = _getCurrentLevel().Index;
-        int score = _getLevelInfo(index).BestScore;
+        int index = _saver.Get<CurrentLevel>().Index;
+        int score = _saver.Get(new LevelInfo(index, 0)).BestScore;
         var data = GetPlayerData(rank: 1, name: GetLocalizationAnonymousName(), score: score);
 
         CreatePlayerDataInTable(data);
@@ -129,7 +124,7 @@ public class LeaderboardViewer : MonoBehaviour
     private void SetScore(LevelInfo levelInfo)
     {
 #if !UNITY_EDITOR
-        int levelIndex = _getCurrentLevel().Index;
+        int levelIndex = _saver.Get<CurrentLevel>().Index;
 
         int score = levelInfo.BestScore;
         if (PlayerAccount.IsAuthorized)
@@ -192,7 +187,7 @@ public class LeaderboardViewer : MonoBehaviour
 
     private string GetLeaderboardName()
     {
-        string leaderboardName = $"Level{_getCurrentLevel().Index + 1}";
+        string leaderboardName = $"Level{_saver.Get<CurrentLevel>().Index + 1}";
         return leaderboardName;
     }
 }

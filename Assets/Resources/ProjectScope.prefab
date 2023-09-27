@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameAudioHandler: {fileID: -2501707128761332632}
+  _tutorialPrefab: {fileID: 715577280294023778, guid: 334cbbef2598427429605a214b02f528, type: 3}
 --- !u!114 &-2501707128761332632
 MonoBehaviour:
   m_ObjectHideFlags: 0

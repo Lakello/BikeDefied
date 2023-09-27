@@ -7,7 +7,10 @@ namespace IJunior.StateMachine
     {
         public static WindowStateMachine Instance { get; private set; }
 
-        public WindowStateMachine(Func<Dictionary<Type, State<WindowStateMachine>>> getStates) : base(getStates) => Instance ??= this;
+        public WindowStateMachine(Func<Dictionary<Type, State<WindowStateMachine>>> getStates) : base(getStates) =>
+            Instance ??= this;
+
+        public event Action StateUpdated;
 
         public TState GetState<TState>(Window window) where TState : State<WindowStateMachine>
         {
@@ -15,6 +18,12 @@ namespace IJunior.StateMachine
                 return (TState)state;
             else
                 return null;
+        }
+
+        public override void EnterIn<TState>()
+        {
+            base.EnterIn<TState>();
+            StateUpdated?.Invoke();
         }
     }
 }

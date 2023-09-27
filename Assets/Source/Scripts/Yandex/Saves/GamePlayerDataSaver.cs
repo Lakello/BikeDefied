@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Agava.YandexGames;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -10,8 +11,8 @@ public class GamePlayerDataSaver : ISaver
     private Hashtable _accessMethodsHolders;
     private Hashtable _playerDataEvents;
 
-    private Action<CurrentLevel> _currentLevelUpdated;
-    private Action<LevelInfo> _levelInfoUpdated;
+    private event Action<CurrentLevel> _currentLevelUpdated;
+    private event Action<LevelInfo> _levelInfoUpdated;
 
     public GamePlayerDataSaver()
     {
@@ -44,7 +45,7 @@ public class GamePlayerDataSaver : ISaver
                         AddLevelInfo(value);
 
                     if (isSetted)
-                        Save(ValueUpdated<LevelInfo>(), value);
+                        Save((Action<LevelInfo>)_playerDataEvents[typeof(LevelInfo)], value);
                 }),
 
             [typeof(CurrentLevel)] = new SaveAccessMethodsHolder<CurrentLevel>(
@@ -57,11 +58,11 @@ public class GamePlayerDataSaver : ISaver
                     if (_playerData.CurrentLevel != value)
                     {
                         _playerData.CurrentLevel = value;
-                        Save(ValueUpdated<CurrentLevel>(), value);
+                        Save((Action<CurrentLevel>)_playerDataEvents[typeof(CurrentLevel)], value);
                     }
                 }),
 
-            [typeof(FirstSession)] = new SaveAccessMethodsHolder<FirstSession>(
+            [typeof(NotFirstSession)] = new SaveAccessMethodsHolder<NotFirstSession>(
                 getter: (_) => _playerData.FirstSession,
                 setter: (value) => _playerData.FirstSession = value ?? throw new ArgumentNullException(nameof(value)))
         };
@@ -72,7 +73,7 @@ public class GamePlayerDataSaver : ISaver
     {
         public LevelInfo[] LevelInfo = new LevelInfo[] { };
         public CurrentLevel CurrentLevel = new(0);
-        public FirstSession FirstSession = new(false);
+        public NotFirstSession FirstSession = new(false);
     }
 
     public TData Get<TData>(TData value = default) where TData : class, IPlayerData
@@ -101,54 +102,58 @@ public class GamePlayerDataSaver : ISaver
         }
     }
 
-    public Action<TData> ValueUpdated<TData>() where TData : class, IPlayerData
+    public void SubscribeValueUpdated<TData>(Action<TData> subAction) where TData : class, IPlayerData
     {
         if (_playerDataEvents.ContainsKey(typeof(TData)))
         {
             var action = (Action<TData>)_playerDataEvents[typeof(TData)];
 
-            return action;
+            action += subAction;
+            _playerDataEvents[typeof(TData)] = action;
         }
         else
-        { 
+        {
+            throw new ArgumentNullException($"{nameof(GamePlayerDataSaver)} VALUE UPDATED");
+        }
+    }
+
+    public void UnsubscribeValueUpdated<TData>(Action<TData> subAction) where TData : class, IPlayerData
+    {
+        if (_playerDataEvents.ContainsKey(typeof(TData)))
+        {
+            var action = (Action<TData>)_playerDataEvents[typeof(TData)];
+
+            action -= subAction;
+            _playerDataEvents[typeof(TData)] = action;
+        }
+        else
+        {
             throw new ArgumentNullException($"{nameof(GamePlayerDataSaver)} VALUE UPDATED");
         }
     }
 
     public void Init()
     {
+        void onSuccessCallback(string data)
+        {
+            var playerData = JsonUtility.FromJson<PlayerData>(data);
+
+            if (playerData.LevelInfo != null && playerData.LevelInfo.Length > 0)
+            {
+                foreach (var levelInfo in playerData.LevelInfo)
+                {
+                    AddLevelInfo(levelInfo);
+                }
+
+                Set(playerData.CurrentLevel);
+                Set(playerData.FirstSession);
+            }
+        }
+
 #if !UNITY_EDITOR
-        PlayerAccount.GetCloudSaveData((data) =>
-        {
-            var playerData = JsonUtility.FromJson<PlayerData>(data);
-
-            if (playerData.LevelInfo != null && playerData.LevelInfo.Length > 0)
-            {
-                foreach (var levelInfo in playerData.LevelInfo)
-                {
-                    AddLevelInfo(levelInfo);
-                }
-
-                Set(playerData.CurrentLevel);
-            }
-
-            Debug.Log($"data = {data}");
-        });
+        PlayerAccount.GetCloudSaveData(onSuccessCallback);
 #else
-        _yandexSimulator.Init((data) =>
-        {
-            var playerData = JsonUtility.FromJson<PlayerData>(data);
-
-            if (playerData.LevelInfo != null && playerData.LevelInfo.Length > 0)
-            {
-                foreach (var levelInfo in playerData.LevelInfo)
-                {
-                    AddLevelInfo(levelInfo);
-                }
-
-                Set(playerData.CurrentLevel);
-            }
-        });
+        _yandexSimulator.Init(onSuccessCallback);
 #endif
     }
 

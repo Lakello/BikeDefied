@@ -18,7 +18,7 @@ namespace IJunior.StateMachine
             CurrentState?.Exit();
         }
 
-        public void EnterIn<TState>() where TState : State<TMachine>
+        public virtual void EnterIn<TState>() where TState : State<TMachine>
         {
             if (States.ContainsKey(typeof(TState)) == false)
                 throw new NullReferenceException(nameof(States));

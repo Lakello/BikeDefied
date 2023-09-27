@@ -7,9 +7,11 @@ using UnityEngine;
 
 public class ScoreView : MonoBehaviour
 {
-    [SerializeField] private TextAnimation _scoreText;
-    [SerializeField] private TextAnimation _flipMessageText;
+    [SerializeField] private ObjectScaler _scoreScaler;
+    [SerializeField] private ObjectScaler _flipMessageScaler;
     [SerializeField] private TMP_Text _totalScoreText;
+    [SerializeField] private TMP_Text _scoreText;
+    [SerializeField] private TMP_Text _flipMessageText;
     [SerializeField] private float _totalScoreShowTime;
 
     private IReadOnlyList<IScoreCounter> _counters;
@@ -103,12 +105,13 @@ public class ScoreView : MonoBehaviour
 
         _currentScore += reward.Value;
 
-        _scoreText.Play(_currentScore.ToString("0"));
+        _scoreText.text = _currentScore.ToString("0");
+        _scoreScaler.Play(subAnimation: (scale) => _scoreText.alpha = scale);
 
         if (reward.Message != "")
         {
-            _flipMessageText.gameObject.SetActive(true);
-            _flipMessageText.Play(reward.Message, () => _flipMessageText.gameObject.SetActive(false));
+            _flipMessageScaler.gameObject.SetActive(true);
+            _flipMessageScaler.Play(successAction: () => _flipMessageScaler.gameObject.SetActive(false));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using IJunior.TypedScenes;
 
 namespace IJunior.StateMachine
 {
@@ -19,7 +20,7 @@ namespace IJunior.StateMachine
             {
                 _machine.EnterIn<TTargetState>();
             }
-            
+
             _reloadScene?.Invoke();
         }
     }

@@ -1,22 +1,19 @@
 ﻿using System;
 using System.IO;
-using UnityEngine;
 using Agava.YandexGames;
 
 public class YandexSimulator
 {
-    private string _saveSimPath = "Assets/Source/Scripts/Yandex/Simulator/SaveSim.json";
+    private readonly string _saveSimPath = "Assets/Source/Scripts/Yandex/Simulator/SaveSim.json";
+    private readonly int _playerRank = 2;
     private LeaderboardEntryResponse _playerEntrySim;
     private LeaderboardEntryResponse[] _allPlayersSim;
-    private int _playerRank = 2;
 
     public void Init(Action<string> action)
     {
         string data = File.ReadAllText(_saveSimPath);
 
         action(data);
-
-        Debug.Log($"data = {data}");
     }
 
     public void Save(string save)
@@ -28,18 +25,18 @@ public class YandexSimulator
     {
         int rank = 0;
 
-        Func<LeaderboardEntryResponse> get = () =>
+        LeaderboardEntryResponse getEntry()
         {
-            LeaderboardEntryResponse entry = new LeaderboardEntryResponse();
-            PlayerAccountProfileDataResponse player = new PlayerAccountProfileDataResponse();
-             
+            LeaderboardEntryResponse entry = new();
+            PlayerAccountProfileDataResponse player = new();
+
             entry.rank = ++rank == _playerRank ? ++rank : rank;
             entry.player = player;
             entry.player.publicName = "anoano";
             entry.score = UnityEngine.Random.Range(100, 1000);
 
             return entry;
-        };
+        }
 
         int count = 19;
         _allPlayersSim = new LeaderboardEntryResponse[count];
@@ -49,7 +46,7 @@ public class YandexSimulator
             if (i + 1 == _playerRank)
                 _allPlayersSim[i] = GetLeaderboardPlayerEntry();
             else
-                _allPlayersSim[i] = get();
+                _allPlayersSim[i] = getEntry();
         }
 
         return _allPlayersSim;
