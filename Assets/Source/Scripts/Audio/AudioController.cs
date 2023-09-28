@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AudioController : IDisposable, IAudioController
 {
-    private MonoBehaviour _context;
+    private Context _context;
     private GameAudioHandler _gameAudioHandler;
     private AudioSource _backgroundAudio;
     private AudioSource _gameAudio;
@@ -12,7 +12,7 @@ public class AudioController : IDisposable, IAudioController
     private Coroutine _backgroundAudioCoroutine;
 
     public AudioController(AudioSource gameAudio, AudioSource backgroundAudio,
-                           GameAudioHandler audioHandler, MonoBehaviour context)
+                           GameAudioHandler audioHandler, Context context)
     {
         _gameAudioHandler = audioHandler;
         _gameAudio = gameAudio;
@@ -20,6 +20,8 @@ public class AudioController : IDisposable, IAudioController
         _backgroundAudio = backgroundAudio;
         _backgroundAudio.loop = true;
         _context = context;
+
+        _context.FocusChanged += OnFocusChanged;
 
         _backgroundAudioCoroutine = _context.StartCoroutine(PlayBackgroundAudio());
     }
@@ -31,6 +33,9 @@ public class AudioController : IDisposable, IAudioController
 
         if (_backgroundAudioCoroutine != null)
             _context.StopCoroutine(_backgroundAudioCoroutine);
+
+        if (_context != null)
+            _context.FocusChanged -= OnFocusChanged;
     }
 
     public void Play(Audio audio)
@@ -39,6 +44,20 @@ public class AudioController : IDisposable, IAudioController
             _context.StopCoroutine(_gameAudioCoroutine);
 
         _gameAudioCoroutine = _context.StartCoroutine(PlayClip(audio));
+    }
+
+    private void OnFocusChanged(bool focus)
+    {
+        if (focus)
+        {
+            _backgroundAudio.Play();
+            _gameAudio.Play();
+        }
+        else
+        {
+            _backgroundAudio.Pause();
+            _gameAudio.Pause();
+        }
     }
 
     private IEnumerator PlayBackgroundAudio()

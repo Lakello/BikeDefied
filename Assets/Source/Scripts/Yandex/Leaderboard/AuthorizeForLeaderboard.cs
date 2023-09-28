@@ -1,6 +1,5 @@
 using Agava.YandexGames;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AuthorizeForLeaderboard : MonoBehaviour
 {
@@ -32,7 +31,4 @@ public class AuthorizeForLeaderboard : MonoBehaviour
 
     public void OnAuthorizeClick() =>
         PlayerAccount.Authorize();
-
-    public void OnCancelClick() =>
-        gameObject.SetActive(false);
 }

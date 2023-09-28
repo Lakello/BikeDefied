@@ -11,24 +11,17 @@ public class GamePlayerDataSaver : ISaver
     private Hashtable _accessMethodsHolders;
     private Hashtable _playerDataEvents;
 
-    private event Action<CurrentLevel> _currentLevelUpdated;
-    private event Action<LevelInfo> _levelInfoUpdated;
-
     public GamePlayerDataSaver()
     {
-        _playerDataEvents = new Hashtable()
-        {
-            [typeof(LevelInfo)] = _levelInfoUpdated,
-            [typeof(CurrentLevel)] = _currentLevelUpdated
-        };
+        _playerDataEvents = new Hashtable();
 
         _accessMethodsHolders = new Hashtable()
         {
             [typeof(LevelInfo)] = new SaveAccessMethodsHolder<LevelInfo>(
                 getter: (value) =>
                 {
-                     return _playerData.LevelInfo.FirstOrDefault(levelInfo => levelInfo.LevelIndex == value.LevelIndex);
-                }, 
+                    return _playerData.LevelInfo.FirstOrDefault(levelInfo => levelInfo.LevelIndex == value.LevelIndex);
+                },
                 setter: (value) =>
                 {
                     if (value == default)
@@ -62,9 +55,13 @@ public class GamePlayerDataSaver : ISaver
                     }
                 }),
 
-            [typeof(NotFirstSession)] = new SaveAccessMethodsHolder<NotFirstSession>(
-                getter: (_) => _playerData.FirstSession,
-                setter: (value) => _playerData.FirstSession = value ?? throw new ArgumentNullException(nameof(value)))
+            [typeof(HintDisplay)] = new SaveAccessMethodsHolder<HintDisplay>(
+                getter: (_) => _playerData.HintDisplay,
+                setter: (value) =>
+                {
+                    _playerData.HintDisplay = value;
+                    Save();
+                })
         };
     }
 
@@ -72,8 +69,8 @@ public class GamePlayerDataSaver : ISaver
     private class PlayerData
     {
         public LevelInfo[] LevelInfo = new LevelInfo[] { };
-        public CurrentLevel CurrentLevel = new(0);
-        public NotFirstSession FirstSession = new(false);
+        public CurrentLevel CurrentLevel = new(4);
+        public HintDisplay HintDisplay = new(true);
     }
 
     public TData Get<TData>(TData value = default) where TData : class, IPlayerData
@@ -113,7 +110,7 @@ public class GamePlayerDataSaver : ISaver
         }
         else
         {
-            throw new ArgumentNullException($"{nameof(GamePlayerDataSaver)} VALUE UPDATED");
+            _playerDataEvents.Add(typeof(TData), subAction);
         }
     }
 
@@ -138,16 +135,12 @@ public class GamePlayerDataSaver : ISaver
         {
             var playerData = JsonUtility.FromJson<PlayerData>(data);
 
-            if (playerData.LevelInfo != null && playerData.LevelInfo.Length > 0)
+            foreach (var levelInfo in playerData.LevelInfo)
             {
-                foreach (var levelInfo in playerData.LevelInfo)
-                {
-                    AddLevelInfo(levelInfo);
-                }
-
-                Set(playerData.CurrentLevel);
-                Set(playerData.FirstSession);
+                AddLevelInfo(levelInfo);
             }
+
+            Set(playerData.CurrentLevel);
         }
 
 #if !UNITY_EDITOR
@@ -157,7 +150,7 @@ public class GamePlayerDataSaver : ISaver
 #endif
     }
 
-    private void Save<T>(Action<T> saved, T valueCallback)
+    private void Save()
     {
         string save = JsonUtility.ToJson(_playerData);
 #if !UNITY_EDITOR
@@ -165,6 +158,11 @@ public class GamePlayerDataSaver : ISaver
 #else
         _yandexSimulator.Save(save);
 #endif
+    }
+
+    private void Save<T>(Action<T> saved, T valueCallback)
+    {
+        Save();
         saved?.Invoke(valueCallback);
     }
 

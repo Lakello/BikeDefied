@@ -1,10 +1,9 @@
 ﻿using Agava.YandexGames;
 using IJunior.Object;
 using Reflex.Attributes;
-using System;
 using System.Collections;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEngine.UI;
 
 public class LeaderboardViewer : MonoBehaviour
 {
@@ -15,6 +14,7 @@ public class LeaderboardViewer : MonoBehaviour
     [SerializeField] private Sprite _secondPlayerIcon;
     [SerializeField] private Sprite _otherPlayerIcon;
     [SerializeField] private bool _isAuthorizedSim;
+    [SerializeField] private bool _isHideIfNotAuthorized;
 
     private ObjectSpawner<LeaderboardPlayerData> _playerDataSpawner;
     private ISaver _saver;
@@ -27,7 +27,7 @@ public class LeaderboardViewer : MonoBehaviour
     private void Awake() =>
         _playerDataSpawner = new ObjectSpawner<LeaderboardPlayerData>(new ObjectFactory<LeaderboardPlayerData>(_content),
                                                                       new ObjectPool<LeaderboardPlayerData>());
-    
+
     private void OnEnable() =>
         Show();
 
@@ -47,6 +47,7 @@ public class LeaderboardViewer : MonoBehaviour
 #if !UNITY_EDITOR
         isAuthorized = PlayerAccount.IsAuthorized;
 #endif
+
         if (isAuthorized)
         {
             if (_showCoroutine != null)
@@ -54,6 +55,8 @@ public class LeaderboardViewer : MonoBehaviour
 
             _showCoroutine = StartCoroutine(ShowLeaderboard());
         }
+        else if(_isHideIfNotAuthorized)
+            gameObject.SetActive(false);
         else
             ShowBestScore();
     }

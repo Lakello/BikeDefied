@@ -9,7 +9,6 @@ using System.Collections.Generic;
 public class ProjectInstaller : MonoBehaviour, IInstaller
 {
     [SerializeField] private GameAudioHandler _gameAudioHandler;
-    [SerializeField] private TutorialCanvas _tutorialPrefab;
 
     public void InstallBindings(ContainerDescriptor descriptor)
     {
@@ -60,20 +59,12 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
         yandexInitializer.Init(sdkInitSuccessCallBack:() =>
         {
             saves.Init();
-            ad.Show();
 
             string lang = "ru";
 #if !UNITY_EDITOR
             lang = YandexGamesSdk.Environment.i18n.lang;
 #endif
             GameLanguage.Value = lang;
-
-            if (saves.Get<NotFirstSession>().IsNotFirstSession == false)
-            {
-                var tutorial = Instantiate(_tutorialPrefab);
-                DontDestroyOnLoad(tutorial);
-                saves.Set(new NotFirstSession(true));
-            }
 
             return true;
         });

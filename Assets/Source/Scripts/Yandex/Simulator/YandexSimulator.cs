@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Agava.YandexGames;
 
@@ -13,7 +14,7 @@ public class YandexSimulator
     {
         string data = File.ReadAllText(_saveSimPath);
 
-        action(data);
+        action?.Invoke(data);
     }
 
     public void Save(string save)

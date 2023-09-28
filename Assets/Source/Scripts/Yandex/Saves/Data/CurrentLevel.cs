@@ -1,6 +1,4 @@
-﻿using System;
-
-[System.Serializable]
+﻿[System.Serializable]
 public class CurrentLevel : IPlayerData
 {
     [UnityEngine.SerializeField] private int _index;

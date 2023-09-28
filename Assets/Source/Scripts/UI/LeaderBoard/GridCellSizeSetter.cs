@@ -11,19 +11,15 @@ public class GridCellSizeSetter : LayoutGroup
     {
         Vector2 size;
 
-        size.x = Parent.rect.size.x;
+        size.x = Parent.rect.size.x - Grid.padding.right - Grid.padding.left;
         size.y = Parent.rect.size.y / _countCells;
 
         return size;
     }
 
-    public override void CalculateLayoutInputVertical()
-    {
-    }
+    public override void CalculateLayoutInputVertical() { }
 
-    public override void SetLayoutHorizontal()
-    {
-    }
+    public override void SetLayoutHorizontal() { }
 
     public override void SetLayoutVertical()
     {
