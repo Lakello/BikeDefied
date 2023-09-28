@@ -3,10 +3,24 @@ using UnityEngine;
 
 public class Context : MonoBehaviour
 {
+    private bool _isAdShow;
+
     public event Action<bool> FocusChanged;
 
-    private void OnApplicationFocus(bool focus)
+    private void OnApplicationFocus(bool focus) =>
+        ChangeFocus(focus, true);
+
+    public void ChangeFocusAd(bool focus, bool isAdShow)
     {
+        _isAdShow = isAdShow;
+        ChangeFocus(focus, false);
+    }
+
+    private void ChangeFocus(bool focus, bool isApplication)
+    {
+        if (_isAdShow == true && isApplication == true)
+            return;
+
         if (focus)
             Time.timeScale = 1.0f;
         else

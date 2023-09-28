@@ -8,8 +8,12 @@ public class BikeFliper : BikeBehaviour
     [SerializeField] private Rigidbody _backWheel;
     [SerializeField] private Rigidbody _frontWheel;
 
+    private Rigidbody _bikeRigidbody;
+
     private void Start()
     {
+        _bikeRigidbody = BikeBody.GetComponent<Rigidbody>();
+
         BehaviourCoroutine = StartCoroutine(Player.Behaviour(
         condition: () =>
         {
@@ -21,6 +25,8 @@ public class BikeFliper : BikeBehaviour
 
             if (horizontal != 0)
                 Flip(horizontal);
+            else 
+                _bikeRigidbody.velocity = new Vector3(0, _bikeRigidbody.velocity.y, _bikeRigidbody.velocity.z);
         }));
     }
 

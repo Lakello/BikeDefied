@@ -51,7 +51,6 @@ public class AudioController : IDisposable, IAudioController
         if (focus)
         {
             _backgroundAudio.Play();
-            _gameAudio.Play();
         }
         else
         {

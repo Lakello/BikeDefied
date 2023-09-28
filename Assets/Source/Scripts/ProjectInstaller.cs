@@ -27,7 +27,7 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
 
         descriptor.AddInstance(audioController, typeof(IAudioController));
 
-        var playState = new PlayState(this, input, audioController);
+        var playState = new PlayState(input);
         var overState = new OverState(context);
         var gameStatemachine = new GameStateMachine(() =>
         {
@@ -52,7 +52,7 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
 
         var saves = new GamePlayerDataSaver();
 
-        var ad = new Ad(overState, countOverBetweenShowsAd: 3, countOverBetweenShowsVideoAd: 10);
+        var ad = new Ad(context, overState, countOverBetweenShowsAd: 5);
 
         var yandexInitializer = new GameObject("Init").AddComponent<YandexInitializer>();
 

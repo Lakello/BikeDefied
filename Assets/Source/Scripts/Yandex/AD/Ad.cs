@@ -3,17 +3,17 @@ using System;
 
 public class Ad : IDisposable
 {
+    private Context _context;
     private IGameOver _over;
-    private readonly int _countOverBetweenShowsVideoAd = 10;
-    private readonly int _countOverBetweenShowsAd = 3;
+    private readonly int _countOverBetweenShowsAd = 5;
     private int _currentCountOver;
 
-    public Ad(IGameOver over, int countOverBetweenShowsAd, int countOverBetweenShowsVideoAd)
+    public Ad(Context context, IGameOver over, int countOverBetweenShowsAd)
     {
+        _context = context;
         _over = over;
         _over.LateGameOver += OnGameOver;
         _countOverBetweenShowsAd = countOverBetweenShowsAd;
-        _countOverBetweenShowsVideoAd = countOverBetweenShowsVideoAd;
     }
 
     public void Dispose()
@@ -24,24 +24,15 @@ public class Ad : IDisposable
     public void Show()
     {
 #if !UNITY_EDITOR
-        InterstitialAd.Show();
-#endif
-    }
-
-    public void ShowVideo()
-    {
-#if !UNITY_EDITOR
-        VideoAd.Show();
+        InterstitialAd.Show(
+            onOpenCallback: () => _context.ChangeFocusAd(false, true),
+            onCloseCallback: (wasShown) => _context.ChangeFocusAd(true, false));
 #endif
     }
 
     private void OnGameOver()
     {
-        if (++_currentCountOver % _countOverBetweenShowsVideoAd == 0)
-        {
-            ShowVideo();
-        }
-        else if (_currentCountOver % _countOverBetweenShowsAd == 0)
+        if (++_currentCountOver % _countOverBetweenShowsAd == 0)
         {
             Show();
         }
