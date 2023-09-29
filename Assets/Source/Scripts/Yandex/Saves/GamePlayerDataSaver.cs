@@ -61,6 +61,14 @@ public class GamePlayerDataSaver : ISaver
                 {
                     _playerData.HintDisplay = value;
                     Save();
+                }),
+
+            [typeof(UnmuteSound)] = new SaveAccessMethodsHolder<UnmuteSound>(
+                getter: (_) => _playerData.UnmuteSound,
+                setter: (value) =>
+                {
+                    _playerData.UnmuteSound = value;
+                    Save();
                 })
         };
     }
@@ -71,6 +79,7 @@ public class GamePlayerDataSaver : ISaver
         public LevelInfo[] LevelInfo = new LevelInfo[] { };
         public CurrentLevel CurrentLevel = new(4);
         public HintDisplay HintDisplay = new(true);
+        public UnmuteSound UnmuteSound = new(1f);
     }
 
     public TData Get<TData>(TData value = default) where TData : class, IPlayerData
@@ -141,6 +150,8 @@ public class GamePlayerDataSaver : ISaver
             }
 
             Set(playerData.CurrentLevel);
+            Set(playerData.HintDisplay);
+            Set(playerData.UnmuteSound);
         }
 
 #if !UNITY_EDITOR

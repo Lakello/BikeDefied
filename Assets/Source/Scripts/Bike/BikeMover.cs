@@ -39,6 +39,6 @@ public class BikeMover : BikeBehaviour
 
     private void Move(float value)
     {
-        _bikeRigidbody.AddForce(new Vector3(0, 0, _force * value * Time.deltaTime), ForceMode.Acceleration);
+        _bikeRigidbody.AddForce(new Vector3(0, 0, _force * value * Time.deltaTime), ForceMode.VelocityChange);
     }
 }

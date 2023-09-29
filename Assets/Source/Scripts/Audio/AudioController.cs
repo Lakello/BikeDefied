@@ -10,6 +10,18 @@ public class AudioController : IDisposable, IAudioController
     private AudioSource _gameAudio;
     private Coroutine _gameAudioCoroutine;
     private Coroutine _backgroundAudioCoroutine;
+    private float _volumePercent = 1f;
+
+    public float VolumePercent
+    {
+        get => _volumePercent;
+        set
+        {
+            _volumePercent = Mathf.Clamp(value, 0f, 1f);
+            _context.StartCoroutine(SmoothlyChangeVolume(_backgroundAudio, _volumePercent));
+            _context.StartCoroutine(SmoothlyChangeVolume(_gameAudio, _volumePercent));
+        }
+    }
 
     public AudioController(AudioSource gameAudio, AudioSource backgroundAudio,
                            GameAudioHandler audioHandler, Context context)
@@ -100,7 +112,7 @@ public class AudioController : IDisposable, IAudioController
         {
             currentTime += Time.deltaTime;
             pastTime = currentTime / _gameAudioHandler.SmoothlyTime;
-            source.volume = Mathf.Lerp(startVolume, targetVolume, pastTime);
+            source.volume = Mathf.Lerp(startVolume, targetVolume, pastTime) * _volumePercent;
 
             yield return null;
         }

@@ -25,8 +25,8 @@ public class BikeFliper : BikeBehaviour
 
             if (horizontal != 0)
                 Flip(horizontal);
-            else 
-                _bikeRigidbody.velocity = new Vector3(0, _bikeRigidbody.velocity.y, _bikeRigidbody.velocity.z);
+            else if (_bikeRigidbody.isKinematic == false)
+                _bikeRigidbody.angularVelocity = new Vector3(0, _bikeRigidbody.velocity.y, _bikeRigidbody.velocity.z);
         }));
     }
 
@@ -44,7 +44,7 @@ public class BikeFliper : BikeBehaviour
 
     private void Flip(float direction)
     {
-        _backWheel.AddForce(_rotateSpeed * -direction * Time.deltaTime * BikeBody.up, ForceMode.Acceleration);
-        _frontWheel.AddForce(_rotateSpeed * direction * Time.deltaTime * BikeBody.up, ForceMode.Acceleration);
+        _backWheel.AddForce(_rotateSpeed * -direction * Time.deltaTime * BikeBody.up, ForceMode.VelocityChange);
+        _frontWheel.AddForce(_rotateSpeed * direction * Time.deltaTime * BikeBody.up, ForceMode.VelocityChange);
     }
 }

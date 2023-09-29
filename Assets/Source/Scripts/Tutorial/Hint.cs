@@ -24,7 +24,7 @@ public class Hint : MonoBehaviour
 
     public void StartShow(bool value)
     {
-        if (!TryShow(value) &&  CanShow)
+        if (!TryShow(value) && CanShow)
             gameObject.SetActive(value);
     }
 

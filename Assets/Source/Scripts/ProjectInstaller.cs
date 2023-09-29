@@ -52,7 +52,8 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
 
         var saves = new GamePlayerDataSaver();
 
-        var ad = new Ad(context, overState, countOverBetweenShowsAd: 5);
+        var ad = new Ad(context, countOverBetweenShowsAd: 5);
+        descriptor.AddInstance(ad, typeof(ICounterForShowAd));
 
         var yandexInitializer = new GameObject("Init").AddComponent<YandexInitializer>();
 
