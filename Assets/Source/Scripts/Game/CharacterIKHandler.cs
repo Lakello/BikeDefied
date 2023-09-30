@@ -5,6 +5,7 @@ public class CharacterIKHandler : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     [SerializeField] private bool _ikActive;
+    [SerializeField] private Transform _hipsPoint;
     [SerializeField] private Transform _rightHandPoint;
     [SerializeField] private Transform _leftHandPoint;
     [SerializeField] private Transform _rightLegPoint;
@@ -19,6 +20,9 @@ public class CharacterIKHandler : MonoBehaviour
             {
                 _animator.SetLookAtWeight(1);
                 _animator.SetLookAtPosition(_lookPoint.position);
+
+                _animator.bodyPosition = _hipsPoint.position;
+                _animator.bodyRotation = _hipsPoint.rotation;
 
                 SetIk(AvatarIKGoal.RightHand, _rightHandPoint);
                 SetIk(AvatarIKGoal.LeftHand, _leftHandPoint);
