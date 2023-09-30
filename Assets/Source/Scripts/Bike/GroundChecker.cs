@@ -7,7 +7,7 @@ public class GroundChecker : MonoBehaviour
     [SerializeField] private Collider _backCollider;
     [SerializeField] private Collider _frontCollider;
 
-    private float _checkRadius = 0.28f;
+    private float _checkRadius = 0.31f;
     private bool _isGrounded;
     private bool _isBackWheelGround;
     private bool _isFrontWheelGround;
