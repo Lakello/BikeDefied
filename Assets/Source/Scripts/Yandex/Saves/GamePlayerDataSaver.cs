@@ -48,7 +48,7 @@ public class GamePlayerDataSaver : ISaver
                     if (value == default)
                         throw new ArgumentNullException(nameof(value));
 
-                    if (_playerData.CurrentLevel != value)
+                    if (_playerData.CurrentLevel.Index != value.Index)
                     {
                         _playerData.CurrentLevel = value;
                         Save((Action<CurrentLevel>)_playerDataEvents[typeof(CurrentLevel)], value);
@@ -59,16 +59,22 @@ public class GamePlayerDataSaver : ISaver
                 getter: (_) => _playerData.HintDisplay,
                 setter: (value) =>
                 {
-                    _playerData.HintDisplay = value;
-                    Save();
+                    if (_playerData.HintDisplay.IsHintDisplay != value.IsHintDisplay)
+                    {
+                        _playerData.HintDisplay = value;
+                        Save();
+                    }
                 }),
 
             [typeof(UnmuteSound)] = new SaveAccessMethodsHolder<UnmuteSound>(
                 getter: (_) => _playerData.UnmuteSound,
                 setter: (value) =>
                 {
-                    _playerData.UnmuteSound = value;
-                    Save();
+                    if (_playerData.UnmuteSound.VolumePercent != value.VolumePercent)
+                    {
+                        _playerData.UnmuteSound = value;
+                        Save();
+                    }
                 })
         };
     }
