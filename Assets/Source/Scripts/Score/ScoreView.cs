@@ -111,6 +111,7 @@ public class ScoreView : MonoBehaviour
         if (reward.Message != "")
         {
             _flipMessageScaler.gameObject.SetActive(true);
+            _flipMessageText.text = reward.Message;
             _flipMessageScaler.Play(successAction: () => _flipMessageScaler.gameObject.SetActive(false));
         }
     }

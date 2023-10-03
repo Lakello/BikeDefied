@@ -31,7 +31,7 @@ public class DistanceCounter : ScoreCounter
 
     private void TryAddScore()
     {
-        if (CurrentPosition > _bestPosition)
+        if (MathF.Round(CurrentPosition, 1) > MathF.Round(_bestPosition, 1))
         {
             _bestPosition = CurrentPosition;
 

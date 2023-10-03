@@ -113,7 +113,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.365
     - _GlossyReflections: 1
-    - _IndirectIntensity: 1
+    - _IndirectIntensity: 0.887
     - _IndirectIntensityOutline: 0
     - _MatCapMaskChannel: 0
     - _MatCapType: 0
@@ -134,14 +134,14 @@ Material:
     - _OutlineTextureType: 0
     - _OutlineWidth: 1
     - _Parallax: 0.02
-    - _RampBands: 6
-    - _RampBandsSmoothing: 0.1
+    - _RampBands: 20
+    - _RampBandsSmoothing: 1
     - _RampOffset: 0
     - _RampScale: 1
     - _RampSmooth: 0.1
     - _RampSmoothAdd: 0.75
-    - _RampSmoothing: 0.053
-    - _RampThreshold: 0.739
+    - _RampSmoothing: 0.196
+    - _RampThreshold: 0.66
     - _RampType: 2
     - _ReceiveShadowsOff: 1
     - _ReflectionMapType: 0
@@ -197,7 +197,7 @@ Material:
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.5}
-    - _SColor: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
+    - _SColor: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
     - _SketchColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _SpecularColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}

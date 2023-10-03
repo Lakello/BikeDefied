@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4851400036848561150}
   - component: {fileID: 378148407860398065}
   - component: {fileID: 5464518834541819480}
+  - component: {fileID: 5222482591199418315}
   m_Layer: 0
   m_Name: Acceleration Zone
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &378148407860398065
 BoxCollider:
@@ -69,3 +70,22 @@ MonoBehaviour:
   _accelerationMultiplyMode: 0
   _accelerationKoef: 2
   _speed: 0
+--- !u!114 &5222482591199418315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4194789876557601031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11bb20dd18f23114a961758cf10c52d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selfCollider: {fileID: 378148407860398065}
+  _elementPrefab: {fileID: 8083116705069111774, guid: 021e30a8382019246a84c4dee1eb05d1, type: 3}
+  _speedAlphaChanged: 1.2
+  _minAlpha: 0
+  _maxAlpha: 1
+  _timeChangeCurrentIndex: 0.1
+  _isUseParentScaleY: 0

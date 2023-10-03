@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace UnityTool
 {
+#if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(VisibleIfFalseAttribute))]
     public class VisibleIffalsePropertyDrawer : PropertyDrawer
     {
@@ -31,4 +32,5 @@ namespace UnityTool
             return dependentProp.boolValue;
         }
     }
+#endif
 }

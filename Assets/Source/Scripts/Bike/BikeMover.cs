@@ -6,7 +6,7 @@ public class BikeMover : BikeBehaviour, IAccelerationable
     [SerializeField] private float _force = 50;
 
     private Rigidbody _bikeRigidbody;
-    private float _accelerationKoef;
+    private float _accelerationKoef = 1f;
 
     public float UpdateAccelerationKoef { set => _accelerationKoef = Mathf.Clamp(value, 1f, 5f); }
     public Rigidbody SelfRigidbody => _bikeRigidbody;
@@ -44,6 +44,5 @@ public class BikeMover : BikeBehaviour, IAccelerationable
     private void Move(float value)
     {
         _bikeRigidbody.AddForce(new Vector3(0, 0, _force * value * _accelerationKoef * Time.deltaTime), ForceMode.VelocityChange);
-        UpdateAccelerationKoef = default;
     }
 }

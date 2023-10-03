@@ -3,7 +3,27 @@ guid: 6d22a71fed236214eb9d4bb33f2fc637
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat
+    second: {fileID: 2100000, guid: 0eff27d44ce2f75438f27d7af4f34290, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.1
+    second: {fileID: 2100000, guid: 8d02179e40be6c84db78602257b731dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.4
+    second: {fileID: 2100000, guid: e7292e55cb92fe84995f24a2d3d5cc94, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Opony
+    second: {fileID: 2100000, guid: e309e663f5880e14eabb61bd7a699c6c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -90,7 +110,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.0023999999
+    globalScale: 0.24
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

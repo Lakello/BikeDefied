@@ -1,10 +1,9 @@
 using Reflex.Attributes;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] private List<FixedJoint> _joints;
+    [SerializeField] private Animator _selfAnimator;
 
     private IGameOver _game;
 
@@ -28,10 +27,7 @@ public class Character : MonoBehaviour
 
     private bool OnGameOver()
     {
-        foreach (var joint in _joints)
-        {
-            joint.connectedBody = null;
-        }
+        _selfAnimator.enabled = false;
 
         return true;
     }
