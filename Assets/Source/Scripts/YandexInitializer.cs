@@ -5,20 +5,29 @@ using UnityEngine;
 
 public class YandexInitializer : MonoBehaviour
 {
-    public void Init(Action sdkInitSuccessCallBack) =>
-        StartCoroutine(InitSDK(sdkInitSuccessCallBack));
+    private Func<bool> _sdkInitSuccessCallBack;
 
-    private IEnumerator InitSDK(Action sdkInitSuccessCallBack)
+    private void Start()
+    {
+        StartCoroutine(InitSDK());
+    }
+
+    public void Init(Func<bool> sdkInitSuccessCallBack)
+    {
+        _sdkInitSuccessCallBack = sdkInitSuccessCallBack;
+    }
+
+    private IEnumerator InitSDK()
     {
 #if !UNITY_EDITOR
-        yield return YandexGamesSdk.Initialize(sdkInitSuccessCallBack);
+        yield return YandexGamesSdk.Initialize();
 
         if (PlayerAccount.IsAuthorized == false)
             PlayerAccount.StartAuthorizationPolling(1500);
 #endif
 
-        IJunior.TypedScenes.Game.Load<MenuState>();
+        yield return new WaitUntil(_sdkInitSuccessCallBack);
 
-        yield return null;
+        IJunior.TypedScenes.Game.Load<MenuState>();
     }
 }

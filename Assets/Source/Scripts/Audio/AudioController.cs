@@ -36,7 +36,6 @@ public class AudioController : IDisposable, IAudioController
         _context.FocusChanged += OnFocusChanged;
 
         _backgroundAudioCoroutine = _context.StartCoroutine(PlayBackgroundAudio());
-        _backgroundAudio.volume = _gameAudio.volume = VolumePercent = 0;
     }
 
     public void Dispose()

@@ -55,8 +55,6 @@ public class AccelerationZoneViewer : MonoBehaviour
             alpha -= (_maxAlpha - _minAlpha) / _countElements;
             _color.a = alpha;
             element.color = _color;
-
-            Debug.Log(element.color);
         }
     }
 
