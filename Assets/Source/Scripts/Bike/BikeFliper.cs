@@ -14,25 +14,12 @@ public class BikeFliper : BikeBehaviour
     {
         _bikeRigidbody = BikeBody.GetComponent<Rigidbody>();
 
-        //BehaviourCoroutine = StartCoroutine(Player.Behaviour(
-        //condition: () =>
-        //{
-        //    return !IsGrounded;
-        //},
-        //action: () =>
-        //{
-        //    var horizontal = InputHandler.Horizontal;
-
-        //    if (horizontal != 0)
-        //        Flip(horizontal);
-        //    else if (_bikeRigidbody.isKinematic == false)
-        //        _bikeRigidbody.angularVelocity = new Vector3(0, _bikeRigidbody.velocity.y, _bikeRigidbody.velocity.z);
-        //}));
-    }
-
-    private void FixedUpdate()
-    {
-        if (!IsGrounded)
+        BehaviourCoroutine = StartCoroutine(Player.Behaviour(
+        condition: () =>
+        {
+            return !IsGrounded;
+        },
+        action: () =>
         {
             var horizontal = InputHandler.Horizontal;
 
@@ -40,7 +27,7 @@ public class BikeFliper : BikeBehaviour
                 Flip(horizontal);
             else if (_bikeRigidbody.isKinematic == false)
                 _bikeRigidbody.angularVelocity = new Vector3(0, _bikeRigidbody.velocity.y, _bikeRigidbody.velocity.z);
-        }    
+        }));
     }
 
     [Inject]
@@ -57,7 +44,7 @@ public class BikeFliper : BikeBehaviour
 
     private void Flip(float direction)
     {
-        _backWheel.AddForce(_rotateSpeed * -direction * Time.fixedDeltaTime * BikeBody.up, ForceMode.VelocityChange);
-        _frontWheel.AddForce(_rotateSpeed * direction * Time.fixedDeltaTime * BikeBody.up, ForceMode.VelocityChange);
+        _backWheel.AddForce(_rotateSpeed * -direction * Time.deltaTime * BikeBody.up, ForceMode.VelocityChange);
+        _frontWheel.AddForce(_rotateSpeed * direction * Time.deltaTime * BikeBody.up, ForceMode.VelocityChange);
     }
 }
