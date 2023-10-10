@@ -3,9 +3,8 @@ using UnityEngine;
 
 namespace UnityTool
 {
-#if UNITY_EDITOR
-    [CustomPropertyDrawer(typeof(VisibleIfTrueAttribute))]
-    public class VisibleIfTruePropertyDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(VisibleToConditionAttribute))]
+    public class VisibleToConditionPropertyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -27,10 +26,9 @@ namespace UnityTool
 
         private bool ShouldDisplay(SerializedProperty property)
         {
-            var attr = (VisibleIfTrueAttribute)attribute;
+            var attr = (VisibleToConditionAttribute)attribute;
             var dependentProp = property.serializedObject.FindProperty(attr.PropertyName);
-            return dependentProp.boolValue;
+            return dependentProp.boolValue == attr.Condition;
         }
     }
-#endif
 }

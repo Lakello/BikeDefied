@@ -1,20 +1,13 @@
 ﻿using UnityEngine;
-#if UNITY_EDITOR
 using UnityTool;
-#endif
 
 public class AccelerationZone : MonoBehaviour
 {
     [SerializeField] private bool _accelerationMultiplyMode;
-#if UNITY_EDITOR
-    [VisibleIfTrue(nameof(_accelerationMultiplyMode))]
-#endif
-    [SerializeField] private float _accelerationKoef;
 
-#if UNITY_EDITOR
-    [VisibleIfFalse(nameof(_accelerationMultiplyMode))]
-#endif
-    [SerializeField] private float _speed;
+    [SerializeField, VisibleToCondition(nameof(_accelerationMultiplyMode), true)] private float _accelerationKoef;
+
+    [SerializeField, VisibleToCondition(nameof(_accelerationMultiplyMode), false)] private float _speed;
 
 
     private void OnTriggerStay(Collider other)
