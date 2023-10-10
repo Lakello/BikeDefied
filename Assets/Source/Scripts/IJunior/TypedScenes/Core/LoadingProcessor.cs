@@ -5,7 +5,6 @@ using IJunior.StateMachine;
 
 namespace IJunior.TypedScenes
 {
-
     public class LoadingProcessor : MonoBehaviour
     {
         private static LoadingProcessor _instance;
@@ -39,13 +38,9 @@ namespace IJunior.TypedScenes
         {
             LoadingModelAction = () =>
             {
-                foreach (var rootObjects in SceneManager.GetActiveScene().GetRootGameObjects())
-                {
-                    foreach (var handler in rootObjects.GetComponentsInChildren<ISceneLoadHandlerState<TMachine>>())
-                    {
-                        handler.OnSceneLoaded<TState>();
-                    }
-                }
+                CallSceneLoaded<ISceneLoadHandlerState<TMachine>>((handler) => handler.OnSceneLoaded<TState>());
+
+                RegisterLoadingModel();
             };
         }
 
@@ -53,14 +48,24 @@ namespace IJunior.TypedScenes
         {
             LoadingModelAction = () =>
             {
-                foreach (var rootObjects in SceneManager.GetActiveScene().GetRootGameObjects())
-                {
-                    foreach (var handler in rootObjects.GetComponentsInChildren<ISceneLoadHandler<T>>())
-                    {
-                        handler.OnSceneLoaded(argument);
-                    }
-                }
+                CallSceneLoaded<ISceneLoadHandler<T>>((handler) => handler.OnSceneLoaded(argument));
+
+                RegisterLoadingModel();
             };
+        }
+
+        private void RegisterLoadingModel() =>
+            CallSceneLoaded<ISceneLoadHandler>((handler) => handler.OnSceneLoaded());
+
+        private void CallSceneLoaded<THandler>(Action<THandler> onSceneLoaded)
+        {
+            foreach (var rootObjects in SceneManager.GetActiveScene().GetRootGameObjects())
+            {
+                foreach (var handler in rootObjects.GetComponentsInChildren<THandler>())
+                {
+                    onSceneLoaded(handler);
+                }
+            }
         }
     }
 }

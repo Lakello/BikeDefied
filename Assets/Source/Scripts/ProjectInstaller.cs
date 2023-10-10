@@ -66,8 +66,6 @@ public class ProjectInstaller : MonoBehaviour, IInstaller
             lang = YandexGamesSdk.Environment.i18n.lang;
 #endif
             GameLanguage.Value = lang;
-
-            return true;
         });
 
         descriptor.AddInstance(saves, typeof(ISaver));

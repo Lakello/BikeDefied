@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using UnityEngine;
-using IJunior.StateMachine;
 
 namespace IJunior.TypedScenes
 {

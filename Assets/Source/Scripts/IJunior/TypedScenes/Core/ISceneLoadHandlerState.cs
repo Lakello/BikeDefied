@@ -12,4 +12,9 @@ namespace IJunior.TypedScenes
     {
         void OnSceneLoaded(T argument);
     }
+
+    public interface ISceneLoadHandler
+    {
+        void OnSceneLoaded();
+    }
 }
