@@ -1,3 +1,6 @@
 using UnityEngine;
 
-public class StartPoint : MonoBehaviour{}
+namespace BikeDefied.LevelComponents
+{
+    public class StartPoint : MonoBehaviour{}
+}

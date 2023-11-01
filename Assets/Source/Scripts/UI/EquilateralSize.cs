@@ -1,3 +1,6 @@
 using UnityEngine;
 
-public class EquilateralSize : MonoBehaviour{}
+namespace BikeDefied.UI
+{
+    public class EquilateralSize : MonoBehaviour { }
+}

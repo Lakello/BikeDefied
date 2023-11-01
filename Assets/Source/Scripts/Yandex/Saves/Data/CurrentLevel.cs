@@ -1,10 +1,13 @@
-﻿[System.Serializable]
-public class CurrentLevel : IPlayerData
+﻿namespace BikeDefied.Yandex.Saves.Data
 {
-    [UnityEngine.SerializeField] private int _index;
+    [System.Serializable]
+    public class CurrentLevel : IPlayerData
+    {
+        [UnityEngine.SerializeField] private int _index;
 
-    public int Index => _index;
+        public int Index => _index;
 
-    public CurrentLevel(int index) =>
-        _index = index;
+        public CurrentLevel(int index) =>
+            _index = index;
+    }
 }

@@ -1,45 +1,49 @@
-﻿using Reflex.Attributes;
+﻿using BikeDefied.BikeSystem;
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IconControlView : MonoBehaviour
+namespace BikeDefied.UI
 {
-    [SerializeField] private Image _leftArrow;
-    [SerializeField] private Image _rightArrow;
-    [SerializeField] private Image _frontFlip;
-    [SerializeField] private Image _backFlip;
-
-    private GroundChecker _checker;
-
-    private void OnDisable()
+    public class IconControlView : MonoBehaviour
     {
-        if (_checker != null)
-            _checker.GroundChanged -= OnGroundChanged;
-    }
+        [SerializeField] private Image _leftArrow;
+        [SerializeField] private Image _rightArrow;
+        [SerializeField] private Image _frontFlip;
+        [SerializeField] private Image _backFlip;
 
-    private void OnGroundChanged(bool isGrouded)
-    {
-        if (isGrouded)
+        private GroundChecker _checker;
+
+        private void OnDisable()
         {
-            _leftArrow.gameObject.SetActive(true);
-            _rightArrow.gameObject.SetActive(true);
-            _frontFlip.gameObject.SetActive(false);
-            _backFlip.gameObject.SetActive(false);
+            if (_checker != null)
+                _checker.GroundChanged -= OnGroundChanged;
         }
-        else
+
+        private void OnGroundChanged(bool isGrouded)
         {
-            _leftArrow.gameObject.SetActive(false);
-            _rightArrow.gameObject.SetActive(false);
-            _frontFlip.gameObject.SetActive(true);
-            _backFlip.gameObject.SetActive(true);
+            if (isGrouded)
+            {
+                _leftArrow.gameObject.SetActive(true);
+                _rightArrow.gameObject.SetActive(true);
+                _frontFlip.gameObject.SetActive(false);
+                _backFlip.gameObject.SetActive(false);
+            }
+            else
+            {
+                _leftArrow.gameObject.SetActive(false);
+                _rightArrow.gameObject.SetActive(false);
+                _frontFlip.gameObject.SetActive(true);
+                _backFlip.gameObject.SetActive(true);
+            }
         }
-    }
 
 
-    [Inject]
-    private void Inject(GroundChecker checker)
-    {
-        _checker = checker;
-        _checker.GroundChanged += OnGroundChanged;
+        [Inject]
+        private void Inject(GroundChecker checker)
+        {
+            _checker = checker;
+            _checker.GroundChanged += OnGroundChanged;
+        }
     }
 }

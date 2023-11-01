@@ -1,28 +1,31 @@
-﻿using Agava.YandexGames;
+﻿using BikeDefied.InputSystem;
 using Reflex.Core;
 using UnityEngine;
 
-public class InputHandlerInstaller : MonoBehaviour, IInstaller
+namespace BikeDefied
 {
-    [SerializeField] private MobileControl _mobileControl;
-
-    public void InstallBindings(ContainerDescriptor descriptor)
+    public class InputHandlerInstaller : MonoBehaviour, IInstaller
     {
-        IInputHandler inputHandler;
+        [SerializeField] private MobileControl _mobileControl;
 
-        if (Application.isMobilePlatform)
+        public void InstallBindings(ContainerDescriptor descriptor)
         {
-            var mobileInputHandler = new GameObject(nameof(MobileInputHandler)).AddComponent<MobileInputHandler>();
-            _mobileControl.gameObject.SetActive(true);
-            mobileInputHandler.Init(_mobileControl);
+            IInputHandler inputHandler;
 
-            inputHandler = mobileInputHandler;
-        }
-        else
-        {
-            inputHandler = new GameObject(nameof(PCInputHandler)).AddComponent<PCInputHandler>();
-        }
+            if (Application.isMobilePlatform)
+            {
+                var mobileInputHandler = new GameObject(nameof(MobileInputHandler)).AddComponent<MobileInputHandler>();
+                _mobileControl.gameObject.SetActive(true);
+                mobileInputHandler.Init(_mobileControl);
 
-        descriptor.AddInstance(inputHandler, typeof(IInputHandler));
+                inputHandler = mobileInputHandler;
+            }
+            else
+            {
+                inputHandler = new GameObject(nameof(DesktopInputHandler)).AddComponent<DesktopInputHandler>();
+            }
+
+            descriptor.AddInstance(inputHandler, typeof(IInputHandler));
+        }
     }
 }

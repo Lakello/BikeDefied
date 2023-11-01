@@ -1,5 +1,8 @@
-﻿public interface IAudioController
+﻿namespace BikeDefied.AudioSystem
 {
-    public void Play(Audio audio);
-    public float VolumePercent { get; set; }
+    public interface IAudioController
+    {
+        public void Play(AudioType audio);
+        public float VolumePercent { get; set; }
+    }
 }

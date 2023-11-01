@@ -1,31 +1,34 @@
-﻿using UnityEngine;
-using UnityTool;
+﻿using BikeDefied.UnityTool;
+using UnityEngine;
 
-public class AccelerationZone : MonoBehaviour
+namespace BikeDefied.LevelComponents
 {
-    [SerializeField] private bool _accelerationMultiplyMode;
-
-    [SerializeField, VisibleToCondition(nameof(_accelerationMultiplyMode), true)] private float _accelerationKoef;
-
-    [SerializeField, VisibleToCondition(nameof(_accelerationMultiplyMode), false)] private float _speed;
-
-
-    private void OnTriggerStay(Collider other)
+    public class AccelerationZone : MonoBehaviour
     {
-        if (other.TryGetComponent(out IAccelerationable component))
+        [SerializeField] private bool _accelerationMultiplyMode;
+
+        [SerializeField, VisibleToCondition(nameof(_accelerationMultiplyMode), true)] private float _accelerationKoef;
+
+        [SerializeField, VisibleToCondition(nameof(_accelerationMultiplyMode), false)] private float _speed;
+
+
+        private void OnTriggerStay(Collider other)
         {
-            if (_accelerationMultiplyMode)
-                component.UpdateAccelerationKoef = _accelerationKoef;
-            else
-                component.SelfRigidbody.AddForce(transform.forward * _speed * Time.deltaTime, ForceMode.VelocityChange);
+            if (other.TryGetComponent(out IAccelerationable component))
+            {
+                if (_accelerationMultiplyMode)
+                    component.UpdateAccelerationKoef = _accelerationKoef;
+                else
+                    component.SelfRigidbody.AddForce(transform.forward * _speed * Time.deltaTime, ForceMode.VelocityChange);
+            }
         }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.TryGetComponent(out IAccelerationable component))
+        private void OnTriggerExit(Collider other)
         {
-            if (_accelerationMultiplyMode)
-                component.UpdateAccelerationKoef = default;
+            if (other.TryGetComponent(out IAccelerationable component))
+            {
+                if (_accelerationMultiplyMode)
+                    component.UpdateAccelerationKoef = default;
+            }
         }
     }
 }

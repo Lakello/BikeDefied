@@ -1,10 +1,13 @@
-﻿[System.Serializable]
-public class UnmuteSound : IPlayerData
+﻿namespace BikeDefied.Yandex.Saves.Data
 {
-    [UnityEngine.SerializeField] private float _volumePercent;
+    [System.Serializable]
+    public class UnmuteSound : IPlayerData
+    {
+        [UnityEngine.SerializeField] private float _volumePercent;
 
-    public float VolumePercent => _volumePercent;
+        public float VolumePercent => _volumePercent;
 
-    public UnmuteSound(float volumePercent) =>
-        _volumePercent = volumePercent;
+        public UnmuteSound(float volumePercent) =>
+            _volumePercent = volumePercent;
+    }
 }

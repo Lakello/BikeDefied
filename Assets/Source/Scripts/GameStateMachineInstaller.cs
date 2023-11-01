@@ -1,46 +1,50 @@
-﻿using Reflex.Core;
+﻿using BikeDefied.FSM.Game.States;
+using BikeDefied.FSM.Game;
+using BikeDefied.Game.Character;
+using BikeDefied.Game;
+using BikeDefied.UI.Buttons;
+using Reflex.Core;
 using UnityEngine;
-using IJunior.StateMachine;
+using BikeDefied.TypedScenes;
+using BikeDefied.FSM;
 
-public class GameStateMachineInstaller : MonoBehaviour, IInstaller
+namespace BikeDefied
 {
-    [Header("Triggers for Transitions")]
-    [SerializeField] private CharacterHead _characterHead;
-    [SerializeField] private StartButton _startButton;
-    [SerializeField] private RestartButton _restartFromGameOverButton;
-    [SerializeField] private RestartButton _restartFromPlayButton;
-    [SerializeField] private MainMenuButton _mainMenuFromGameOverButton;
-    [SerializeField] private MainMenuButton _mainMenuFromPlayButton;
-    [SerializeField] private Finish _finish;
-
-    private TransitionInitializer<GameStateMachine> _transitionInitializer;
-
-    private void OnEnable() => 
-        _transitionInitializer?.OnEnable();
-
-    private void OnDisable() => 
-        _transitionInitializer?.OnDisable();
-
-    public void InstallBindings(ContainerDescriptor descriptor)
+    public class GameStateMachineInstaller : MonoBehaviour, IInstaller, ISceneLoadHandlerOnState<GameStateMachine>
     {
-        var gameOverState = GameStateMachine.Instance.GetState<OverState>();
-        var gamePlayState = GameStateMachine.Instance.GetState<PlayState>();
-        var gameMenuState = GameStateMachine.Instance.GetState<MenuState>();
+        [Header("Triggers for Transitions")]
+        [SerializeField] private CharacterHead _characterHead;
+        [SerializeField] private StartButton _startButton;
+        [SerializeField] private RestartButton _restartFromGameOverButton;
+        [SerializeField] private RestartButton _restartFromPlayButton;
+        [SerializeField] private MainMenuButton _mainMenuFromGameOverButton;
+        [SerializeField] private MainMenuButton _mainMenuFromPlayButton;
+        [SerializeField] private Finish _finish;
 
-        var stateInject = new GameStateInject(() => (gameMenuState, gamePlayState, gameOverState));
+        private TransitionInitializer<GameStateMachine> _transitionInitializer;
 
-        descriptor.AddInstance(stateInject);
+        private void OnEnable() =>
+            _transitionInitializer?.OnEnable();
 
-        descriptor.AddInstance(_finish);
+        private void OnDisable() =>
+            _transitionInitializer?.OnDisable();
 
-        _transitionInitializer = new TransitionInitializer<GameStateMachine>(GameStateMachine.Instance);
+        public void InstallBindings(ContainerDescriptor descriptor)
+        {
+            descriptor.AddInstance(_finish);
+        }
 
-        _transitionInitializer.InitTransition<OverState>(_finish);
-        _transitionInitializer.InitTransition<OverState>(_characterHead);
-        _transitionInitializer.InitTransition<PlayState>(_startButton);
-        _transitionInitializer.InitTransition<PlayState>(_restartFromGameOverButton, () => IJunior.TypedScenes.Game.Load<PlayState>());
-        _transitionInitializer.InitTransition<MenuState>(_mainMenuFromGameOverButton, () => IJunior.TypedScenes.Game.Load<MenuState>());
-        _transitionInitializer.InitTransition<PlayState>(_restartFromPlayButton, () => IJunior.TypedScenes.Game.Load<PlayState>());
-        _transitionInitializer.InitTransition<MenuState>(_mainMenuFromPlayButton, () => IJunior.TypedScenes.Game.Load<MenuState>());
+        public void OnSceneLoaded<TState>(GameStateMachine machine) where TState : State<GameStateMachine>
+        {
+            _transitionInitializer = new TransitionInitializer<GameStateMachine>(machine);
+
+            _transitionInitializer.InitTransition<EndLevelState>(_finish);
+            _transitionInitializer.InitTransition<EndLevelState>(_characterHead);
+            _transitionInitializer.InitTransition<PlayLevelState>(_startButton);
+            _transitionInitializer.InitTransition<PlayLevelState>(_restartFromGameOverButton, () => GameScene.Load<PlayLevelState>(machine));
+            _transitionInitializer.InitTransition<MenuState>(_mainMenuFromGameOverButton, () => GameScene.Load<MenuState>(machine));
+            _transitionInitializer.InitTransition<PlayLevelState>(_restartFromPlayButton, () => GameScene.Load<PlayLevelState>(machine));
+            _transitionInitializer.InitTransition<MenuState>(_mainMenuFromPlayButton, () => GameScene.Load<MenuState>(machine));
+        }
     }
 }

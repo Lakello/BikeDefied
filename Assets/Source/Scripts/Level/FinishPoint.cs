@@ -1,4 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class FinishPoint : MonoBehaviour{}
+namespace BikeDefied.LevelComponents
+{
+    public class FinishPoint : MonoBehaviour{}
+}

@@ -3,30 +3,31 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class YandexInitializer : MonoBehaviour
+namespace BikeDefied
 {
-    private Action _callBack;
-
-    private void Start()
+    public class YandexInitializer : MonoBehaviour
     {
-        StartCoroutine(InitSDK());
-    }
+        private Action _callBack;
 
-    public void Init(Action sdkInitSuccessCallBack) =>
-        _callBack = sdkInitSuccessCallBack;
+        private void Start()
+        {
+            StartCoroutine(InitSDK());
+        }
 
-    private IEnumerator InitSDK()
-    {
+        public void Init(Action sdkInitSuccessCallBack) =>
+            _callBack = sdkInitSuccessCallBack;
+
+        private IEnumerator InitSDK()
+        {
 #if !UNITY_EDITOR
-        yield return YandexGamesSdk.Initialize(_callBack);
+            yield return YandexGamesSdk.Initialize();
 
-        if (PlayerAccount.IsAuthorized == false)
-            PlayerAccount.StartAuthorizationPolling(1500);
-#else
-        _callBack();
+            if (PlayerAccount.IsAuthorized == false)
+                PlayerAccount.StartAuthorizationPolling(1500);
 #endif
-        IJunior.TypedScenes.Game.Load<MenuState>();
+            _callBack();
 
-        yield return null;
+            yield return null;
+        }
     }
 }

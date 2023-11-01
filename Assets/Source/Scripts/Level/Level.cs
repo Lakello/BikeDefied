@@ -1,3 +1,6 @@
 using UnityEngine;
 
-public class Level : MonoBehaviour{}
+namespace BikeDefied.LevelComponents
+{
+    public class Level : MonoBehaviour{}
+}

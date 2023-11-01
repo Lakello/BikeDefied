@@ -1,8 +1,14 @@
-﻿public struct BikeBehaviourInject
-{
-    public Player Player { get; private set; }
-    public Bike BikeBody { get; private set; }
+﻿using BikeDefied.Game;
 
-    
-    public BikeBehaviourInject(System.Func<(Player, Bike)> inject) => (Player, BikeBody) = inject();
+namespace BikeDefied.BikeSystem
+{
+    public struct BikeBehaviourInject
+    {
+        public Player Player { get; private set; }
+        public Bike BikeBody { get; private set; }
+
+
+        public BikeBehaviourInject(System.Func<(Player, Bike)> inject) => 
+            (Player, BikeBody) = inject();
+    }
 }

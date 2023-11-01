@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-internal interface IAccelerationable
+namespace BikeDefied.LevelComponents
 {
-    public Rigidbody SelfRigidbody { get; }
-    public float UpdateAccelerationKoef { set; }
+    internal interface IAccelerationable
+    {
+        public Rigidbody SelfRigidbody { get; }
+        public float UpdateAccelerationKoef { set; }
+    }
 }

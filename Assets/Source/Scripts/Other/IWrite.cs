@@ -1,4 +1,7 @@
-﻿public interface IWrite<T>
+﻿namespace BikeDefied.Other
 {
-    public void Write(T value);
+    public interface IWrite<T>
+    {
+        public void Write(T value);
+    }
 }

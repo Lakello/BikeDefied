@@ -1,5 +1,8 @@
-﻿public struct ScoreReward : IReward
+﻿namespace BikeDefied.ScoreSystem
 {
-    public string Message { get; set; }
-    public float Value { get; set; }
+    public struct ScoreReward
+    {
+        public string Message { get; set; }
+        public float Value { get; set; }
+    }
 }

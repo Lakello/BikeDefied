@@ -1,30 +1,35 @@
-﻿using Reflex.Attributes;
+﻿using BikeDefied.Yandex.Saves;
+using BikeDefied.Yandex.Saves.Data;
+using Reflex.Attributes;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HintViewer : MonoBehaviour
+namespace BikeDefied.Tutorial
 {
-    [SerializeField] private Toggle _toggle;
-    [SerializeField] private List<Hint> _hints;
-
-    private ISaver _saver;
-
-    [Inject]
-    private void Inject(ISaver saver)
+    public class HintViewer : MonoBehaviour
     {
-        _saver = saver;
-        _toggle.isOn = _saver.Get<HintDisplay>().IsHintDisplay;
+        [SerializeField] private Toggle _toggle;
+        [SerializeField] private List<Hint> _hints;
 
-        foreach (var hint in _hints)
-            hint.StartShow(_toggle.isOn);
-    }
+        private ISaver _saver;
 
-    public void OnToggleChanged(bool value)
-    {
-        _saver.Set(new HintDisplay(value));
+        [Inject]
+        private void Inject(ISaver saver)
+        {
+            _saver = saver;
+            _toggle.isOn = _saver.Get<HintDisplay>().IsHintDisplay;
 
-        foreach (var hint in _hints)
-            hint.HindDisplayUpdated(value);
+            foreach (var hint in _hints)
+                hint.StartShow(_toggle.isOn);
+        }
+
+        public void OnToggleChanged(bool value)
+        {
+            _saver.Set(new HintDisplay(value));
+
+            foreach (var hint in _hints)
+                hint.HindDisplayUpdated(value);
+        }
     }
 }

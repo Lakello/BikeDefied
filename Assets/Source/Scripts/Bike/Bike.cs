@@ -1,3 +1,6 @@
 ﻿using UnityEngine;
 
-public class Bike : MonoBehaviour { }
+namespace BikeDefied.BikeSystem
+{
+    public class Bike : MonoBehaviour { }
+}

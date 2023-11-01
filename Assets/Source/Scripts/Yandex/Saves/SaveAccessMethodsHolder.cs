@@ -1,23 +1,17 @@
-﻿using System;
+﻿using BikeDefied.Yandex.Saves.Data;
+using System;
 
-public delegate TData Getter<TData>(TData value = default) where TData : class, IPlayerData;
-public delegate void Setter<TData>(TData value = default) where TData : class, IPlayerData;
-
-public class SaveAccessMethodsHolder<TData> where TData : class, IPlayerData
+namespace BikeDefied.Yandex.Saves
 {
-    public readonly Getter<TData> Getter;
-    public readonly Setter<TData> Setter;
-    public event Action<TData> ValueUpdated
+    public class SaveAccessMethodsHolder<TData> where TData : class, IPlayerData
     {
-        add => _valueUpdated += value;
-        remove => _valueUpdated -= value;
-    }
+        public readonly Func<TData, TData> Getter;
+        public readonly Action<TData> Setter;
 
-    protected Action<TData> _valueUpdated;
-
-    public SaveAccessMethodsHolder(Getter<TData> getter, Setter<TData> setter) 
-    {
-        Getter = getter;
-        Setter = setter;
+        public SaveAccessMethodsHolder(Func<TData, TData> getter, Action<TData> setter)
+        {
+            Getter = getter;
+            Setter = setter;
+        }
     }
 }

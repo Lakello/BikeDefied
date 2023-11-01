@@ -1,34 +1,38 @@
 using Agava.YandexGames;
+using BikeDefied.UI.Buttons;
 using UnityEngine;
 
-public class AuthorizeForLeaderboard : MonoBehaviour
+namespace BikeDefied.Yandex.Leaders
 {
-    [SerializeField] private EventTriggerButton[] _disablingButtons;
-    [SerializeField] private bool _isAuthorizedSim;
-
-    private void OnEnable()
+    public class AuthorizeForLeaderboard : MonoBehaviour
     {
-        bool isAuthorized = _isAuthorizedSim;
+        [SerializeField] private EventTriggerButton[] _disablingButtons;
+        [SerializeField] private bool _isAuthorizedSim;
+
+        private void OnEnable()
+        {
+            bool isAuthorized = _isAuthorizedSim;
 #if !UNITY_EDITOR
-        isAuthorized = PlayerAccount.IsAuthorized;
+            isAuthorized = PlayerAccount.IsAuthorized;
 #endif
 
-        if (isAuthorized)
-        {
-            gameObject.SetActive(false);
-            return;
+            if (isAuthorized)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+
+            foreach (var button in _disablingButtons)
+                button.IsInteractable = false;
         }
 
-        foreach (var button in _disablingButtons)
-            button.IsInteractable = false;
-    }
+        private void OnDisable()
+        {
+            foreach (var button in _disablingButtons)
+                button.IsInteractable = true;
+        }
 
-    private void OnDisable()
-    {
-        foreach (var button in _disablingButtons)
-            button.IsInteractable = true;
+        public void OnAuthorizeClick() =>
+            PlayerAccount.Authorize();
     }
-
-    public void OnAuthorizeClick() =>
-        PlayerAccount.Authorize();
 }

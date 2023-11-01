@@ -1,73 +1,123 @@
 ﻿using Agava.YandexGames;
-using IJunior.StateMachine;
 using Lean.Localization;
 using Reflex.Core;
-using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections.Generic;
+using BikeDefied.AudioSystem;
+using BikeDefied.FSM.Game.States;
+using BikeDefied.FSM.Game;
+using BikeDefied.FSM.GameWindow;
+using BikeDefied.Yandex.AD;
+using BikeDefied.Yandex.Localization;
+using BikeDefied.Yandex.Saves;
+using BikeDefied.Other;
+using BikeDefied.Yandex;
+using BikeDefied.FSM;
+using BikeDefied.FSM.GameWindow.States;
+using BikeDefied.TypedScenes;
+using Unity.VisualScripting;
+using UnityEngine.Windows;
+using CW.Common;
 
-public class ProjectInstaller : MonoBehaviour, IInstaller
+namespace BikeDefied
 {
-    [SerializeField] private GameAudioHandler _gameAudioHandler;
-
-    public void InstallBindings(ContainerDescriptor descriptor)
+    public class ProjectInstaller : MonoBehaviour, IInstaller
     {
-        var input = new PlayerInput();
+        [SerializeField] private GameAudioHandler _gameAudioHandler;
 
-        descriptor.AddInstance(input);
-
-        var context = new GameObject(nameof(Context)).AddComponent<Context>();
-        DontDestroyOnLoad(context);
-
-        var backgoundAudio = new GameObject(nameof(AudioSource)).AddComponent<AudioSource>();
-        var gameAudio = backgoundAudio.AddComponent<AudioSource>();
-        DontDestroyOnLoad(backgoundAudio);
-        _gameAudioHandler.Init();
-        var audioController = new AudioController(gameAudio, backgoundAudio, _gameAudioHandler, context);
-
-        descriptor.AddInstance(audioController, typeof(IAudioController));
-
-        var playState = new PlayState(input);
-        var overState = new OverState(context);
-        var gameStatemachine = new GameStateMachine(() =>
+        public void InstallBindings(ContainerDescriptor descriptor)
         {
-            return new Dictionary<System.Type, State<GameStateMachine>>()
+            var input = InputInit(descriptor);
+
+            var context = new GameObject(nameof(Context)).AddComponent<Context>();
+            DontDestroyOnLoad(context);
+
+            var focusObserver = new GameObject(nameof(FocusObserver)).AddComponent<FocusObserver>();
+            DontDestroyOnLoad(focusObserver);
+
+            AudioInit(descriptor, focusObserver, context);
+
+            var gameStateMachine = StateMachineInit(descriptor, input, context);
+
+            YandexInit(descriptor, focusObserver, gameStateMachine);
+        }
+
+        private PlayerInput InputInit(ContainerDescriptor descriptor)
+        {
+            var input = new PlayerInput();
+
+            descriptor.AddInstance(input);
+
+            return input;
+        }
+
+        private void AudioInit(ContainerDescriptor descriptor, FocusObserver focusObserver, Context context)
+        {
+            var backgoundAudio = new GameObject(nameof(AudioSource)).AddComponent<AudioSource>();
+            var gameAudio = backgoundAudio.gameObject.AddComponent<AudioSource>();
+            DontDestroyOnLoad(backgoundAudio);
+
+            _gameAudioHandler.Init();
+            var audioController = new AudioController(gameAudio, backgoundAudio, _gameAudioHandler, focusObserver, context);
+
+            descriptor.AddInstance(audioController, typeof(IAudioController));
+        }
+
+        private GameStateMachine StateMachineInit(ContainerDescriptor descriptor, PlayerInput input, Context context)
+        {
+            var windowStateMachine = new WindowStateMachine(() =>
             {
-                [typeof(MenuState)] = new MenuState(),
-                [typeof(PlayState)] = playState,
-                [typeof(OverState)] = overState
-            };
-        });
+                return new Dictionary<System.Type, State<WindowStateMachine>>()
+                {
+                    [typeof(MenuWindowState)] = new MenuWindowState(),
+                    [typeof(PlayWindowState)] = new PlayWindowState(),
+                    [typeof(OverWindowState)] = new OverWindowState(),
+                    [typeof(LeaderboardWindowState)] = new LeaderboardWindowState()
+                };
+            });
+            
+            var gameOverState = new EndLevelState(context, windowStateMachine);
+            var gamePlayState = new PlayLevelState(input, windowStateMachine);
+            var gameMenuState = new MenuState(windowStateMachine);
 
-        var windowStateMachine = new WindowStateMachine(() =>
-        {
-            return new Dictionary<System.Type, State<WindowStateMachine>>()
+            var stateInject = new GameStateInject(() => (gameMenuState, gamePlayState, gameOverState));
+
+            descriptor.AddInstance(stateInject);
+
+            return new GameStateMachine(windowStateMachine, () =>
             {
-                [typeof(MenuWindowState)] = new MenuWindowState(),
-                [typeof(PlayWindowState)] = new PlayWindowState(),
-                [typeof(OverWindowState)] = new OverWindowState(),
-                [typeof(LeaderboardWindowState)] = new LeaderboardWindowState()
-            };
-        });
+                return new Dictionary<System.Type, State<GameStateMachine>>()
+                {
+                    [typeof(MenuState)] = gameMenuState,
+                    [typeof(PlayLevelState)] = gamePlayState,
+                    [typeof(EndLevelState)] = gameOverState
+                };
+            });
+        }
 
-        var saves = new GamePlayerDataSaver();
-
-        var ad = new Ad(context, countOverBetweenShowsAd: 5);
-        descriptor.AddInstance(ad, typeof(ICounterForShowAd));
-
-        var yandexInitializer = new GameObject("Init").AddComponent<YandexInitializer>();
-
-        yandexInitializer.Init(sdkInitSuccessCallBack:() =>
+        private void YandexInit(ContainerDescriptor descriptor, FocusObserver focusObserver, GameStateMachine gameStateMachine)
         {
-            saves.Init();
+            var saves = new GamePlayerDataSaver();
 
-            string lang = "ru";
+            var ad = new Ad(focusObserver, countOverBetweenShowsAd: 5);
+            descriptor.AddInstance(ad, typeof(ICounterForShowAd));
+
+            var yandexInitializer = new GameObject("Init").AddComponent<YandexInitializer>();
+
+            yandexInitializer.Init(sdkInitSuccessCallBack: () =>
+            {
+                saves.Init();
+
+                string lang = "ru";
 #if !UNITY_EDITOR
-            lang = YandexGamesSdk.Environment.i18n.lang;
+                lang = YandexGamesSdk.Environment.i18n.lang;
 #endif
-            GameLanguage.Value = lang;
-        });
+                GameLanguage.Value = lang;
 
-        descriptor.AddInstance(saves, typeof(ISaver));
+                GameScene.Load<MenuState>(gameStateMachine);
+            });
+
+            descriptor.AddInstance(saves, typeof(ISaver));
+        }
     }
 }

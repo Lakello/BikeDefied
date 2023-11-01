@@ -1,32 +1,36 @@
-﻿using UnityEngine;
+﻿using BikeDefied.Game;
+using UnityEngine;
 
-public class LevelState
+namespace BikeDefied.LevelComponents
 {
-    private Level _level;
-    private FinishPoint _finishPoint;
-    private StartPoint _startPoint;
-    private Finish _finish;
-
-    public LevelState(Level levelPrefab, GameObject parent, Finish finish, Vector3 offset)
+    public class LevelState
     {
-        _level = Object.Instantiate(levelPrefab, parent.transform);
-        _level.gameObject.SetActive(false);
-        _finish = finish;
+        private Level _level;
+        private FinishPoint _finishPoint;
+        private StartPoint _startPoint;
+        private Finish _finish;
 
-        _finishPoint = _level.GetComponentInChildren<FinishPoint>();
-        _startPoint = _level.GetComponentInChildren<StartPoint>();
+        public LevelState(Level levelPrefab, GameObject parent, Finish finish, Vector3 offset)
+        {
+            _level = Object.Instantiate(levelPrefab, parent.transform);
+            _level.gameObject.SetActive(false);
+            _finish = finish;
 
-        _level.transform.position = -_startPoint.transform.position + -offset;
-    }
+            _finishPoint = _level.GetComponentInChildren<FinishPoint>();
+            _startPoint = _level.GetComponentInChildren<StartPoint>();
 
-    public void Enter()
-    {
-        _level.gameObject.SetActive(true);
-        _finish.OnPointEnabled(_finishPoint.transform.position);
-    }
+            _level.transform.position = -_startPoint.transform.position + -offset;
+        }
 
-    public void Exit() 
-    {
-        _level.gameObject.SetActive(false);
+        public void Enter()
+        {
+            _level.gameObject.SetActive(true);
+            _finish.OnPointEnabled(_finishPoint.transform.position);
+        }
+
+        public void Exit() 
+        {
+            _level.gameObject.SetActive(false);
+        }
     }
 }

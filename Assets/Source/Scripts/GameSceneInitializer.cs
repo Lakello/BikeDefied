@@ -1,26 +1,31 @@
-﻿using IJunior.StateMachine;
-using IJunior.TypedScenes;
+﻿using BikeDefied.FSM.Game;
+using BikeDefied.FSM.GameWindow;
+using BikeDefied.FSM;
+using BikeDefied.TypedScenes;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameSceneInitializer : MonoBehaviour, ISceneLoadHandlerState<GameStateMachine>
+namespace BikeDefied
 {
-    [SerializeField] private List<Window> _windows;
-
-    public void OnSceneLoaded<TState>() where TState : State<GameStateMachine>
+    public class GameSceneInitializer : MonoBehaviour, ISceneLoadHandlerOnState<GameStateMachine>
     {
-        WindowsInit();
+        [SerializeField] private List<Window> _windows;
 
-        GameStateMachine.Instance.EnterIn<TState>();
-    }
-
-    private void WindowsInit()
-    {
-        foreach (var window in _windows)
+        public void OnSceneLoaded<TState>(GameStateMachine machine) where TState : State<GameStateMachine>
         {
-            var state = WindowStateMachine.Instance.GetState<WindowState>(window);
+            WindowsInit(machine);
 
-            state.Init(window);
+            machine.EnterIn<TState>();
+        }
+
+        private void WindowsInit(GameStateMachine machine)
+        {
+            foreach (var window in _windows)
+            {
+                var state = machine.Window.TryGetState<WindowState>(window);
+                
+                state.Init(window);
+            }
         }
     }
 }

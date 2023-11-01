@@ -1,9 +1,7 @@
-public interface IRead<T>
+namespace BikeDefied.Other
 {
-    public T Read();
-}
-
-public interface IReadFromArray<T>
-{
-    public T Read(int index);
+    public interface IRead<T>
+    {
+        public T Read();
+    }
 }

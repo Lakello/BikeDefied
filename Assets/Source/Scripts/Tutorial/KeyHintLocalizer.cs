@@ -1,22 +1,26 @@
+using BikeDefied.Yandex.Localization;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class KeyHintLocalizer : MonoBehaviour
+namespace BikeDefied.Tutorial
 {
-    [SerializeField] private Sprite _ru;
-    [SerializeField] private Sprite _en;
-    [SerializeField] private Sprite _tr;
-
-    [SerializeField] private Image _image;
-
-    private void Start()
+    public class KeyHintLocalizer : MonoBehaviour
     {
-        _image.sprite = GameLanguage.Value switch
+        [SerializeField] private Sprite _ru;
+        [SerializeField] private Sprite _en;
+        [SerializeField] private Sprite _tr;
+
+        [SerializeField] private Image _image;
+
+        private void Start()
         {
-            "ru" => _ru,
-            "en" => _en,
-            "tr" => _tr,
-            _ => _ru,
-        };
+            _image.sprite = GameLanguage.Value switch
+            {
+                "ru" => _ru,
+                "en" => _en,
+                "tr" => _tr,
+                _ => _ru,
+            };
+        }
     }
 }

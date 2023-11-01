@@ -1,56 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
-using IJunior.StateMachine;
+using BikeDefied.FSM;
 
-public class TransitionInitializer<TMachine> where TMachine : StateMachine<TMachine>
+namespace BikeDefied
 {
-    private TMachine _stateMachine;
-    private List<Subscription> _subscribtions = new List<Subscription>();
-
-    private struct Subscription
+    public class TransitionInitializer<TMachine> where TMachine : StateMachine<TMachine>
     {
-        public ISubject Subject;
-        public Action Observer;
+        private TMachine _stateMachine;
+        private List<Subscription> _subscribtions = new List<Subscription>();
 
-        public Subscription(ISubject subject, Action observer)
+        private struct Subscription
         {
-            Subject = subject;
-            Observer = observer;
+            public ISubject Subject;
+            public Action Observer;
+
+            public Subscription(ISubject subject, Action observer)
+            {
+                Subject = subject;
+                Observer = observer;
+            }
         }
-    }
 
-    public TransitionInitializer(TMachine stateMachine) => _stateMachine = stateMachine;
+        public TransitionInitializer(TMachine stateMachine) => _stateMachine = stateMachine;
 
-    public void OnEnable()
-    {
-        if (_subscribtions != null)
-            Subscribe();
-    }
+        public void OnEnable()
+        {
+            if (_subscribtions != null)
+                Subscribe();
+        }
 
-    public void OnDisable()
-    {
-        if (_subscribtions != null)
-            UnSubscribe();
-    }
+        public void OnDisable()
+        {
+            if (_subscribtions != null)
+                UnSubscribe();
+        }
 
-    public void InitTransition<TTargetState>(ISubject subject, Action reloadScene = null) where TTargetState : State<TMachine>
-    {
-        var transition = new Transition<TMachine, TTargetState>(_stateMachine, reloadScene);
+        public void InitTransition<TTargetState>(ISubject subject, Action reloadScene = null) where TTargetState : State<TMachine>
+        {
+            var transition = new Transition<TMachine, TTargetState>(_stateMachine, reloadScene);
 
-        subject.Action += transition.Transit;
+            subject.Action += transition.Transit;
 
-        _subscribtions.Add(new Subscription(subject, transition.Transit));
-    }
+            _subscribtions.Add(new Subscription(subject, transition.Transit));
+        }
 
-    private void Subscribe()
-    {
-        foreach (var action in _subscribtions)
-            action.Subject.Action += action.Observer;
-    }
+        private void Subscribe()
+        {
+            foreach (var action in _subscribtions)
+                action.Subject.Action += action.Observer;
+        }
 
-    private void UnSubscribe()
-    {
-        foreach (var action in _subscribtions)
-            action.Subject.Action -= action.Observer;
+        private void UnSubscribe()
+        {
+            foreach (var action in _subscribtions)
+                action.Subject.Action -= action.Observer;
+        }
     }
 }

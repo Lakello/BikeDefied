@@ -1,50 +1,56 @@
-﻿using Reflex.Attributes;
+﻿using BikeDefied.InputSystem;
+using Reflex.Attributes;
 using UnityEngine;
 
-public class BikeFliper : BikeBehaviour
+namespace BikeDefied.BikeSystem
 {
-    [SerializeField] private float _rotateSpeed;
-
-    [SerializeField] private Rigidbody _backWheel;
-    [SerializeField] private Rigidbody _frontWheel;
-
-    private Rigidbody _bikeRigidbody;
-
-    private void Start()
+    public class BikeFliper : BikeBehaviour
     {
-        _bikeRigidbody = BikeBody.GetComponent<Rigidbody>();
+        [SerializeField] private float _rotateSpeed;
 
-        BehaviourCoroutine = StartCoroutine(Player.Behaviour(
-        condition: () =>
+        [SerializeField] private Rigidbody _backWheel;
+        [SerializeField] private Rigidbody _frontWheel;
+
+        private Rigidbody _bikeRigidbody;
+
+        private void Start()
         {
-            return !IsGrounded;
-        },
-        action: () =>
+            _bikeRigidbody = BikeBody.GetComponent<Rigidbody>();
+
+            BehaviourCoroutine = StartCoroutine(Player.Behaviour(
+            condition: () =>
+            {
+                return !IsGrounded;
+            },
+            action: () =>
+            {
+                var horizontal = InputHandler.Horizontal;
+
+                if (horizontal != 0)
+                    Flip(horizontal);
+                else if (_bikeRigidbody.isKinematic == false)
+                    _bikeRigidbody.angularVelocity = new Vector3(0, _bikeRigidbody.velocity.y, _bikeRigidbody.velocity.z);
+            }));
+        }
+
+        [Inject]
+        protected override void Inject(BikeBehaviourInject inject)
         {
-            var horizontal = InputHandler.Horizontal;
+            Init(inject);
+        }
 
-            if (horizontal != 0)
-                Flip(horizontal);
-            else if (_bikeRigidbody.isKinematic == false)
-                _bikeRigidbody.angularVelocity = new Vector3(0, _bikeRigidbody.velocity.y, _bikeRigidbody.velocity.z);
-        }));
-    }
+        [Inject]
+        private void Inject(IInputHandler inputHandler)
+        {
+            InputHandler = inputHandler;
+        }
 
-    [Inject]
-    protected override void Inject(BikeBehaviourInject inject)
-    {
-        Init(inject);
-    }
+        private void Flip(float direction)
+        {
+            var force = _rotateSpeed * Time.deltaTime * BikeBody.up;
 
-    [Inject]
-    private void Inject(IInputHandler inputHandler)
-    {
-        InputHandler = inputHandler;
-    }
-
-    private void Flip(float direction)
-    {
-        _backWheel.AddForce(_rotateSpeed * -direction * Time.deltaTime * BikeBody.up, ForceMode.VelocityChange);
-        _frontWheel.AddForce(_rotateSpeed * direction * Time.deltaTime * BikeBody.up, ForceMode.VelocityChange);
+            _backWheel.AddForce(force * -direction, ForceMode.VelocityChange);
+            _frontWheel.AddForce(force * direction, ForceMode.VelocityChange);
+        }
     }
 }

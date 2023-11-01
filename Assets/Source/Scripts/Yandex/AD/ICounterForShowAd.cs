@@ -1,4 +1,7 @@
-﻿public interface ICounterForShowAd
+﻿namespace BikeDefied.Yandex.AD
 {
-    public void Add();
+    public interface ICounterForShowAd
+    {
+        public void Add();
+    }
 }

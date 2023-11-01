@@ -1,4 +1,7 @@
-﻿public interface ISubject
+﻿namespace BikeDefied
 {
-    public event System.Action Action;
+    public interface ISubject
+    {
+        public event System.Action Action;
+    }
 }

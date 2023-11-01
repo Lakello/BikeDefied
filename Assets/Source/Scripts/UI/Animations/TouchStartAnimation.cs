@@ -2,37 +2,40 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TouchStartAnimation : MonoBehaviour
+namespace BikeDefied.UI.Animations
 {
-    [SerializeField] private Sprite _touch;
-    [SerializeField] private Sprite _notTouch;
-    [SerializeField] private Image _image;
-
-    [SerializeField] private float _durationTouch;
-    [SerializeField] private float _durationNotTouch;
-
-    private Coroutine _animationCoroutine;
-
-    private void OnEnable() =>
-        _animationCoroutine = StartCoroutine(Animation());
-
-    private void OnDisable() =>
-        StopCoroutine(_animationCoroutine);
-
-    private IEnumerator Animation()
+    public class TouchStartAnimation : MonoBehaviour
     {
-        WaitForSeconds touchTime = new(_durationTouch);
-        WaitForSeconds notTouchTime = new(_durationNotTouch);
+        [SerializeField] private Sprite _touch;
+        [SerializeField] private Sprite _notTouch;
+        [SerializeField] private Image _image;
 
-        while (true)
+        [SerializeField] private float _durationTouch;
+        [SerializeField] private float _durationNotTouch;
+
+        private Coroutine _animationCoroutine;
+
+        private void OnEnable() =>
+            _animationCoroutine = StartCoroutine(Animation());
+
+        private void OnDisable() =>
+            StopCoroutine(_animationCoroutine);
+
+        private IEnumerator Animation()
         {
-            _image.sprite = _notTouch;
+            WaitForSeconds touchTime = new(_durationTouch);
+            WaitForSeconds notTouchTime = new(_durationNotTouch);
 
-            yield return notTouchTime;
+            while (true)
+            {
+                _image.sprite = _notTouch;
 
-            _image.sprite = _touch;
+                yield return notTouchTime;
 
-            yield return touchTime;
+                _image.sprite = _touch;
+
+                yield return touchTime;
+            }
         }
     }
 }

@@ -1,7 +1,11 @@
-﻿using IJunior.StateMachine;
+﻿using BikeDefied.FSM.GameWindow;
+using BikeDefied.FSM.GameWindow.States;
 using System;
 
-public class LeaderboardWindow : Window
+namespace BikeDefied.UI.Windows
 {
-    public override Type WindowType => typeof(LeaderboardWindowState);
+    public class LeaderboardWindow : Window
+    {
+        public override Type WindowType => typeof(LeaderboardWindowState);
+    }
 }

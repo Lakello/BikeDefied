@@ -1,4 +1,7 @@
-﻿public interface ILoss
+﻿namespace BikeDefied.Game
 {
-    public event System.Action Loss;
+    public interface ILoss
+    {
+        public event System.Action Loss;
+    }
 }

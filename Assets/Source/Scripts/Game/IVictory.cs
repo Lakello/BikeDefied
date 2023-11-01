@@ -1,4 +1,7 @@
-﻿public interface IVictory
+﻿namespace BikeDefied.Game
 {
-    public event System.Action Victory;
+    public interface IVictory
+    {
+        public event System.Action Victory;
+    }
 }

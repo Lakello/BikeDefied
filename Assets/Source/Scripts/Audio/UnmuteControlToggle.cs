@@ -1,26 +1,31 @@
-﻿using Reflex.Attributes;
+﻿using BikeDefied.Yandex.Saves;
+using BikeDefied.Yandex.Saves.Data;
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UnmuteControlToggle : MonoBehaviour
+namespace BikeDefied.AudioSystem
 {
-    [SerializeField] private Toggle _toggle;
-
-    private ISaver _saver;
-    private IAudioController _controller;
-
-    [Inject]
-    private void Inject(ISaver saver, IAudioController audioController)
+    public class UnmuteControlToggle : MonoBehaviour
     {
-        _saver = saver;
-        _controller = audioController;
-        _toggle.isOn = _saver.Get<UnmuteSound>().VolumePercent == 0 ? false : true;
-    }
+        [SerializeField] private Toggle _toggle;
 
-    public void OnToggleChanged(bool value)
-    {
-        float volume = value ? 1 : 0;
-        _controller.VolumePercent = volume;
-        _saver.Set(new UnmuteSound(volume));
+        private ISaver _saver;
+        private IAudioController _controller;
+
+        [Inject]
+        private void Inject(ISaver saver, IAudioController audioController)
+        {
+            _saver = saver;
+            _controller = audioController;
+            _toggle.isOn = _saver.Get<UnmuteSound>().VolumePercent == 0 ? false : true;
+        }
+
+        public void OnToggleChanged(bool value)
+        {
+            float volume = value ? 1 : 0;
+            _controller.VolumePercent = volume;
+            _saver.Set(new UnmuteSound(volume));
+        }
     }
 }

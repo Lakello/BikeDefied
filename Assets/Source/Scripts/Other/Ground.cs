@@ -1,3 +1,6 @@
 using UnityEngine;
 
-public class Ground : MonoBehaviour{}
+namespace BikeDefied.Other
+{
+    public class Ground : MonoBehaviour { }
+}

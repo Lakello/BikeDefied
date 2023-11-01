@@ -1,4 +1,4 @@
-using System;
-using UnityEngine;
-
-public class StartButton : EventTriggerButton{}
+namespace BikeDefied.UI.Buttons
+{
+    public class StartButton : EventTriggerButton { }
+}

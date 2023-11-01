@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class TransformRotator : MonoBehaviour
+namespace BikeDefied.UI.Animations
 {
-    [SerializeField] private float _speed;
-
-    private float _currentAngle;
-
-    private void Update()
+    public class TransformRotator : MonoBehaviour
     {
-        _currentAngle += _speed * Time.deltaTime;
-        transform.localRotation = Quaternion.AngleAxis(_currentAngle, transform.forward);
+        [SerializeField] private float _speed;
+
+        private float _currentAngle;
+
+        private void Update()
+        {
+            _currentAngle += _speed * Time.deltaTime;
+            transform.localRotation = Quaternion.AngleAxis(_currentAngle, transform.forward);
+        }
     }
 }

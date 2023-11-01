@@ -1,17 +1,20 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class EventTriggerButton : MonoBehaviour, ISubject
+namespace BikeDefied.UI.Buttons
 {
-    public bool IsInteractable = true;
-
-    public virtual event Action Action;
-
-    public virtual void OnClick()
+    public abstract class EventTriggerButton : MonoBehaviour, ISubject
     {
-        if (!IsInteractable)
-            return;
+        public bool IsInteractable = true;
 
-        Action?.Invoke();
+        public virtual event Action Action;
+
+        public virtual void OnClick()
+        {
+            if (!IsInteractable)
+                return;
+
+            Action?.Invoke();
+        }
     }
 }

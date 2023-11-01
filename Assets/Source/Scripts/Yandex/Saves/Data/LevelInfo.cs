@@ -1,15 +1,18 @@
-﻿[System.Serializable]
-public class LevelInfo : IPlayerData
+﻿namespace BikeDefied.Yandex.Saves.Data
 {
-    [UnityEngine.SerializeField] private int _levelIndex;
-    [UnityEngine.SerializeField] private int _bestScore;
-
-    public int LevelIndex => _levelIndex;
-    public int BestScore => _bestScore;
-
-    public LevelInfo(int levelIndex, int bestScore)
+    [System.Serializable]
+    public class LevelInfo : IPlayerData
     {
-        _levelIndex = levelIndex;
-        _bestScore = bestScore;
+        [UnityEngine.SerializeField] private int _levelIndex;
+        [UnityEngine.SerializeField] private int _bestScore;
+
+        public int LevelIndex => _levelIndex;
+        public int BestScore => _bestScore;
+
+        public LevelInfo(int levelIndex, int bestScore)
+        {
+            _levelIndex = levelIndex;
+            _bestScore = bestScore;
+        }
     }
 }

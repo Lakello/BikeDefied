@@ -1,7 +1,11 @@
-﻿using IJunior.StateMachine;
+﻿using BikeDefied.FSM.GameWindow;
+using BikeDefied.FSM.GameWindow.States;
 using System;
 
-public class PlayWindow : Window
+namespace BikeDefied.UI.Windows
 {
-    public override Type WindowType => typeof(PlayWindowState);
+    public class PlayWindow : Window
+    {
+        public override Type WindowType => typeof(PlayWindowState);
+    }
 }

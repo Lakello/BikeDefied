@@ -1,47 +1,52 @@
+using BikeDefied.Game;
+using BikeDefied.Yandex.Saves;
+using BikeDefied.Yandex.Saves.Data;
 using Reflex.Attributes;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelView : MonoBehaviour
+namespace BikeDefied.LevelComponents
 {
-    [SerializeField] private List<Level> _levelPrefabs;
-    [SerializeField] private Vector3 _levelOffset;
-
-    private LevelStateMachine _levelStateMachine;
-    private ISaver _saver;
-
-    private void OnDisable() =>
-        _saver?.UnsubscribeValueUpdated<CurrentLevel>(OnLevelChanged);
-
-    [Inject]
-    private void Inject(Finish finish, ISaver saver)
+    public class LevelView : MonoBehaviour
     {
-        _saver = saver;
-        _saver.SubscribeValueUpdated<CurrentLevel>(OnLevelChanged);
+        [SerializeField] private List<Level> _levelPrefabs;
+        [SerializeField] private Vector3 _levelOffset;
 
-        Init(finish);
+        private LevelStateMachine _levelStateMachine;
+        private ISaver _saver;
 
-        _levelStateMachine.EnterIn(saver.Get<CurrentLevel>().Index);
-    }
+        private void OnDisable() =>
+            _saver?.UnsubscribeValueUpdated<CurrentLevel>(OnLevelChanged);
 
-    private void Init(Finish finish)
-    {
-        _levelStateMachine = new LevelStateMachine(() =>
+        [Inject]
+        private void Inject(Finish finish, ISaver saver)
         {
-            var states = new List<LevelState>();
+            _saver = saver;
+            _saver.SubscribeValueUpdated<CurrentLevel>(OnLevelChanged);
 
-            foreach (var level in _levelPrefabs)
+            Init(finish);
+
+            _levelStateMachine.EnterIn(saver.Get<CurrentLevel>().Index);
+        }
+
+        private void Init(Finish finish)
+        {
+            _levelStateMachine = new LevelStateMachine(() =>
             {
-                states.Add(new LevelState(level, gameObject, finish, _levelOffset));
-            }
+                var states = new List<LevelState>();
 
-            return states;
-        });
-    }
+                foreach (var level in _levelPrefabs)
+                {
+                    states.Add(new LevelState(level, gameObject, finish, _levelOffset));
+                }
 
-    private void OnLevelChanged(CurrentLevel currentLevel)
-    {
-        _levelStateMachine.EnterIn(currentLevel.Index);
+                return states;
+            });
+        }
+
+        private void OnLevelChanged(CurrentLevel currentLevel)
+        {
+            _levelStateMachine.EnterIn(currentLevel.Index);
+        }
     }
 }

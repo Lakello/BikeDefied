@@ -1,10 +1,13 @@
-﻿[System.Serializable]
-public class HintDisplay : IPlayerData
+﻿namespace BikeDefied.Yandex.Saves.Data
 {
-    [UnityEngine.SerializeField] private bool _isHintDisplay;
+    [System.Serializable]
+    public class HintDisplay : IPlayerData
+    {
+        [UnityEngine.SerializeField] private bool _isHintDisplay;
 
-    public bool IsHintDisplay => _isHintDisplay;
+        public bool IsHintDisplay => _isHintDisplay;
 
-    public HintDisplay(bool isHintDisplay) =>
-        _isHintDisplay = isHintDisplay;
+        public HintDisplay(bool isHintDisplay) =>
+            _isHintDisplay = isHintDisplay;
+    }
 }

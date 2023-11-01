@@ -1,13 +1,17 @@
-﻿using Reflex.Attributes;
+﻿using BikeDefied.Yandex.AD;
+using Reflex.Attributes;
 
-public class RestartButton : EventTriggerButton 
+namespace BikeDefied.UI.Buttons
 {
-    private ICounterForShowAd _counter;
+    public class RestartButton : EventTriggerButton
+    {
+        private ICounterForShowAd _counter;
 
-    public void OnAddCounterForShowAd() =>
-        _counter.Add();
+        public void OnAddCounterForShowAd() =>
+            _counter.Add();
 
-    [Inject]
-    private void Inject(ICounterForShowAd counter) =>
-        _counter = counter;
+        [Inject]
+        private void Inject(ICounterForShowAd counter) =>
+            _counter = counter;
+    }
 }

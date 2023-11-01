@@ -1,51 +1,57 @@
-﻿using Reflex.Attributes;
+﻿using BikeDefied.AudioSystem;
+using BikeDefied.BikeSystem;
+using BikeDefied.FSM.Game;
+using Reflex.Attributes;
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
+using AudioType = BikeDefied.AudioSystem.AudioType;
 
-public class Finish : MonoBehaviour, ISubject
+namespace BikeDefied.Game
 {
-    private IAudioController _audioController;
-    private IGameOver _over;
-
-    public event Action Action;
-
-    private void OnEnable() =>
-        Action += OnAction;
-
-    private void OnDisable()
+    public class Finish : MonoBehaviour, ISubject
     {
-        if (_over != null)
-            _over.LateGameOver -= OnGameOver;
-    }
+        private IAudioController _audioController;
+        private IGameOver _over;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent(out Bike bike))
+        public event Action Action;
+
+        private void OnEnable() =>
+            Action += OnAction;
+
+        private void OnDisable()
         {
-            Action?.Invoke();
-            Action = null;
+            if (_over != null)
+                _over.LateGameOver -= OnGameOver;
         }
-    }
 
-    public void OnPointEnabled(Vector3 position)
-    {
-        transform.position = position;
-    }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent(out Bike bike))
+            {
+                Action?.Invoke();
+                Action = null;
+            }
+        }
 
-    [Inject]
-    private void Inject(IAudioController audioController, GameStateInject states)
-    {
-        _audioController = audioController;
-        _over = states.Over;
-        _over.LateGameOver += OnGameOver;
-    }
+        public void OnPointEnabled(Vector3 position)
+        {
+            transform.position = position;
+        }
 
-    private void OnAction()
-    {
-        _audioController.Play(Audio.VictoryGameOver);
-    }
+        [Inject]
+        private void Inject(IAudioController audioController, GameStateInject states)
+        {
+            _audioController = audioController;
+            _over = states.Over;
+            _over.LateGameOver += OnGameOver;
+        }
 
-    private void OnGameOver() =>
-        Action = null;
+        private void OnAction()
+        {
+            _audioController.Play(AudioType.VictoryGameOver);
+        }
+
+        private void OnGameOver() =>
+            Action = null;
+    }
 }
