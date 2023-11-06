@@ -29,10 +29,8 @@ namespace BikeDefied
         private void OnDisable() =>
             _transitionInitializer?.OnDisable();
 
-        public void InstallBindings(ContainerDescriptor descriptor)
-        {
+        public void InstallBindings(ContainerDescriptor descriptor) =>
             descriptor.AddInstance(_finish);
-        }
 
         public void OnSceneLoaded<TState>(GameStateMachine machine) where TState : State<GameStateMachine>
         {

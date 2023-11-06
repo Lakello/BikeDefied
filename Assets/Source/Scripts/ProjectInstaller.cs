@@ -1,23 +1,19 @@
 ﻿using Agava.YandexGames;
-using Lean.Localization;
-using Reflex.Core;
-using UnityEngine;
-using System.Collections.Generic;
 using BikeDefied.AudioSystem;
-using BikeDefied.FSM.Game.States;
+using BikeDefied.FSM;
 using BikeDefied.FSM.Game;
+using BikeDefied.FSM.Game.States;
 using BikeDefied.FSM.GameWindow;
+using BikeDefied.FSM.GameWindow.States;
+using BikeDefied.Other;
+using BikeDefied.TypedScenes;
+using BikeDefied.Yandex;
 using BikeDefied.Yandex.AD;
 using BikeDefied.Yandex.Localization;
 using BikeDefied.Yandex.Saves;
-using BikeDefied.Other;
-using BikeDefied.Yandex;
-using BikeDefied.FSM;
-using BikeDefied.FSM.GameWindow.States;
-using BikeDefied.TypedScenes;
-using Unity.VisualScripting;
-using UnityEngine.Windows;
-using CW.Common;
+using Reflex.Core;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace BikeDefied
 {
@@ -58,7 +54,9 @@ namespace BikeDefied
             DontDestroyOnLoad(backgoundAudio);
 
             _gameAudioHandler.Init();
-            var audioController = new AudioController(gameAudio, backgoundAudio, _gameAudioHandler, focusObserver, context);
+            var audioController = new AudioVolumeChanger(gameAudio, backgoundAudio, _gameAudioHandler, context);
+
+            _ = new AudioFocusObserver(gameAudio, backgoundAudio, focusObserver);
 
             descriptor.AddInstance(audioController, typeof(IAudioController));
         }
@@ -75,7 +73,7 @@ namespace BikeDefied
                     [typeof(LeaderboardWindowState)] = new LeaderboardWindowState()
                 };
             });
-            
+
             var gameOverState = new EndLevelState(context, windowStateMachine);
             var gamePlayState = new PlayLevelState(input, windowStateMachine);
             var gameMenuState = new MenuState(windowStateMachine);
@@ -102,7 +100,7 @@ namespace BikeDefied
             var ad = new Ad(focusObserver, countOverBetweenShowsAd: 5);
             descriptor.AddInstance(ad, typeof(ICounterForShowAd));
 
-            var yandexInitializer = new GameObject("Init").AddComponent<YandexInitializer>();
+            var yandexInitializer = new GameObject(nameof(YandexInitializer)).AddComponent<YandexInitializer>();
 
             yandexInitializer.Init(sdkInitSuccessCallBack: () =>
             {

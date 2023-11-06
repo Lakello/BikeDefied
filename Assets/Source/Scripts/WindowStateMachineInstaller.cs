@@ -31,9 +31,7 @@ namespace BikeDefied
             _transitionInitializer.InitTransition<MenuWindowState>(_backToMainMenuFromLeaderboardButton);
         }
 
-        public void OnSceneLoaded<TState>(GameStateMachine machine) where TState : State<GameStateMachine>
-        {
-            _windowStateMachine = machine.Window;
-        }
+        public void OnSceneLoaded<TState>(GameStateMachine machine) where TState : State<GameStateMachine> =>
+            _windowStateMachine = machine.WindowStateMachine;
     }
 }

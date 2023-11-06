@@ -4,16 +4,16 @@ using System;
 
 namespace BikeDefied.FSM.Game.States
 {
-    public class MenuState : GameState, IGameMenu
+    public class MenuState : GameState, IMenuStateChangeble
     {
         public MenuState(WindowStateMachine machine) : base(machine) { }
 
-        public event Action GameMenu;
+        public event Func<bool> StateChanged;
 
         public override void Enter()
         {
-            Machine.EnterIn<MenuWindowState>();
-            GameMenu?.Invoke();
+            WindowStateMachine.EnterIn<MenuWindowState>();
+            StateChanged?.Invoke();
         }
 
         public override void Exit() { }

@@ -8,27 +8,25 @@ namespace BikeDefied.Game.Character
     {
         [SerializeField] private Animator _selfAnimator;
 
-        private IGameOver _game;
+        private IEndLevelStateChangeble _endLevel;
 
         [Inject]
         private void Inject(GameStateInject inject)
         {
-            _game = inject.Over;
-            _game.GameOver += OnGameOver;
+            _endLevel = inject.EndLevel;
+            _endLevel.StateChanged += OnStateChanged;
         }
 
         private void OnEnable()
         {
-            if (_game != null)
-                _game.GameOver += OnGameOver;
+            if (_endLevel != null)
+                _endLevel.StateChanged += OnStateChanged;
         }
 
-        private void OnDisable()
-        {
-            _game.GameOver -= OnGameOver;
-        }
+        private void OnDisable() =>
+            _endLevel.StateChanged -= OnStateChanged;
 
-        private bool OnGameOver()
+        private bool OnStateChanged()
         {
             _selfAnimator.enabled = false;
 

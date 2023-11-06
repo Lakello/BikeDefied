@@ -4,28 +4,24 @@ using System;
 
 namespace BikeDefied.FSM.Game.States
 {
-    public class PlayLevelState : GameState, IGamePlay
+    public class PlayLevelState : GameState, IPlayLevelStateChangeble
     {
         private readonly PlayerInput _playerInput;
 
-        public PlayLevelState(PlayerInput input, WindowStateMachine machine) : base(machine)
-        {
+        public PlayLevelState(PlayerInput input, WindowStateMachine machine) : base(machine) =>
             _playerInput = input;
-        }
 
-        public event Action GamePlay;
+        public event Func<bool> StateChanged;
 
         public override void Enter()
         {
-            Machine.EnterIn<PlayWindowState>();
+            WindowStateMachine.EnterIn<PlayWindowState>();
             _playerInput.Enable();
 
-            GamePlay?.Invoke();
+            StateChanged?.Invoke();
         }
 
-        public override void Exit()
-        {
+        public override void Exit() =>
             _playerInput.Disable();
-        }
     }
 }

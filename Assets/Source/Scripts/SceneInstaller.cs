@@ -43,10 +43,10 @@ namespace BikeDefied
             var scoreCounterInject = new ScoreCounterInject(() => (_player, this, _groundChecker, _bike));
 
             _scoreCounters = new List<IScoreCounter>()
-        {
-            new DistanceCounter(_distanceReward, scoreCounterInject),
-            new FlipCounter(_backFlipReward, _frontFlipReward, _flipTriggerMask, scoreCounterInject)
-        };
+            {
+                new DistanceCounter(_distanceReward, scoreCounterInject),
+                new FlipCounter(_backFlipReward, _frontFlipReward, _flipTriggerMask, scoreCounterInject)
+            };
 
             descriptor.AddInstance(_scoreCounters, typeof(IReadOnlyList<IScoreCounter>));
         }

@@ -7,7 +7,7 @@ namespace BikeDefied
     public class TransitionInitializer<TMachine> where TMachine : StateMachine<TMachine>
     {
         private TMachine _stateMachine;
-        private List<Subscription> _subscribtions = new List<Subscription>();
+        private List<Subscription> _subscribtions = new();
 
         private struct Subscription
         {
@@ -21,7 +21,8 @@ namespace BikeDefied
             }
         }
 
-        public TransitionInitializer(TMachine stateMachine) => _stateMachine = stateMachine;
+        public TransitionInitializer(TMachine stateMachine) => 
+            _stateMachine = stateMachine;
 
         public void OnEnable()
         {
@@ -39,7 +40,7 @@ namespace BikeDefied
         {
             var transition = new Transition<TMachine, TTargetState>(_stateMachine, reloadScene);
 
-            subject.Action += transition.Transit;
+            subject.ActionEnded += transition.Transit;
 
             _subscribtions.Add(new Subscription(subject, transition.Transit));
         }
@@ -47,13 +48,13 @@ namespace BikeDefied
         private void Subscribe()
         {
             foreach (var action in _subscribtions)
-                action.Subject.Action += action.Observer;
+                action.Subject.ActionEnded += action.Observer;
         }
 
         private void UnSubscribe()
         {
             foreach (var action in _subscribtions)
-                action.Subject.Action -= action.Observer;
+                action.Subject.ActionEnded -= action.Observer;
         }
     }
 }

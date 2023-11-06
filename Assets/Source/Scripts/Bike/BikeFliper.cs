@@ -13,6 +13,14 @@ namespace BikeDefied.BikeSystem
 
         private Rigidbody _bikeRigidbody;
 
+        [Inject]
+        protected override void Inject(BikeBehaviourInject inject) =>
+            Init(inject);
+
+        [Inject]
+        private void Inject(IInputHandler inputHandler) =>
+            InputHandler = inputHandler;
+
         private void Start()
         {
             _bikeRigidbody = BikeBody.GetComponent<Rigidbody>();
@@ -31,18 +39,6 @@ namespace BikeDefied.BikeSystem
                 else if (_bikeRigidbody.isKinematic == false)
                     _bikeRigidbody.angularVelocity = new Vector3(0, _bikeRigidbody.velocity.y, _bikeRigidbody.velocity.z);
             }));
-        }
-
-        [Inject]
-        protected override void Inject(BikeBehaviourInject inject)
-        {
-            Init(inject);
-        }
-
-        [Inject]
-        private void Inject(IInputHandler inputHandler)
-        {
-            InputHandler = inputHandler;
         }
 
         private void Flip(float direction)

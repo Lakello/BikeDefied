@@ -2,6 +2,6 @@
 {
     public interface IScoreCounter
     {
-        public abstract event System.Action<ScoreReward> ScoreAdd;
+        public abstract event System.Action<ScoreReward> ScoreAdding;
     }
 }

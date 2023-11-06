@@ -23,9 +23,7 @@ namespace BikeDefied.Yandex.Saves
             {
                 [typeof(LevelInfo)] = new SaveAccessMethodsHolder<LevelInfo>(
                     getter: (value) =>
-                    {
-                        return _playerData.LevelInfo.FirstOrDefault(levelInfo => levelInfo.LevelIndex == value.LevelIndex);
-                    },
+                        _playerData.LevelInfo.FirstOrDefault(levelInfo => levelInfo.LevelIndex == value.LevelIndex),
                     setter: (value) =>
                     {
                         if (value == default)
@@ -46,7 +44,8 @@ namespace BikeDefied.Yandex.Saves
                     }),
 
                 [typeof(CurrentLevel)] = new SaveAccessMethodsHolder<CurrentLevel>(
-                    getter: (_) => _playerData.CurrentLevel,
+                    getter: (_) => 
+                        _playerData.CurrentLevel,
                     setter: (value) =>
                     {
                         if (value == default)
@@ -60,7 +59,8 @@ namespace BikeDefied.Yandex.Saves
                     }),
 
                 [typeof(HintDisplay)] = new SaveAccessMethodsHolder<HintDisplay>(
-                    getter: (_) => _playerData.HintDisplay,
+                    getter: (_) => 
+                        _playerData.HintDisplay,
                     setter: (value) =>
                     {
                         if (_playerData.HintDisplay.IsHintDisplay != value.IsHintDisplay)
@@ -71,7 +71,8 @@ namespace BikeDefied.Yandex.Saves
                     }),
 
                 [typeof(UnmuteSound)] = new SaveAccessMethodsHolder<UnmuteSound>(
-                    getter: (_) => _playerData.UnmuteSound,
+                    getter: (_) =>
+                        _playerData.UnmuteSound,
                     setter: (value) =>
                     {
                         if (_playerData.UnmuteSound.VolumePercent != value.VolumePercent)
@@ -81,15 +82,6 @@ namespace BikeDefied.Yandex.Saves
                         }
                     })
             };
-        }
-
-        [Serializable]
-        private class PlayerData
-        {
-            public LevelInfo[] LevelInfo = new LevelInfo[] { };
-            public CurrentLevel CurrentLevel = new(4);
-            public HintDisplay HintDisplay = new(true);
-            public UnmuteSound UnmuteSound = new(1f);
         }
 
         public TData Get<TData>(TData value = default) where TData : class, IPlayerData

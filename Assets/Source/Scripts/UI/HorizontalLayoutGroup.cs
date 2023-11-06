@@ -12,7 +12,11 @@ namespace BikeDefied.UI
         private bool _childForceExpandHeight = true;
         private bool _childControlHeight = true;
 
-        public float Spacing { get { return _spacing; } private set { SetProperty(ref _spacing, value); } }
+        public float Spacing 
+        {
+            get => _spacing; 
+            private set => SetProperty(ref _spacing, value); 
+        }
 
         public event Action LayoutUpdated;
 
@@ -81,6 +85,7 @@ namespace BikeDefied.UI
                 for (int i = 0; i < rectChildren.Count; i++)
                 {
                     RectTransform child = rectChildren[i];
+
                     float min, preferred, flexible;
                     GetChildSizes(child, (int)Axis.Height, controlSize, childForceExpandSize, out min, out preferred, out flexible);
 
@@ -195,15 +200,11 @@ namespace BikeDefied.UI
             CalculationAlongAxis(Axis.Width);
         }
 
-        public override void CalculateLayoutInputVertical()
-        {
+        public override void CalculateLayoutInputVertical() =>
             CalculationAlongAxis(Axis.Height);
-        }
 
-        public override void SetLayoutHorizontal()
-        {
+        public override void SetLayoutHorizontal() =>
             SetChildrenAlongAxis(Axis.Width);
-        }
 
         public override void SetLayoutVertical()
         {

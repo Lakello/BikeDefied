@@ -7,11 +7,11 @@ namespace BikeDefied.UI.Buttons
     {
         private ICounterForShowAd _counter;
 
-        public void OnAddCounterForShowAd() =>
-            _counter.Add();
-
         [Inject]
         private void Inject(ICounterForShowAd counter) =>
             _counter = counter;
+
+        public void OnAddCounterForShowAd() =>
+            _counter.Add();
     }
 }

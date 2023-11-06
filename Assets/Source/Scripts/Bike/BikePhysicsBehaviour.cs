@@ -21,19 +21,32 @@ namespace BikeDefied.BikeSystem
         [SerializeField] private Rigidbody _backWheel;
         [SerializeField] private Rigidbody _frontWheel;
 
-        private IGamePlay _play;
+        private IPlayLevelStateChangeble _play;
         private GroundChecker _checker;
 
         private Coroutine _movePhysicsCoroutine;
         private bool _isAlive;
         private bool _isGrounded;
 
+        [Inject]
+        private void Inject(GameStateInject inject, GroundChecker checker)
+        {
+            _play = inject.PlayLevel;
+            var over = inject.EndLevel;
+
+            _play.StateChanged += OnGameStateChanged;
+            over.StateChanged += () => _isAlive = false;
+
+            _checker = checker;
+            _checker.GroundChanged += OnGroundChanged;
+        }
+
         private void OnEnable()
         {
             _isAlive = true;
 
             if (_play != null)
-                _play.GamePlay += OnGamePlay;
+                _play.StateChanged += OnGameStateChanged;
 
             if (_checker != null)
                 _checker.GroundChanged += OnGroundChanged;
@@ -42,7 +55,7 @@ namespace BikeDefied.BikeSystem
         private void OnDisable()
         {
             if (_play != null)
-                _play.GamePlay -= OnGamePlay;
+                _play.StateChanged -= OnGameStateChanged;
 
             if (_checker != null)
                 _checker.GroundChanged -= OnGroundChanged;
@@ -59,25 +72,15 @@ namespace BikeDefied.BikeSystem
                 _bike.isKinematic = _backWheel.isKinematic = _frontWheel.isKinematic = false;
         }
 
-        [Inject]
-        private void Inject(GameStateInject inject, GroundChecker checker)
-        {
-            _play = inject.Play;
-            var over = inject.Over;
+        private void OnGroundChanged(bool value) => 
+            _isGrounded = value;
 
-            _play.GamePlay += OnGamePlay;
-            over.GameOver += () => _isAlive = false;
-
-            _checker = checker;
-            _checker.GroundChanged += OnGroundChanged;
-        }
-
-        private void OnGroundChanged(bool value) => _isGrounded = value;
-
-        private void OnGamePlay()
+        private bool OnGameStateChanged()
         {
             _bike.isKinematic = _backWheel.isKinematic = _frontWheel.isKinematic = false;
             _movePhysicsCoroutine = StartCoroutine(PhysicsBehaviour());
+
+            return true;
         }
 
         private IEnumerator PhysicsBehaviour()

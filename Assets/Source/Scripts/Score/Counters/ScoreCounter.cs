@@ -17,8 +17,6 @@ namespace BikeDefied.ScoreSystem
 
         protected bool IsGrounded { get; private set; }
 
-        public abstract event Action<ScoreReward> ScoreAdd;
-
         public ScoreCounter(ScoreCounterInject inject)
         {
             Player = inject.Player;
@@ -30,10 +28,10 @@ namespace BikeDefied.ScoreSystem
             Start();
         }
 
-        public void Dispose()
-        {
+        public abstract event Action<ScoreReward> ScoreAdding;
+
+        public void Dispose() =>
             _groundChecker.GroundChanged -= OnGroundChanged;
-        }
 
         protected abstract void Start();
 

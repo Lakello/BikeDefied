@@ -34,20 +34,18 @@ namespace BikeDefied.BikeSystem
         }
 
         [Inject]
-        protected override void Inject(BikeBehaviourInject inject)
-        {
+        protected override void Inject(BikeBehaviourInject inject) =>
             Init(inject);
-        }
 
         [Inject]
-        private void Inject(IInputHandler inputHandler)
-        {
+        private void Inject(IInputHandler inputHandler) =>
             InputHandler = inputHandler;
-        }
 
         private void Move(float value)
         {
-            _bikeRigidbody.AddForce(new Vector3(0, 0, _force * value * _accelerationKoef * Time.deltaTime), ForceMode.VelocityChange);
+            var force = _force * value * _accelerationKoef * Time.deltaTime;
+
+            _bikeRigidbody.AddForce(new Vector3(0, 0, force), ForceMode.VelocityChange);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace BikeDefied.Game.Spawner
         public Type SelfType { get; }
         public GameObject SelfGameObject { get; }
 
-        public event System.Action<IPoolingObject<TInit>> Disable;
+        public event System.Action<IPoolingObject<TInit>> Disabled;
 
         public void Init(TInit init);
     }

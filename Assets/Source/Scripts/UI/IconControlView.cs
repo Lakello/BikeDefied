@@ -14,6 +14,13 @@ namespace BikeDefied.UI
 
         private GroundChecker _checker;
 
+        [Inject]
+        private void Inject(GroundChecker checker)
+        {
+            _checker = checker;
+            _checker.GroundChanged += OnGroundChanged;
+        }
+
         private void OnDisable()
         {
             if (_checker != null)
@@ -36,14 +43,6 @@ namespace BikeDefied.UI
                 _frontFlip.gameObject.SetActive(true);
                 _backFlip.gameObject.SetActive(true);
             }
-        }
-
-
-        [Inject]
-        private void Inject(GroundChecker checker)
-        {
-            _checker = checker;
-            _checker.GroundChanged += OnGroundChanged;
         }
     }
 }

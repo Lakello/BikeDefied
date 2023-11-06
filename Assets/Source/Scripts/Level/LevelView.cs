@@ -15,9 +15,6 @@ namespace BikeDefied.LevelComponents
         private LevelStateMachine _levelStateMachine;
         private ISaver _saver;
 
-        private void OnDisable() =>
-            _saver?.UnsubscribeValueUpdated<CurrentLevel>(OnLevelChanged);
-
         [Inject]
         private void Inject(Finish finish, ISaver saver)
         {
@@ -28,6 +25,9 @@ namespace BikeDefied.LevelComponents
 
             _levelStateMachine.EnterIn(saver.Get<CurrentLevel>().Index);
         }
+
+        private void OnDisable() =>
+            _saver?.UnsubscribeValueUpdated<CurrentLevel>(OnLevelChanged);
 
         private void Init(Finish finish)
         {
@@ -44,9 +44,7 @@ namespace BikeDefied.LevelComponents
             });
         }
 
-        private void OnLevelChanged(CurrentLevel currentLevel)
-        {
+        private void OnLevelChanged(CurrentLevel currentLevel) =>
             _levelStateMachine.EnterIn(currentLevel.Index);
-        }
     }
 }

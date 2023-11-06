@@ -8,7 +8,7 @@ namespace BikeDefied.Game.Spawner
 
         public void Return(IPoolingObject<TInit> @object)
         {
-            @object.Disable -= Return;
+            @object.Disabled -= Return;
 
             Add(@object);
         }
@@ -40,9 +40,7 @@ namespace BikeDefied.Game.Spawner
             }
         }
 
-        private void AddType(System.Type type)
-        {
+        private void AddType(System.Type type) =>
             _objects.Add(type, new Queue<IPoolingObject<TInit>>());
-        }
     }
 }

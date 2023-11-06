@@ -10,9 +10,7 @@ namespace BikeDefied.InputSystem
         public float Horizontal => _playerInput.PC.Horizontal.ReadValue<float>();
 
         [Inject]
-        private void Inject(PlayerInput input)
-        {
+        private void Inject(PlayerInput input) =>
             _playerInput = input;
-        }
     }
 }

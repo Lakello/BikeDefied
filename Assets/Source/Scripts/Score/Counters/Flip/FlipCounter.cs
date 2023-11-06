@@ -9,8 +9,6 @@ namespace BikeDefied.ScoreSystem
         private const int CountDirections = 4;
 
         private LayerMask _mask;
-        private Flip _backFlip;
-        private Flip _frontFlip;
 
         private Flip _currentFlip;
         private FlipTriggerDirection _previousFlip;
@@ -22,7 +20,7 @@ namespace BikeDefied.ScoreSystem
         private float _backReward;
         private float _frontReward;
 
-        public override event Action<ScoreReward> ScoreAdd;
+        public override event Action<ScoreReward> ScoreAdding;
 
         public FlipCounter(float backReward, float frontReward, LayerMask mask, ScoreCounterInject inject) : base(inject)
         {
@@ -38,28 +36,6 @@ namespace BikeDefied.ScoreSystem
 
         protected override void Start()
         {
-            _backFlip = new() 
-            {
-                Directions = new[]
-                {
-                    FlipTriggerDirection.Bottom,
-                    FlipTriggerDirection.Front,
-                    FlipTriggerDirection.Top,
-                    FlipTriggerDirection.Back
-                }
-            };
-
-            _frontFlip = new()
-            {
-                Directions = new[]
-                {
-                    FlipTriggerDirection.Bottom,
-                    FlipTriggerDirection.Back,
-                    FlipTriggerDirection.Top,
-                    FlipTriggerDirection.Front
-                }
-            };
-
             _currentFlip = new Flip()
             {
                 Directions = new FlipTriggerDirection[CountDirections]
@@ -210,14 +186,14 @@ namespace BikeDefied.ScoreSystem
                 Reward.Message = $"+{_frontReward}";
                 Reward.Value = _frontReward;
 
-                ScoreAdd?.Invoke(Reward);
+                ScoreAdding?.Invoke(Reward);
             }
             else
             {
                 Reward.Message = $"+{_backReward}";
                 Reward.Value = _backReward;
 
-                ScoreAdd?.Invoke(Reward);
+                ScoreAdding?.Invoke(Reward);
             }
 
             _currentFlip.Directions = new FlipTriggerDirection[4];

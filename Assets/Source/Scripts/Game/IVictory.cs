@@ -2,6 +2,6 @@
 {
     public interface IVictory
     {
-        public event System.Action Victory;
+        public event System.Action Victored;
     }
 }

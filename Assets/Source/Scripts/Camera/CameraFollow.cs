@@ -10,17 +10,24 @@ namespace BikeDefied.CameraSystem
         [SerializeField] private Transform _target;
         [SerializeField] private Vector3 _offset;
 
-        private IGameOver _game;
+        private IEndLevelStateChangeble _endLevel;
+
+        [Inject]
+        private void Inject(GameStateInject inject)
+        {
+            _endLevel = inject.EndLevel;
+            _endLevel.StateChanged += OnStateChanged;
+        }
 
         private void OnEnable()
         {
-            if (_game != null)
-                _game.GameOver += OnGameOver;
+            if (_endLevel != null)
+                _endLevel.StateChanged += OnStateChanged;
         }
 
         private void OnDisable()
         {
-            _game.GameOver -= OnGameOver;
+            _endLevel.StateChanged -= OnStateChanged;
         }
 
         private void Update()
@@ -28,14 +35,7 @@ namespace BikeDefied.CameraSystem
             transform.position = _target.position + _offset;
         }
 
-        [Inject]
-        private void Inject(GameStateInject inject)
-        {
-            _game = inject.Over;
-            _game.GameOver += OnGameOver;
-        }
-
-        private bool OnGameOver()
+        private bool OnStateChanged()
         {
             enabled = false;
             _lookAt.parent = null;

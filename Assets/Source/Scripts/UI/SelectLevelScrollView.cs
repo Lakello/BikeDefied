@@ -30,21 +30,28 @@ namespace BikeDefied.UI
         private Func<int> GetCurrentLevel;
         private Action<int> SetCurrentLevel;
 
+        [Inject]
+        private void Inject(ISaver saver)
+        {
+            GetCurrentLevel = () => saver.Get<CurrentLevel>().Index;
+            SetCurrentLevel = (index) => saver.Set(new CurrentLevel(index));
+
+            Init();
+
+            UpdateContentPosition();
+        }
+
         private void OnEnable()
         {
             if (_layoutGroup != null)
                 _layoutGroup.LayoutUpdated += UpdateContentPosition;
         }
 
-        private void OnDisable()
-        {
+        private void OnDisable() =>
             _layoutGroup.LayoutUpdated -= UpdateContentPosition;
-        }
 
-        public void OnDrag(PointerEventData eventData)
-        {
+        public void OnDrag(PointerEventData eventData) =>
             UpdateTargetPositon();
-        }
 
         public void OnEndDrag(PointerEventData eventData)
         {
@@ -57,21 +64,8 @@ namespace BikeDefied.UI
             _content.DOLocalMoveX(_targetPosition, _toCenterTime);
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
-        {
+        public void OnBeginDrag(PointerEventData eventData) =>
             _content.DOKill();
-        }
-
-        [Inject]
-        private void Inject(ISaver saver)
-        {
-            GetCurrentLevel = () => saver.Get<CurrentLevel>().Index;
-            SetCurrentLevel = (index) => saver.Set(new CurrentLevel(index));
-
-            Init();
-
-            UpdateContentPosition();
-        }
 
         private void Init()
         {
@@ -165,9 +159,7 @@ namespace BikeDefied.UI
             return closest;
         }
 
-        private float GetChildItemWidth(int index)
-        {
-            return (_content.GetChild(index) as RectTransform).sizeDelta.x;
-        }
+        private float GetChildItemWidth(int index) =>
+            (_content.GetChild(index) as RectTransform).sizeDelta.x;
     }
 }

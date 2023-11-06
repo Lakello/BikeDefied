@@ -22,7 +22,7 @@ namespace BikeDefied
         {
             foreach (var window in _windows)
             {
-                var state = machine.Window.TryGetState<WindowState>(window);
+                var state = machine.WindowStateMachine.TryGetState<WindowState>(window);
                 
                 state.Init(window);
             }

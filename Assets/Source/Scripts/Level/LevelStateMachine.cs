@@ -9,10 +9,8 @@ namespace BikeDefied.LevelComponents
 
         private LevelState _currentState;
 
-        public LevelStateMachine(Func<List<LevelState>> states)
-        {
+        public LevelStateMachine(Func<List<LevelState>> states) =>
             _states = states();
-        }
 
         public void EnterIn(int index)
         {

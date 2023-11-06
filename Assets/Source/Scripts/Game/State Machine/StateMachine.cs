@@ -9,7 +9,8 @@ namespace BikeDefied.FSM
 
         public State<TMachine> CurrentState { get; private set; }
 
-        public StateMachine(Func<Dictionary<Type, State<TMachine>>> getStates) => _states = getStates();
+        public StateMachine(Func<Dictionary<Type, State<TMachine>>> getStates) => 
+            _states = getStates();
 
         public void Dispose()
         {

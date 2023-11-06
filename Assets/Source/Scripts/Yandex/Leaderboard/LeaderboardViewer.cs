@@ -193,10 +193,7 @@ namespace BikeDefied.Yandex.Leaders
             };
         }
 
-        private string GetLeaderboardName()
-        {
-            string leaderboardName = $"Level{_saver.Get<CurrentLevel>().Index + 1}";
-            return leaderboardName;
-        }
+        private string GetLeaderboardName() =>
+            $"Level{_saver.Get<CurrentLevel>().Index + 1}";
     }
 }

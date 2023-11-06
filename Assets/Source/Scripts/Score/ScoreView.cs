@@ -21,59 +21,55 @@ namespace BikeDefied.ScoreSystem
         [SerializeField] private float _totalScoreShowTime;
 
         private IReadOnlyList<IScoreCounter> _counters;
-        private IGameOver _gameOver;
+        private IEndLevelStateChangeble _endLevel;
         private float _currentScore;
         private Coroutine _totalScoreShowCoroutine;
         private Action SaveScore;
 
+        [Inject]
+        private void Inject(IReadOnlyList<IScoreCounter> counters, GameStateInject inject, ISaver saver)
+        {
+            _counters = counters;
+
+            SubscribeCounters();
+
+            SaveScore = () => saver.Set(new LevelInfo(saver.Get<CurrentLevel>().Index, (int)_currentScore));
+
+            _endLevel = inject.EndLevel;
+            _endLevel.StateChanged += OnStateChanged;
+        }
+
         private void OnEnable()
         {
             if (_counters != null && _counters.Count >= 1)
-                Subscribe();
+                SubscribeCounters();
 
-            if (_gameOver != null)
-                _gameOver.GameOver += OnGameOver;
+            if (_endLevel != null)
+                _endLevel.StateChanged += OnStateChanged;
         }
 
         private void OnDisable()
         {
             if (_counters != null && _counters.Count >= 1)
-                UnSubscribe();
+                UnSubscribeCounters();
 
-            if (_gameOver != null)
-                _gameOver.GameOver -= OnGameOver;
+            if (_endLevel != null)
+                _endLevel.StateChanged -= OnStateChanged;
         }
 
-        [Inject]
-        private void Inject(IReadOnlyList<IScoreCounter> counters)
-        {
-            _counters = counters;
-
-            Subscribe();
-        }
-
-        [Inject]
-        private void Inject(GameStateInject inject, ISaver saver)
-        {
-            SaveScore = () => saver.Set(new LevelInfo(saver.Get<CurrentLevel>().Index, (int)_currentScore));
-
-            _gameOver = inject.Over;
-            _gameOver.GameOver += OnGameOver;
-        }
-
-        private void Subscribe()
+        private void SubscribeCounters()
         {
             foreach (IScoreCounter counter in _counters)
-                counter.ScoreAdd += OnScoreChanged;
+                counter.ScoreAdding += OnScoreAdding;
         }
 
-        private void UnSubscribe()
+        private void UnSubscribeCounters()
         {
             foreach (IScoreCounter counter in _counters)
-                counter.ScoreAdd -= OnScoreChanged;
+                counter.ScoreAdding -= OnScoreAdding;
         }
 
-        private bool OnGameOver()
+        private bool OnStateChanged()
         {
             if (_totalScoreShowCoroutine != null)
                 StopCoroutine(_totalScoreShowCoroutine);
@@ -103,7 +99,7 @@ namespace BikeDefied.ScoreSystem
             }
         }
 
-        private void OnScoreChanged(ScoreReward reward)
+        private void OnScoreAdding(ScoreReward reward)
         {
             if (reward.Value < 1)
                 return;

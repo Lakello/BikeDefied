@@ -7,22 +7,20 @@ using UnityEngine;
 
 namespace BikeDefied.FSM.Game.States
 {
-    public class EndLevelState : GameState, IGameOver
+    public class EndLevelState : GameState, IEndLevelStateChangeble
     {
         private readonly Context _context;
         private Coroutine _gameOverWaitCoroutine;
 
-        public EndLevelState(Context context, WindowStateMachine machine) : base(machine)
-        {
+        public EndLevelState(Context context, WindowStateMachine machine) : base(machine) => 
             _context = context;
-        }
 
-        public event Func<bool> GameOver;
-        public event Action LateGameOver;
+        public event Func<bool> StateChanged;
+        public event Action LateStateChanged;
 
         public override void Enter()
         {
-            if (GameOver != null)
+            if (StateChanged != null)
             {
                 if (_gameOverWaitCoroutine != null)
                     _context.StopCoroutine(_gameOverWaitCoroutine);
@@ -35,10 +33,10 @@ namespace BikeDefied.FSM.Game.States
 
         private IEnumerator GameOverWait()
         {
-            yield return new WaitUntil(GameOver.Invoke);
+            yield return new WaitUntil(StateChanged.Invoke);
 
-            Machine.EnterIn<OverWindowState>();
-            LateGameOver?.Invoke();
+            WindowStateMachine.EnterIn<OverWindowState>();
+            LateStateChanged?.Invoke();
         }
     }
 }

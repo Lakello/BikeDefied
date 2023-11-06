@@ -11,7 +11,6 @@ namespace BikeDefied.LevelComponents
 
         [SerializeField, VisibleToCondition(nameof(_accelerationMultiplyMode), false)] private float _speed;
 
-
         private void OnTriggerStay(Collider other)
         {
             if (other.TryGetComponent(out IAccelerationable component))
@@ -22,6 +21,7 @@ namespace BikeDefied.LevelComponents
                     component.SelfRigidbody.AddForce(transform.forward * _speed * Time.deltaTime, ForceMode.VelocityChange);
             }
         }
+
         private void OnTriggerExit(Collider other)
         {
             if (other.TryGetComponent(out IAccelerationable component))

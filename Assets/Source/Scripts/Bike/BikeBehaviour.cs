@@ -17,6 +17,8 @@ namespace BikeDefied.BikeSystem
         protected bool IsGrounded { get; private set; }
         protected bool IsBackWheelGrounded { get; private set; }
 
+        protected abstract void Inject(BikeBehaviourInject inject);
+
         private void Awake()
         {
             _groundChecker = GetComponent<GroundChecker>();
@@ -36,8 +38,6 @@ namespace BikeDefied.BikeSystem
             _groundChecker.GroundChanged -= OnGroundChanged;
             _groundChecker.BackWheelGroundChanged -= OnBackWheelGroundChanged;
         }
-
-        protected abstract void Inject(BikeBehaviourInject inject);
 
         protected void Init(BikeBehaviourInject inject)
         {

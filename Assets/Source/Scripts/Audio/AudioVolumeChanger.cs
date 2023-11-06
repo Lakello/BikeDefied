@@ -6,10 +6,9 @@ using UnityEngine;
 
 namespace BikeDefied.AudioSystem
 {
-    public class AudioController : IDisposable, IAudioController
+    public class AudioVolumeChanger : IDisposable, IAudioController
     {
         private Context _context;
-        private FocusObserver _focusObserver;
         private GameAudioHandler _gameAudioHandler;
         private AudioSource _backgroundAudio;
         private AudioSource _gameAudio;
@@ -28,18 +27,15 @@ namespace BikeDefied.AudioSystem
             }
         }
 
-        public AudioController(AudioSource gameAudio, AudioSource backgroundAudio,
-                               GameAudioHandler audioHandler, FocusObserver focus, Context context)
+        public AudioVolumeChanger(AudioSource gameAudio, AudioSource backgroundAudio,
+                               GameAudioHandler audioHandler, Context context)
         {
             _gameAudioHandler = audioHandler;
             _gameAudio = gameAudio;
             _gameAudio.loop = false;
             _backgroundAudio = backgroundAudio;
             _backgroundAudio.loop = true;
-            _focusObserver = focus;
             _context = context;
-
-            _focusObserver.FocusChanged += OnFocusChanged;
 
             _backgroundAudioCoroutine = _context.StartCoroutine(PlayBackgroundAudio());
         }
@@ -51,9 +47,6 @@ namespace BikeDefied.AudioSystem
 
             if (_backgroundAudioCoroutine != null)
                 _context.StopCoroutine(_backgroundAudioCoroutine);
-
-            if (_focusObserver != null)
-                _focusObserver.FocusChanged -= OnFocusChanged;
         }
 
         public void Play(AudioType audio)
@@ -62,19 +55,6 @@ namespace BikeDefied.AudioSystem
                 _context.StopCoroutine(_gameAudioCoroutine);
 
             _gameAudioCoroutine = _context.StartCoroutine(PlayClip(audio));
-        }
-
-        private void OnFocusChanged(bool focus)
-        {
-            if (focus)
-            {
-                _backgroundAudio.Play();
-            }
-            else
-            {
-                _backgroundAudio.Pause();
-                _gameAudio.Pause();
-            }
         }
 
         private IEnumerator PlayBackgroundAudio()

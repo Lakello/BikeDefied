@@ -18,10 +18,8 @@ namespace BikeDefied.Yandex.Emulator
             action?.Invoke(data);
         }
 
-        public void Save(string save)
-        {
+        public void Save(string save) =>
             File.WriteAllText(_saveSimPath, save);
-        }
 
         public LeaderboardEntryResponse[] GetLeaderboardAllPlayers()
         {

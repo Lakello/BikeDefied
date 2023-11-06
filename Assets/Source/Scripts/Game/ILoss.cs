@@ -2,6 +2,6 @@
 {
     public interface ILoss
     {
-        public event System.Action Loss;
+        public event System.Action Lossed;
     }
 }

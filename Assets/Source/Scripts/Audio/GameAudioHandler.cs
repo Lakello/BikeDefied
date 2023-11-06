@@ -3,14 +3,6 @@ using UnityEngine;
 
 namespace BikeDefied.AudioSystem
 {
-    public enum AudioType
-    {
-        Background,
-        LevelPlay,
-        LossGameOver,
-        VictoryGameOver
-    }
-
     public class GameAudioHandler : MonoBehaviour
     {
         [SerializeField] private List<AudioClip> _backgroundMusics;

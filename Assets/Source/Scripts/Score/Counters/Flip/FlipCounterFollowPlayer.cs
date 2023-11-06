@@ -9,14 +9,10 @@ namespace BikeDefied.ScoreSystem
         private Transform _bike;
 
         [Inject]
-        private void Inject(Bike bike)
-        {
+        private void Inject(Bike bike) =>
             _bike = bike.transform;
-        }
 
-        private void Update()
-        {
+        private void Update() =>
             transform.position = _bike.position;
-        }
     }
 }

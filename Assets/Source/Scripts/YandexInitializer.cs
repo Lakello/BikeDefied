@@ -9,10 +9,8 @@ namespace BikeDefied
     {
         private Action _callBack;
 
-        private void Start()
-        {
+        private void Start() =>
             StartCoroutine(InitSDK());
-        }
 
         public void Init(Action sdkInitSuccessCallBack) =>
             _callBack = sdkInitSuccessCallBack;

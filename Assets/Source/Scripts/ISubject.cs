@@ -2,6 +2,6 @@
 {
     public interface ISubject
     {
-        public event System.Action Action;
+        public event System.Action ActionEnded;
     }
 }

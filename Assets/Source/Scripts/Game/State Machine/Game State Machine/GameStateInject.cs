@@ -2,10 +2,11 @@
 {
     public struct GameStateInject
     {
-        public IGameMenu Menu { get; private set; }
-        public IGamePlay Play { get; private set; }
-        public IGameOver Over { get; private set; }
+        public IMenuStateChangeble Menu { get; private set; }
+        public IPlayLevelStateChangeble PlayLevel { get; private set; }
+        public IEndLevelStateChangeble EndLevel { get; private set; }
 
-        public GameStateInject(System.Func<(IGameMenu, IGamePlay, IGameOver)> inject) => (Menu, Play, Over) = inject();
+        public GameStateInject(System.Func<(IMenuStateChangeble, IPlayLevelStateChangeble, IEndLevelStateChangeble)> inject) => 
+            (Menu, PlayLevel, EndLevel) = inject();
     }
 }

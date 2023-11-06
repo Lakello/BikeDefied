@@ -23,7 +23,7 @@ namespace BikeDefied.Game.Spawner
                 spawningObject.SelfGameObject.transform.position = position;
             }
 
-            spawningObject.Disable += _pool.Return;
+            spawningObject.Disabled += _pool.Return;
             
             spawningObject.SelfGameObject.SetActive(true);
 

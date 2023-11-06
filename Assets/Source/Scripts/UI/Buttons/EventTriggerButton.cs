@@ -7,14 +7,14 @@ namespace BikeDefied.UI.Buttons
     {
         public bool IsInteractable = true;
 
-        public virtual event Action Action;
+        public virtual event Action ActionEnded;
 
         public virtual void OnClick()
         {
             if (!IsInteractable)
                 return;
 
-            Action?.Invoke();
+            ActionEnded?.Invoke();
         }
     }
 }

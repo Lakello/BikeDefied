@@ -17,10 +17,8 @@ namespace BikeDefied.BikeSystem
         private float Direction => Mathf.Clamp(_bikeRigidbody.velocity.z, -1, 1);
 
         [Inject]
-        private void Inject(Bike bike)
-        {
+        private void Inject(Bike bike) =>
             _bikeRigidbody = bike.GetComponent<Rigidbody>();
-        }
 
         private void Update()
         {

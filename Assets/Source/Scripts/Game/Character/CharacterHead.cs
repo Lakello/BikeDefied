@@ -11,25 +11,25 @@ namespace BikeDefied.Game.Character
     public class CharacterHead : MonoBehaviour, ISubject
     {
         private IAudioController _audioController;
-        private IGameOver _over;
+        private IEndLevelStateChangeble _endLevel;
 
-        public event Action Action;
+        public event Action ActionEnded;
 
         private void OnEnable() =>
-            Action += OnAction;
+            ActionEnded += OnActionEnded;
 
         private void OnDisable()
         {
-            if (_over != null)
-                _over.LateGameOver -= OnGameOver;
+            if (_endLevel != null)
+                _endLevel.LateStateChanged -= OnStateChanged;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.TryGetComponent(out Ground ground))
             {
-                Action?.Invoke();
-                Action = null;
+                ActionEnded?.Invoke();
+                ActionEnded = null;
             }
         }
 
@@ -37,14 +37,14 @@ namespace BikeDefied.Game.Character
         private void Inject(IAudioController audioController, GameStateInject states)
         {
             _audioController = audioController;
-            _over = states.Over;
-            _over.LateGameOver += OnGameOver;
+            _endLevel = states.EndLevel;
+            _endLevel.LateStateChanged += OnStateChanged;
         }
 
-        private void OnAction() =>
+        private void OnActionEnded() =>
             _audioController.Play(AudioType.LossGameOver);
 
-        private void OnGameOver() =>
-            Action = null;
+        private void OnStateChanged() =>
+            ActionEnded = null;
     }
 }

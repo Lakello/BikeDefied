@@ -28,9 +28,7 @@ namespace BikeDefied.LevelComponents
             _finish.OnPointEnabled(_finishPoint.transform.position);
         }
 
-        public void Exit() 
-        {
+        public void Exit() =>
             _level.gameObject.SetActive(false);
-        }
     }
 }
