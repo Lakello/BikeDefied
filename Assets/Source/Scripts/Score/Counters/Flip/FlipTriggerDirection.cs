@@ -3,8 +3,8 @@
     public enum FlipTriggerDirection
     {
         Bottom = 1,
-        Front,
-        Top,
-        Back
+        Front = 2,
+        Top = 3,
+        Back = 4
     }
 }

@@ -12,7 +12,7 @@ namespace BikeDefied.BikeSystem
         private Rigidbody _bikeRigidbody;
         private float _accelerationKoef = 1f;
 
-        public float UpdateAccelerationKoef { set => _accelerationKoef = Mathf.Clamp(value, 1f, 5f); }
+        public float UpdateAccelerationMultiply { set => _accelerationKoef = Mathf.Clamp(value, 1f, 5f); }
         public Rigidbody SelfRigidbody => _bikeRigidbody;
 
         private void Start()

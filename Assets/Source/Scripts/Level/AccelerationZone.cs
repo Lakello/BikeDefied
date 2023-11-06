@@ -7,7 +7,7 @@ namespace BikeDefied.LevelComponents
     {
         [SerializeField] private bool _accelerationMultiplyMode;
 
-        [SerializeField, VisibleToCondition(nameof(_accelerationMultiplyMode), true)] private float _accelerationKoef;
+        [SerializeField, VisibleToCondition(nameof(_accelerationMultiplyMode), true)] private float _accelerationMultiply;
 
         [SerializeField, VisibleToCondition(nameof(_accelerationMultiplyMode), false)] private float _speed;
 
@@ -16,7 +16,7 @@ namespace BikeDefied.LevelComponents
             if (other.TryGetComponent(out IAccelerationable component))
             {
                 if (_accelerationMultiplyMode)
-                    component.UpdateAccelerationKoef = _accelerationKoef;
+                    component.UpdateAccelerationMultiply = _accelerationMultiply;
                 else
                     component.SelfRigidbody.AddForce(transform.forward * _speed * Time.deltaTime, ForceMode.VelocityChange);
             }
@@ -27,7 +27,7 @@ namespace BikeDefied.LevelComponents
             if (other.TryGetComponent(out IAccelerationable component))
             {
                 if (_accelerationMultiplyMode)
-                    component.UpdateAccelerationKoef = default;
+                    component.UpdateAccelerationMultiply = default;
             }
         }
     }

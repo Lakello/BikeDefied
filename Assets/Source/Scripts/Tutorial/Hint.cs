@@ -11,18 +11,7 @@ namespace BikeDefied.Tutorial
 
         private bool IsMobile => Application.isMobilePlatform;
 
-        private bool CanShow
-        {
-            get
-            {
-                if (IsMobile == true && _forMobile == true)
-                    return true;
-                else if (IsMobile == false && _forDesktop == true)
-                    return true;
-                else
-                    return false;
-            }
-        }
+        private bool CanShow => (IsMobile == true && _forMobile == true) || (IsMobile == false && _forDesktop == true);
 
         public void StartShow(bool value)
         {

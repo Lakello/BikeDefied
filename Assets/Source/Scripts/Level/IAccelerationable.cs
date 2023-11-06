@@ -5,6 +5,6 @@ namespace BikeDefied.LevelComponents
     internal interface IAccelerationable
     {
         public Rigidbody SelfRigidbody { get; }
-        public float UpdateAccelerationKoef { set; }
+        public float UpdateAccelerationMultiply { set; }
     }
 }

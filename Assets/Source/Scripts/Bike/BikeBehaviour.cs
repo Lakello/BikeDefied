@@ -22,21 +22,14 @@ namespace BikeDefied.BikeSystem
         private void Awake()
         {
             _groundChecker = GetComponent<GroundChecker>();
-        }
-
-        private void OnEnable()
-        {
-            _groundChecker.GroundChanged += OnGroundChanged;
-            _groundChecker.BackWheelGroundChanged += OnBackWheelGroundChanged;
+            _groundChecker.GroundChanged += (value) => IsGrounded = value;
+            _groundChecker.BackWheelGroundChanged += (value) => IsBackWheelGrounded = value;
         }
 
         private void OnDisable()
         {
             if (BehaviourCoroutine != null)
                 StopCoroutine(BehaviourCoroutine);
-
-            _groundChecker.GroundChanged -= OnGroundChanged;
-            _groundChecker.BackWheelGroundChanged -= OnBackWheelGroundChanged;
         }
 
         protected void Init(BikeBehaviourInject inject)
@@ -44,8 +37,5 @@ namespace BikeDefied.BikeSystem
             Player = inject.Player;
             BikeBody = inject.BikeBody.transform;
         }
-
-        private void OnGroundChanged(bool value) => IsGrounded = value;
-        private void OnBackWheelGroundChanged(bool value) => IsBackWheelGrounded = value;
     }
 }

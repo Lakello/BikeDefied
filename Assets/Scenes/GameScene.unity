@@ -13831,6 +13831,7 @@ GameObject:
   - component: {fileID: 1439840295}
   - component: {fileID: 1439840294}
   - component: {fileID: 1439840293}
+  - component: {fileID: 1439840296}
   m_Layer: 5
   m_Name: Leaderboard
   m_TagString: Untagged
@@ -13874,11 +13875,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerDataPrefab: {fileID: 9160363217483271815, guid: b32a59a5127b44e48a6a0e07860e6611, type: 3}
   _content: {fileID: 81246927}
-  _countPlayers: 0
-  _firstPlayerIcon: {fileID: 21300000, guid: d551e133861bb21488e02991c1b3d6f9, type: 3}
-  _secondPlayerIcon: {fileID: 21300000, guid: 5dd1240a7de7c2f409df03e719019c6a, type: 3}
-  _otherPlayerIcon: {fileID: 21300000, guid: 5847ea3347486b542aa2e6e5dcba24c1, type: 3}
-  _isAuthorizedSim: 0
+  _countVisiblePlayers: 0
+  _isAuthorizedEmulation: 0
   _isHideIfNotAuthorized: 1
 --- !u!114 &1439840294
 MonoBehaviour:
@@ -13918,6 +13916,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439840291}
   m_CullTransparentMesh: 1
+--- !u!114 &1439840296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439840291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd38a7704eacea54e8ed597f44d7bbc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _content: {fileID: 81246927}
+  _playerDataPrefab: {fileID: 9160363217483271815, guid: b32a59a5127b44e48a6a0e07860e6611, type: 3}
+  _firstPlayerIcon: {fileID: 21300000, guid: 756fe7d683c5a154687cb945a6057115, type: 3}
+  _secondPlayerIcon: {fileID: 21300000, guid: 0c61b4ac7deb0084c82772cceaa9f16b, type: 3}
+  _otherPlayerIcon: {fileID: 21300000, guid: a611b025914f6a7458367f13a433bddf, type: 3}
 --- !u!1 &1455081045
 GameObject:
   m_ObjectHideFlags: 0
@@ -22360,6 +22375,26 @@ PrefabInstance:
       propertyPath: _isHideIfNotAuthorized
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 701866820043340291, guid: a4d734a8bc95e0145bac5f30ecad7072, type: 3}
+      propertyPath: _content
+      value: 
+      objectReference: {fileID: 1345694777}
+    - target: {fileID: 701866820043340291, guid: a4d734a8bc95e0145bac5f30ecad7072, type: 3}
+      propertyPath: _firstPlayerIcon
+      value: 
+      objectReference: {fileID: 21300000, guid: 756fe7d683c5a154687cb945a6057115, type: 3}
+    - target: {fileID: 701866820043340291, guid: a4d734a8bc95e0145bac5f30ecad7072, type: 3}
+      propertyPath: _otherPlayerIcon
+      value: 
+      objectReference: {fileID: 21300000, guid: a611b025914f6a7458367f13a433bddf, type: 3}
+    - target: {fileID: 701866820043340291, guid: a4d734a8bc95e0145bac5f30ecad7072, type: 3}
+      propertyPath: _playerDataPrefab
+      value: 
+      objectReference: {fileID: 9160363217483271815, guid: b32a59a5127b44e48a6a0e07860e6611, type: 3}
+    - target: {fileID: 701866820043340291, guid: a4d734a8bc95e0145bac5f30ecad7072, type: 3}
+      propertyPath: _secondPlayerIcon
+      value: 
+      objectReference: {fileID: 21300000, guid: 0c61b4ac7deb0084c82772cceaa9f16b, type: 3}
     - target: {fileID: 705440303068649785, guid: a4d734a8bc95e0145bac5f30ecad7072, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -27063,6 +27098,30 @@ PrefabInstance:
       propertyPath: _rightArrow
       value: 
       objectReference: {fileID: 789779636}
+    - target: {fileID: 6236879090008444558, guid: 63e958ec720025f42a6d4387165a34b7, type: 3}
+      propertyPath: _flipControlView._controls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6236879090008444558, guid: 63e958ec720025f42a6d4387165a34b7, type: 3}
+      propertyPath: _moveControlView._controls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6236879090008444558, guid: 63e958ec720025f42a6d4387165a34b7, type: 3}
+      propertyPath: _flipControlView._controls.Array.data[0]
+      value: 
+      objectReference: {fileID: 1758361133}
+    - target: {fileID: 6236879090008444558, guid: 63e958ec720025f42a6d4387165a34b7, type: 3}
+      propertyPath: _flipControlView._controls.Array.data[1]
+      value: 
+      objectReference: {fileID: 1902617842}
+    - target: {fileID: 6236879090008444558, guid: 63e958ec720025f42a6d4387165a34b7, type: 3}
+      propertyPath: _moveControlView._controls.Array.data[0]
+      value: 
+      objectReference: {fileID: 789779636}
+    - target: {fileID: 6236879090008444558, guid: 63e958ec720025f42a6d4387165a34b7, type: 3}
+      propertyPath: _moveControlView._controls.Array.data[1]
+      value: 
+      objectReference: {fileID: 1299275128}
     - target: {fileID: 6336059601145555982, guid: 63e958ec720025f42a6d4387165a34b7, type: 3}
       propertyPath: m_IsActive
       value: 0

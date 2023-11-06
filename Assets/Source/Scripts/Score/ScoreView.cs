@@ -88,7 +88,7 @@ namespace BikeDefied.ScoreSystem
 
             while (targetScore <= _currentScore)
             {
-                var currentTime = (previousTime + Time.deltaTime) / _totalScoreShowTime;
+                float currentTime = (previousTime + Time.deltaTime) / _totalScoreShowTime;
 
                 targetScore = Mathf.Lerp(targetScore, _currentScore, currentTime);
 

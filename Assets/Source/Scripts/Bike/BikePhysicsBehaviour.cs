@@ -38,7 +38,7 @@ namespace BikeDefied.BikeSystem
             over.StateChanged += () => _isAlive = false;
 
             _checker = checker;
-            _checker.GroundChanged += OnGroundChanged;
+            _checker.GroundChanged += (value) => _isGrounded = value;
         }
 
         private void OnEnable()
@@ -47,18 +47,12 @@ namespace BikeDefied.BikeSystem
 
             if (_play != null)
                 _play.StateChanged += OnGameStateChanged;
-
-            if (_checker != null)
-                _checker.GroundChanged += OnGroundChanged;
         }
 
         private void OnDisable()
         {
             if (_play != null)
                 _play.StateChanged -= OnGameStateChanged;
-
-            if (_checker != null)
-                _checker.GroundChanged -= OnGroundChanged;
 
             if (_movePhysicsCoroutine != null)
                 StopCoroutine(_movePhysicsCoroutine);
@@ -71,9 +65,6 @@ namespace BikeDefied.BikeSystem
             else if (typeof(TState) == typeof(PlayLevelState))
                 _bike.isKinematic = _backWheel.isKinematic = _frontWheel.isKinematic = false;
         }
-
-        private void OnGroundChanged(bool value) => 
-            _isGrounded = value;
 
         private bool OnGameStateChanged()
         {

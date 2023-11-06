@@ -8,6 +8,9 @@ namespace BikeDefied.AudioSystem
 {
     public class AudioVolumeChanger : IDisposable, IAudioController
     {
+        private const float MaxVolume = 1;
+        private const float MinVolume = 0;
+
         private Context _context;
         private GameAudioHandler _gameAudioHandler;
         private AudioSource _backgroundAudio;
@@ -21,7 +24,7 @@ namespace BikeDefied.AudioSystem
             get => _volumePercent;
             set
             {
-                _volumePercent = Mathf.Clamp(value, 0f, 1f);
+                _volumePercent = Mathf.Clamp01(value);
                 _context.StartCoroutine(SmoothlyChangeVolume(_backgroundAudio, _volumePercent));
                 _context.StartCoroutine(SmoothlyChangeVolume(_gameAudio, _volumePercent));
             }
@@ -54,32 +57,32 @@ namespace BikeDefied.AudioSystem
             if (_gameAudioCoroutine != null)
                 _context.StopCoroutine(_gameAudioCoroutine);
 
-            _gameAudioCoroutine = _context.StartCoroutine(PlayClip(audio));
+            _gameAudioCoroutine = _context.StartCoroutine(PlayGameAudio(audio));
         }
 
         private IEnumerator PlayBackgroundAudio()
         {
             var wait = new WaitForSeconds(_gameAudioHandler.TimeBetweenChangeBackgroundAudio);
 
-            while (true)
+            while (Application.isPlaying)
             {
-                yield return _context.StartCoroutine(SmoothlyChangeVolume(_backgroundAudio, 0));
-                yield return _context.StartCoroutine(Control(_backgroundAudio,
+                yield return _context.StartCoroutine(SmoothlyChangeVolume(_backgroundAudio, MinVolume));
+                yield return _context.StartCoroutine(PlayClip(_backgroundAudio,
                                                              _gameAudioHandler.GetRandomAudio(AudioType.Background),
                                                              _gameAudioHandler.MaxVolumeBackroundAudio));
                 yield return wait;
             }
         }
 
-        private IEnumerator PlayClip(AudioType audio)
+        private IEnumerator PlayGameAudio(AudioType audio)
         {
             if (_gameAudio.isPlaying)
-                yield return _context.StartCoroutine(SmoothlyChangeVolume(_gameAudio, 0));
+                yield return _context.StartCoroutine(SmoothlyChangeVolume(_gameAudio, MinVolume));
 
-            yield return _context.StartCoroutine(Control(_gameAudio, _gameAudioHandler.GetRandomAudio(audio), 1));
+            yield return _context.StartCoroutine(PlayClip(_gameAudio, _gameAudioHandler.GetRandomAudio(audio), MaxVolume));
         }
 
-        private IEnumerator Control(AudioSource source, AudioClip clip, float targetVolume)
+        private IEnumerator PlayClip(AudioSource source, AudioClip clip, float targetVolume)
         {
             source.clip = clip;
             source.Play();
@@ -90,15 +93,16 @@ namespace BikeDefied.AudioSystem
         private IEnumerator SmoothlyChangeVolume(AudioSource source, float targetVolume)
         {
             float startVolume = _gameAudio.volume;
-            float currentTime = 0;
-
             float pastTime = 0;
 
-            while (pastTime <= 1)
+            float normalizedTime = 0;
+            float maxNormalizedTime = 1;
+
+            while (normalizedTime <= maxNormalizedTime)
             {
-                currentTime += Time.deltaTime;
-                pastTime = currentTime / _gameAudioHandler.SmoothlyTime;
-                source.volume = Mathf.Lerp(startVolume, targetVolume, pastTime) * _volumePercent;
+                pastTime += Time.deltaTime;
+                normalizedTime = pastTime / _gameAudioHandler.SmoothlyTime;
+                source.volume = Mathf.Lerp(startVolume, targetVolume, normalizedTime) * _volumePercent;
 
                 yield return null;
             }

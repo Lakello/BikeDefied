@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BikeDefied.ScoreSystem
 {
-    public abstract class ScoreCounter : IScoreCounter, IDisposable
+    public abstract class ScoreCounter : IScoreCounter
     {
         protected Player Player;
         protected MonoBehaviour Context;
@@ -23,18 +23,13 @@ namespace BikeDefied.ScoreSystem
             Context = inject.Context;
             BikeBody = inject.BikeBody.transform;
             _groundChecker = inject.GroundChecker;
-            _groundChecker.GroundChanged += OnGroundChanged;
+            _groundChecker.GroundChanged += (value) => IsGrounded = value;
 
             Start();
         }
 
         public abstract event Action<ScoreReward> ScoreAdding;
 
-        public void Dispose() =>
-            _groundChecker.GroundChanged -= OnGroundChanged;
-
         protected abstract void Start();
-
-        private void OnGroundChanged(bool value) => IsGrounded = value;
     }
 }

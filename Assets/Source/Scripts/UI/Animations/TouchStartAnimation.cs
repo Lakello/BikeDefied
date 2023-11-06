@@ -26,7 +26,7 @@ namespace BikeDefied.UI.Animations
             WaitForSeconds touchTime = new(_durationTouch);
             WaitForSeconds notTouchTime = new(_durationNotTouch);
 
-            while (true)
+            while (enabled)
             {
                 _image.sprite = _notTouch;
 

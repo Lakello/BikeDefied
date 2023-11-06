@@ -1,60 +1,41 @@
 ﻿using Agava.YandexGames;
-using BikeDefied.Game.Spawner;
-using BikeDefied.Yandex.Emulator;
-using BikeDefied.Yandex.Localization;
-using BikeDefied.Yandex.Saves;
-using BikeDefied.Yandex.Saves.Data;
-using Reflex.Attributes;
 using System.Collections;
 using UnityEngine;
 
 namespace BikeDefied.Yandex.Leaders
 {
+    [RequireComponent(typeof(LeaderboardModel))]
     public class LeaderboardViewer : MonoBehaviour
     {
         [SerializeField] private LeaderboardPlayerDataHandler _playerDataPrefab;
         [SerializeField] private Transform _content;
-        [SerializeField] private int _countPlayers;
-        [SerializeField] private Sprite _firstPlayerIcon;
-        [SerializeField] private Sprite _secondPlayerIcon;
-        [SerializeField] private Sprite _otherPlayerIcon;
-        [SerializeField] private bool _isAuthorizedSim;
+        [SerializeField] private int _countVisiblePlayers;
+        [SerializeField] private bool _isAuthorizedEmulation;
         [SerializeField] private bool _isHideIfNotAuthorized;
 
-        private ObjectSpawner<LeaderboardPlayerData> _playerDataSpawner;
-        private ISaver _saver;
-        private YandexEmulator _yandexSimulator = new();
         private Coroutine _showCoroutine;
 
-        private LeaderboardEntryResponse[] _allPlayers;
-        private LeaderboardEntryResponse _playerEntry;
+        private LeaderboardModel _model;
 
         private void Awake() =>
-            _playerDataSpawner = new ObjectSpawner<LeaderboardPlayerData>(new ObjectFactory<LeaderboardPlayerData>(_content),
-                                                                          new ObjectPool<LeaderboardPlayerData>());
+            _model = GetComponent<LeaderboardModel>();
 
         private void OnEnable() =>
             Show();
 
-        private void OnDisable() =>
-            _saver?.UnsubscribeValueUpdated<LevelInfo>(SetScore);
-
-        [Inject]
-        private void Inject(ISaver saver)
-        {
-            _saver = saver;
-            saver.SubscribeValueUpdated<LevelInfo>(SetScore);
-        }
-
         private void Show()
         {
-            bool isAuthorized = _isAuthorizedSim;
+            bool isAuthorized = _isAuthorizedEmulation;
 #if !UNITY_EDITOR
-        isAuthorized = PlayerAccount.IsAuthorized;
+            isAuthorized = PlayerAccount.IsAuthorized;
 #endif
 
             if (isAuthorized)
             {
+#if !UNITY_EDITOR
+                if (!PlayerAccount.HasPersonalProfileDataPermission)
+                    PlayerAccount.RequestPersonalProfileDataPermission();
+#endif
                 if (_showCoroutine != null)
                     StopCoroutine(_showCoroutine);
 
@@ -66,134 +47,32 @@ namespace BikeDefied.Yandex.Leaders
                 ShowBestScore();
         }
 
-        private void ShowBestScore()
+        public void ShowBestScore()
         {
-            int index = _saver.Get<CurrentLevel>().Index;
-            int score = _saver.Get(new LevelInfo(index, 0)).BestScore;
-            var data = GetPlayerData(rank: 1, name: GetLocalizationAnonymousName(), score: score);
+            var data = _model.GetPlayerData();
 
-            CreatePlayerDataInTable(data);
+            CreatePlayerDataInTable(new LeaderboardPlayerData[] { data });
         }
 
         private IEnumerator ShowLeaderboard()
         {
-            yield return StartCoroutine(UpdateEntries());
-            yield return StartCoroutine(UpdatePlayerEntry());
+            yield return StartCoroutine(_model.UpdateEntries());
+            yield return StartCoroutine(_model.UpdatePlayerEntry());
 
-            int count = _countPlayers == 0 ? _allPlayers.Length
-                            : _countPlayers > _allPlayers.Length ? _allPlayers.Length
-                            : _countPlayers;
+            int count = _countVisiblePlayers == 0
+                            ? _model.CountPlayers
+                            : Mathf.Min(_countVisiblePlayers, _model.CountPlayers);
 
-            bool playerSpawned = false;
+            CreatePlayerDataInTable(_model.GetPlayersData(count));
+        }
 
-            int rank;
-            string name;
-            int score;
-
-            for (int i = 0; i < count; i++)
+        public void CreatePlayerDataInTable(LeaderboardPlayerData[] datas)
+        {
+            foreach (var data in datas)
             {
-                if (i == _playerEntry.rank - 1)
-                    playerSpawned = true;
-
-                (rank, name, score) = (i == count - 1 && !playerSpawned && _countPlayers != 0)
-                                        ? (_playerEntry.rank, _playerEntry.player.publicName, _playerEntry.score)
-                                        : (_allPlayers[i].rank, _allPlayers[i].player.publicName, _allPlayers[i].score);
-
-                if (string.IsNullOrEmpty(name))
-                    name = GetLocalizationAnonymousName();
-
-                CreatePlayerDataInTable(GetPlayerData(rank, name, score));
+                var playerData = _model.Create(data);
+                playerData.SelfGameObject.transform.localScale = Vector3.one;
             }
         }
-
-        private LeaderboardPlayerData GetPlayerData(int rank, string name, int score)
-        {
-            int index = rank - 1;
-
-            return new LeaderboardPlayerData
-            {
-                Rank = rank.ToString(),
-                Name = name,
-                Score = score.ToString(),
-
-                Avatar = index == 0 ? _firstPlayerIcon
-                                    : index == 1 ? _secondPlayerIcon
-                                    : _otherPlayerIcon
-            };
-        }
-
-        private void CreatePlayerDataInTable(LeaderboardPlayerData data)
-        {
-            var playerData = _playerDataSpawner.Spawn(_playerDataPrefab);
-            playerData.Init(data);
-            playerData.SelfGameObject.transform.localScale = Vector3.one;
-        }
-
-        private void SetScore(LevelInfo levelInfo)
-        {
-#if !UNITY_EDITOR
-            int levelIndex = _saver.Get<CurrentLevel>().Index;
-
-            int score = levelInfo.BestScore;
-            if (PlayerAccount.IsAuthorized)
-                Leaderboard.SetScore(GetLeaderboardName(), score);
-#endif
-        }
-
-        private IEnumerator UpdateEntries()
-        {
-            bool isSuccess = false;
-
-#if !UNITY_EDITOR
-            Leaderboard.GetEntries(
-                GetLeaderboardName(),
-                (result) =>
-                {
-                    _allPlayers = result.entries;
-                    isSuccess = true;
-                });
-#else
-            _allPlayers = _yandexSimulator.GetLeaderboardAllPlayers();
-            isSuccess = true;
-#endif
-
-            while (!isSuccess)
-                yield return null;
-        }
-
-        private IEnumerator UpdatePlayerEntry()
-        {
-            bool isSuccess = false;
-
-#if !UNITY_EDITOR
-            Leaderboard.GetPlayerEntry(
-                GetLeaderboardName(),
-                (result) =>
-                {
-                    _playerEntry = result;
-                    isSuccess = true;
-                });
-#else
-            _playerEntry = _yandexSimulator.GetLeaderboardPlayerEntry();
-            isSuccess = true;
-#endif
-
-            while (!isSuccess)
-                yield return null;
-        }
-
-        private string GetLocalizationAnonymousName()
-        {
-            return GameLanguage.Value switch
-            {
-                "ru" => "Анонимный",
-                "en" => "Anonymous",
-                "tr" => "Anonim",
-                _ => string.Empty,
-            };
-        }
-
-        private string GetLeaderboardName() =>
-            $"Level{_saver.Get<CurrentLevel>().Index + 1}";
     }
 }

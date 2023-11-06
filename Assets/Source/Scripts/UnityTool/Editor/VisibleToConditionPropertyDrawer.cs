@@ -27,9 +27,9 @@ namespace BikeDefied.UnityTool.Editor
 
         private bool ShouldDisplay(SerializedProperty property)
         {
-            var attr = (VisibleToConditionAttribute)attribute;
-            var dependentProp = property.serializedObject.FindProperty(attr.PropertyName);
-            return dependentProp.boolValue == attr.Condition;
+            var visibleTo = (VisibleToConditionAttribute)attribute;
+            var dependentProp = property.serializedObject.FindProperty(visibleTo.PropertyName);
+            return dependentProp.boolValue == visibleTo.Condition;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace BikeDefied.Game.Spawner
             _pool = pool;
         }
 
-        public IPoolingObject<TInit> Spawn(IPoolingObject<TInit> @object, System.Func<Vector3> getSpawnPosition = null)
+        public IPoolingObject<TInit> Spawn(IPoolingObject<TInit> @object, TInit init = default, System.Func<Vector3> getSpawnPosition = null)
         {
             IPoolingObject<TInit> spawningObject = GetObject(@object);
 
@@ -24,7 +24,10 @@ namespace BikeDefied.Game.Spawner
             }
 
             spawningObject.Disabled += _pool.Return;
-            
+
+            if (init != null)
+                spawningObject.Init(init);
+
             spawningObject.SelfGameObject.SetActive(true);
 
             return spawningObject;
