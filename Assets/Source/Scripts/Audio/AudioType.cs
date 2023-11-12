@@ -5,6 +5,6 @@
         Background = 0,
         LevelPlay = 1,
         LossGameOver = 2,
-        VictoryGameOver = 3
+        VictoryGameOver = 3,
     }
 }

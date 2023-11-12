@@ -1,4 +1,5 @@
-﻿using Agava.YandexGames;
+﻿using System.Collections.Generic;
+using Agava.YandexGames;
 using BikeDefied.AudioSystem;
 using BikeDefied.FSM;
 using BikeDefied.FSM.Game;
@@ -12,7 +13,6 @@ using BikeDefied.Yandex.AD;
 using BikeDefied.Yandex.Localization;
 using BikeDefied.Yandex.Saves;
 using Reflex.Core;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BikeDefied
@@ -20,6 +20,7 @@ namespace BikeDefied
     public class ProjectInstaller : MonoBehaviour, IInstaller
     {
         [SerializeField] private GameAudioHandler _gameAudioHandler;
+        [SerializeField] private int _countOverBetweenShowsAd = 5;
 
         public void InstallBindings(ContainerDescriptor descriptor)
         {
@@ -54,11 +55,11 @@ namespace BikeDefied
             DontDestroyOnLoad(backgoundAudio);
 
             _gameAudioHandler.Init();
-            var audioController = new AudioVolumeChanger(gameAudio, backgoundAudio, _gameAudioHandler, context);
+            var audioVolumeChanger = new AudioVolumeChanger(gameAudio, backgoundAudio, _gameAudioHandler, context);
 
             _ = new AudioFocusObserver(gameAudio, backgoundAudio, focusObserver);
 
-            descriptor.AddInstance(audioController, typeof(IAudioController));
+            descriptor.AddInstance(audioVolumeChanger, typeof(IAudioVolumeChanger));
         }
 
         private GameStateMachine StateMachineInit(ContainerDescriptor descriptor, PlayerInput input, Context context)
@@ -70,7 +71,7 @@ namespace BikeDefied
                     [typeof(MenuWindowState)] = new MenuWindowState(),
                     [typeof(PlayWindowState)] = new PlayWindowState(),
                     [typeof(OverWindowState)] = new OverWindowState(),
-                    [typeof(LeaderboardWindowState)] = new LeaderboardWindowState()
+                    [typeof(LeaderboardWindowState)] = new LeaderboardWindowState(),
                 };
             });
 
@@ -88,7 +89,7 @@ namespace BikeDefied
                 {
                     [typeof(MenuState)] = gameMenuState,
                     [typeof(PlayLevelState)] = gamePlayState,
-                    [typeof(EndLevelState)] = gameOverState
+                    [typeof(EndLevelState)] = gameOverState,
                 };
             });
         }
@@ -97,7 +98,7 @@ namespace BikeDefied
         {
             var saves = new GamePlayerDataSaver();
 
-            var ad = new Ad(focusObserver, countOverBetweenShowsAd: 5);
+            var ad = new Ad(focusObserver, _countOverBetweenShowsAd);
             descriptor.AddInstance(ad, typeof(ICounterForShowAd));
 
             var yandexInitializer = new GameObject(nameof(YandexInitializer)).AddComponent<YandexInitializer>();

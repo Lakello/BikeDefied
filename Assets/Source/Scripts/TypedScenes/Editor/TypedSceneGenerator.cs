@@ -1,11 +1,10 @@
 ﻿#if UNITY_EDITOR
-using BikeDefied.FSM.Game;
 using System;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
+using BikeDefied.FSM.Game;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 
 namespace BikeDefied.TypedScenes.Editor
@@ -24,7 +23,7 @@ namespace BikeDefied.TypedScenes.Editor
             targetClass.BaseTypes.Add(new CodeTypeReference("TypedScene",
                                         new CodeTypeReference[]
                                         {
-                                            new CodeTypeReference(typeof(GameStateMachine))
+                                            new CodeTypeReference(typeof(GameStateMachine)),
                                         }));
 
             targetClass.TypeAttributes = System.Reflection.TypeAttributes.Class | System.Reflection.TypeAttributes.Public;

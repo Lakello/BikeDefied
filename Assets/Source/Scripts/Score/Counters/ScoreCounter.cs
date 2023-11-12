@@ -1,6 +1,6 @@
+using System;
 using BikeDefied.BikeSystem;
 using BikeDefied.Game;
-using System;
 using UnityEngine;
 
 namespace BikeDefied.ScoreSystem

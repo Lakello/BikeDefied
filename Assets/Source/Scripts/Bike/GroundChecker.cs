@@ -33,13 +33,12 @@ namespace BikeDefied.BikeSystem
             }
         }
 
-        private bool IsGround(Collider collider)
-        {
-            return Physics.CheckCapsule(collider.bounds.center,
-                                        collider.bounds.center,
-                                        _checkRadius,
-                                        _groundMask,
-                                        QueryTriggerInteraction.Ignore);
-        }
+        private bool IsGround(Collider collider) =>
+            Physics.CheckCapsule(
+                collider.bounds.center,
+                collider.bounds.center,
+                _checkRadius,
+                _groundMask,
+                QueryTriggerInteraction.Ignore);
     }
 }

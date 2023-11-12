@@ -38,7 +38,7 @@ namespace BikeDefied.ScoreSystem
         {
             _currentFlip = new Flip()
             {
-                Directions = new FlipTriggerDirection[CountDirections]
+                Directions = new FlipTriggerDirection[CountDirections],
             };
 
             BehaviourCoroutine = Context.StartCoroutine(Player.Behaviour(
@@ -174,7 +174,9 @@ namespace BikeDefied.ScoreSystem
                 }
             }
             else
+            {
                 return false;
+            }
 
             return true;
         }

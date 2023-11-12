@@ -10,10 +10,18 @@ namespace BikeDefied.BikeSystem
         [SerializeField] private float _force = 50;
 
         private Rigidbody _bikeRigidbody;
-        private float _accelerationKoef = 1f;
+        private float _accelerationMultiply = 1f;
 
-        public float UpdateAccelerationMultiply { set => _accelerationKoef = Mathf.Clamp(value, 1f, 5f); }
+        public float UpdateAccelerationMultiply { set => _accelerationMultiply = Mathf.Clamp(value, 1f, 5f); }
         public Rigidbody SelfRigidbody => _bikeRigidbody;
+
+        [Inject]
+        protected override void Inject(BikeBehaviourInject inject) =>
+            Init(inject);
+
+        [Inject]
+        private void Inject(IInputHandler inputHandler) =>
+            InputHandler = inputHandler;
 
         private void Start()
         {
@@ -33,17 +41,9 @@ namespace BikeDefied.BikeSystem
             }));
         }
 
-        [Inject]
-        protected override void Inject(BikeBehaviourInject inject) =>
-            Init(inject);
-
-        [Inject]
-        private void Inject(IInputHandler inputHandler) =>
-            InputHandler = inputHandler;
-
         private void Move(float value)
         {
-            var force = _force * value * _accelerationKoef * Time.deltaTime;
+            var force = _force * value * _accelerationMultiply * Time.deltaTime;
 
             _bikeRigidbody.AddForce(new Vector3(0, 0, force), ForceMode.VelocityChange);
         }

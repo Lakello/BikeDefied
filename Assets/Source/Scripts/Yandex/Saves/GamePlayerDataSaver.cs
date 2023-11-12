@@ -1,9 +1,9 @@
-﻿using Agava.YandexGames;
-using BikeDefied.Yandex.Emulator;
-using BikeDefied.Yandex.Saves.Data;
-using System;
+﻿using System;
 using System.Collections;
 using System.Linq;
+using Agava.YandexGames;
+using BikeDefied.Yandex.Emulator;
+using BikeDefied.Yandex.Saves.Data;
 using UnityEngine;
 
 namespace BikeDefied.Yandex.Saves
@@ -37,7 +37,9 @@ namespace BikeDefied.Yandex.Saves
                                 isSetted = false;
                         }
                         else
+                        {
                             AddLevelInfo(value);
+                        }
 
                         if (isSetted)
                             Save((Action<LevelInfo>)_playerDataEvents[typeof(LevelInfo)], value);
@@ -80,7 +82,7 @@ namespace BikeDefied.Yandex.Saves
                             _playerData.UnmuteSound = value;
                             Save();
                         }
-                    })
+                    }),
             };
         }
 

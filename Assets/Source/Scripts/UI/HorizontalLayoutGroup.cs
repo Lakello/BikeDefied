@@ -23,7 +23,7 @@ namespace BikeDefied.UI
         protected enum Axis
         {
             Width,
-            Height
+            Height,
         };
 
         protected void CalculationAlongAxis(Axis axis)

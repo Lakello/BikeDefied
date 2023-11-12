@@ -1,8 +1,8 @@
-﻿using BikeDefied.FSM.GameWindow;
+﻿using System;
+using System.Collections;
+using BikeDefied.FSM.GameWindow;
 using BikeDefied.FSM.GameWindow.States;
 using BikeDefied.Other;
-using System;
-using System.Collections;
 using UnityEngine;
 
 namespace BikeDefied.FSM.Game.States
@@ -12,7 +12,7 @@ namespace BikeDefied.FSM.Game.States
         private readonly Context _context;
         private Coroutine _gameOverWaitCoroutine;
 
-        public EndLevelState(Context context, WindowStateMachine machine) : base(machine) => 
+        public EndLevelState(Context context, WindowStateMachine machine) : base(machine) =>
             _context = context;
 
         public event Func<bool> StateChanged;

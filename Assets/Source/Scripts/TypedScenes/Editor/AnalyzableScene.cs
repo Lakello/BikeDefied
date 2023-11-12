@@ -38,7 +38,7 @@ namespace BikeDefied.TypedScenes.Editor
                 Name = name,
                 Scene = scene,
                 GUID = guid,
-                AssetPath = scene.path
+                AssetPath = scene.path,
             };
         }
 

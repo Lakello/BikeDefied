@@ -1,12 +1,14 @@
-using Agava.YandexGames;
 using System;
 using System.Collections;
+using Agava.YandexGames;
 using UnityEngine;
 
 namespace BikeDefied
 {
     public class YandexInitializer : MonoBehaviour
     {
+        private const int AuthorizationPollingDelay = 1500;
+
         private Action _callBack;
 
         private void Start() =>
@@ -21,7 +23,7 @@ namespace BikeDefied
             yield return YandexGamesSdk.Initialize();
 
             if (PlayerAccount.IsAuthorized == false)
-                PlayerAccount.StartAuthorizationPolling(1500);
+                PlayerAccount.StartAuthorizationPolling(AuthorizationPollingDelay);
 #endif
             _callBack();
 

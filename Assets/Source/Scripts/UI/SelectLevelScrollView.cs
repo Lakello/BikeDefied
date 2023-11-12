@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using BikeDefied.Yandex.Saves;
+using BikeDefied.Yandex.Saves.Data;
+using DG.Tweening;
+using Reflex.Attributes;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using DG.Tweening;
-using Unity.VisualScripting;
-using Reflex.Attributes;
-using System;
-using BikeDefied.Yandex.Saves;
-using BikeDefied.Yandex.Saves.Data;
 
 namespace BikeDefied.UI
 {
@@ -132,6 +132,7 @@ namespace BikeDefied.UI
             {
                 centerChild = _content.GetChild(i).gameObject;
                 centerChild.transform.DOKill();
+
                 if (i == _currentCenterChildIndex)
                     centerChild.transform.DOScale(_centerScale * Vector3.one, _scaleTime);
                 else
@@ -147,14 +148,13 @@ namespace BikeDefied.UI
             {
                 float position = _childrenPositions[i];
                 float distance = Mathf.Abs(position - currentPosition);
-                if (distance < maxDistance)
-                {
-                    maxDistance = distance;
-                    closest = position;
-                    _currentCenterChildIndex = i;
-                }
-                else
+
+                if (distance >= maxDistance)
                     break;
+
+                maxDistance = distance;
+                closest = position;
+                _currentCenterChildIndex = i;
             }
             return closest;
         }

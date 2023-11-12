@@ -33,7 +33,7 @@ namespace BikeDefied.ScoreSystem
             {
                 _bestPosition = CurrentPosition;
 
-                Reward.Message = "";
+                Reward.Message = string.Empty;
                 Reward.Value = _reward;
 
                 ScoreAdding?.Invoke(Reward);

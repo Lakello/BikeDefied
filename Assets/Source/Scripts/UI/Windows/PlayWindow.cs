@@ -1,6 +1,6 @@
-﻿using BikeDefied.FSM.GameWindow;
+﻿using System;
+using BikeDefied.FSM.GameWindow;
 using BikeDefied.FSM.GameWindow.States;
-using System;
 
 namespace BikeDefied.UI.Windows
 {

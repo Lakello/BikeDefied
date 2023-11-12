@@ -1,8 +1,8 @@
-﻿using BikeDefied.FSM.Game;
-using BikeDefied.FSM.GameWindow;
+﻿using System.Collections.Generic;
 using BikeDefied.FSM;
+using BikeDefied.FSM.Game;
+using BikeDefied.FSM.GameWindow;
 using BikeDefied.TypedScenes;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BikeDefied
@@ -23,7 +23,7 @@ namespace BikeDefied
             foreach (var window in _windows)
             {
                 var state = machine.WindowStateMachine.TryGetState<WindowState>(window);
-                
+
                 state.Init(window);
             }
         }

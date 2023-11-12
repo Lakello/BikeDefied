@@ -1,6 +1,6 @@
-﻿using BikeDefied.FSM.GameWindow;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using BikeDefied.FSM.GameWindow;
 
 namespace BikeDefied.FSM.Game
 {

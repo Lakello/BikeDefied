@@ -26,7 +26,7 @@ namespace BikeDefied.AudioSystem
                 [AudioType.Background] = _backgroundMusics,
                 [AudioType.LevelPlay] = _levelPlayAudios,
                 [AudioType.LossGameOver] = _lossGameOverAudios,
-                [AudioType.VictoryGameOver] = _victoryGameOverAudios
+                [AudioType.VictoryGameOver] = _victoryGameOverAudios,
             };
         }
 

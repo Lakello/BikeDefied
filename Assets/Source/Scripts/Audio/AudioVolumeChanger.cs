@@ -1,12 +1,11 @@
-﻿using BikeDefied.Other;
-using BikeDefied.Yandex;
-using System;
+﻿using System;
 using System.Collections;
+using BikeDefied.Other;
 using UnityEngine;
 
 namespace BikeDefied.AudioSystem
 {
-    public class AudioVolumeChanger : IDisposable, IAudioController
+    public class AudioVolumeChanger : IDisposable, IAudioVolumeChanger
     {
         private const float MaxVolume = 1;
         private const float MinVolume = 0;
@@ -67,9 +66,10 @@ namespace BikeDefied.AudioSystem
             while (Application.isPlaying)
             {
                 yield return _context.StartCoroutine(SmoothlyChangeVolume(_backgroundAudio, MinVolume));
-                yield return _context.StartCoroutine(PlayClip(_backgroundAudio,
-                                                             _gameAudioHandler.GetRandomAudio(AudioType.Background),
-                                                             _gameAudioHandler.MaxVolumeBackroundAudio));
+                yield return _context.StartCoroutine(PlayClip(
+                    _backgroundAudio,
+                    _gameAudioHandler.GetRandomAudio(AudioType.Background),
+                    _gameAudioHandler.MaxVolumeBackroundAudio));
                 yield return wait;
             }
         }

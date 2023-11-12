@@ -11,20 +11,20 @@ namespace BikeDefied.AudioSystem
         [SerializeField] private Toggle _toggle;
 
         private ISaver _saver;
-        private IAudioController _controller;
+        private IAudioVolumeChanger _audioVolumeChanger;
 
         [Inject]
-        private void Inject(ISaver saver, IAudioController audioController)
+        private void Inject(ISaver saver, IAudioVolumeChanger audioVolumeChanger)
         {
             _saver = saver;
-            _controller = audioController;
+            _audioVolumeChanger = audioVolumeChanger;
             _toggle.isOn = _saver.Get<UnmuteSound>().VolumePercent == 0 ? false : true;
         }
 
         public void OnToggleChanged(bool value)
         {
             float volume = value ? 1 : 0;
-            _controller.VolumePercent = volume;
+            _audioVolumeChanger.VolumePercent = volume;
             _saver.Set(new UnmuteSound(volume));
         }
     }

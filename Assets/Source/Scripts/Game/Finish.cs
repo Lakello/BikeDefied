@@ -1,8 +1,8 @@
-﻿using BikeDefied.AudioSystem;
+﻿using System;
+using BikeDefied.AudioSystem;
 using BikeDefied.BikeSystem;
 using BikeDefied.FSM.Game;
 using Reflex.Attributes;
-using System;
 using UnityEngine;
 using AudioType = BikeDefied.AudioSystem.AudioType;
 
@@ -10,13 +10,13 @@ namespace BikeDefied.Game
 {
     public class Finish : MonoBehaviour, ISubject
     {
-        private IAudioController _audioController;
+        private IAudioVolumeChanger _audioVolumeChanger;
         private IEndLevelStateChangeble _endLevel;
 
         [Inject]
-        private void Inject(IAudioController audioController, GameStateInject states)
+        private void Inject(IAudioVolumeChanger audioVolumeChanger, GameStateInject states)
         {
-            _audioController = audioController;
+            _audioVolumeChanger = audioVolumeChanger;
             _endLevel = states.EndLevel;
             _endLevel.LateStateChanged += OnStateChanged;
         }
@@ -45,7 +45,7 @@ namespace BikeDefied.Game
             transform.position = position;
 
         private void OnActionEnded() =>
-            _audioController.Play(AudioType.VictoryGameOver);
+            _audioVolumeChanger.Play(AudioType.VictoryGameOver);
 
         private void OnStateChanged() =>
             ActionEnded = null;

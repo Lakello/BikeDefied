@@ -1,5 +1,5 @@
-﻿using Agava.YandexGames;
-using System.Collections;
+﻿using System.Collections;
+using Agava.YandexGames;
 using UnityEngine;
 
 namespace BikeDefied.Yandex.Leaders
@@ -41,10 +41,13 @@ namespace BikeDefied.Yandex.Leaders
 
                 _showCoroutine = StartCoroutine(ShowLeaderboard());
             }
-            else if (_isHideIfNotAuthorized)
-                gameObject.SetActive(false);
             else
-                ShowBestScore();
+            {
+                if (_isHideIfNotAuthorized)
+                    gameObject.SetActive(false);
+                else
+                    ShowBestScore();
+            }
         }
 
         public void ShowBestScore()
