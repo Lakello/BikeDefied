@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using BikeDefied.BikeSystem;
 using BikeDefied.Game;
 using BikeDefied.ScoreSystem;
 using Reflex.Core;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BikeDefied
@@ -45,7 +45,7 @@ namespace BikeDefied
             _scoreCounters = new List<IScoreCounter>()
             {
                 new DistanceCounter(_distanceReward, scoreCounterInject),
-                new FlipCounter(_backFlipReward, _frontFlipReward, _flipTriggerMask, scoreCounterInject),
+                new FlipCounter(_backFlipReward, _frontFlipReward, _flipTriggerMask, scoreCounterInject)
             };
 
             descriptor.AddInstance(_scoreCounters, typeof(IReadOnlyList<IScoreCounter>));

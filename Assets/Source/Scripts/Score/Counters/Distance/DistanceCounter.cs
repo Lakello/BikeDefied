@@ -9,7 +9,8 @@ namespace BikeDefied.ScoreSystem
 
         private float CurrentPosition => BikeBody.position.z;
 
-        public DistanceCounter(float reward, ScoreCounterInject inject) : base(inject) =>
+        public DistanceCounter(float reward, ScoreCounterInject inject)
+            : base(inject) =>
             _reward = reward;
 
         public override event Action<ScoreReward> ScoreAdding;
@@ -17,27 +18,21 @@ namespace BikeDefied.ScoreSystem
         protected override void Start()
         {
             BehaviourCoroutine = Context.StartCoroutine(Player.Behaviour(
-            condition: () =>
-            {
-                return true;
-            },
-            action: () =>
-            {
-                TryAddScore();
-            }));
+            condition: () => true,
+            action: TryAddScore));
         }
 
         private void TryAddScore()
         {
-            if (MathF.Round(CurrentPosition, 1) > MathF.Round(_bestPosition, 1))
-            {
-                _bestPosition = CurrentPosition;
+            if (!(MathF.Round(CurrentPosition, 1) > MathF.Round(_bestPosition, 1)))
+                return;
+            
+            _bestPosition = CurrentPosition;
 
-                Reward.Message = string.Empty;
-                Reward.Value = _reward;
+            Reward.Message = "";
+            Reward.Value = _reward;
 
-                ScoreAdding?.Invoke(Reward);
-            }
+            ScoreAdding?.Invoke(Reward);
         }
     }
 }

@@ -13,14 +13,15 @@ namespace BikeDefied.TypedScenes.Editor
     {
         public static IEnumerable<Type> GetLoadingParameters(AnalyzableScene analyzableScene)
         {
-            var scene = analyzableScene.Scene;
-            var loadParameters = new List<Type> {null};
-            var componentTypes = GetAllTypes(scene);
+            Scene scene = analyzableScene.Scene;
+            List<Type> loadParameters = new List<Type> { null };
+            IEnumerable<Type> componentTypes = GetAllTypes(scene);
 
             loadParameters.AddRange(componentTypes
                 .Where(type => type.GetInterfaces()
                     .Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ISceneLoadHandler)))
-                .SelectMany(type => type.GetMethods().Where(method => method.Name == "OnSceneLoaded"),
+                .SelectMany(type => type.GetMethods()
+                        .Where(method => method.Name == "OnSceneLoaded"),
                     (type, method) => method.GetParameters()[0].ParameterType));
 
             if (loadParameters.Count > 1)
@@ -31,12 +32,12 @@ namespace BikeDefied.TypedScenes.Editor
 
         public static bool TryAddTypedProcessor(AnalyzableScene analyzableScene)
         {
-            var scene = analyzableScene.Scene;
-            var componentTypes = GetAllTypes(scene);
+            Scene scene = analyzableScene.Scene;
+            IEnumerable<Type> componentTypes = GetAllTypes(scene);
             
             if (componentTypes.Contains(typeof(TypedProcessor))) return false;
 
-            var gameObject = new GameObject("TypedProcessor");
+            GameObject gameObject = new GameObject("TypedProcessor");
             gameObject.AddComponent<TypedProcessor>();
             scene.GetRootGameObjects().Append(gameObject);
             Undo.RegisterCreatedObjectUndo(gameObject, "Typed processor added");
@@ -46,10 +47,10 @@ namespace BikeDefied.TypedScenes.Editor
 
         private static IEnumerable<Component> GetAllComponents(Scene activeScene)
         {
-            var rootObjects = activeScene.GetRootGameObjects();
-            var components = new List<Component>();
+            GameObject[] rootObjects = activeScene.GetRootGameObjects();
+            List<Component> components = new List<Component>();
 
-            foreach (var gameObject in rootObjects)
+            foreach (GameObject gameObject in rootObjects)
             {
                 components.AddRange(gameObject.GetComponentsInChildren<Component>());
             }
@@ -59,10 +60,10 @@ namespace BikeDefied.TypedScenes.Editor
 
         private static IEnumerable<Type> GetAllTypes(Scene activeScene)
         {
-            var components = GetAllComponents(activeScene);
-            var types = new HashSet<Type>();
+            IEnumerable<Component> components = GetAllComponents(activeScene);
+            HashSet<Type> types = new HashSet<Type>();
 
-            foreach (var component in components)
+            foreach (Component component in components)
             {
                 types.Add(component.GetType());
             }

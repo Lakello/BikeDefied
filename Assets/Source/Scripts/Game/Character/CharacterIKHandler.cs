@@ -32,9 +32,7 @@ namespace BikeDefied.Game.Character
                     SetIk(AvatarIKGoal.LeftFoot, _leftLegPoint);
                 }
                 else
-                {
                     ResetAllIk();
-                }
             }
         }
 

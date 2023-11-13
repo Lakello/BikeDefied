@@ -15,7 +15,8 @@ namespace BikeDefied.LevelComponents
         [SerializeField] private float _timeChangeCurrentIndex;
         [SerializeField] private bool _isUseParentScaleY;
 
-        private List<SpriteRenderer> _elements = new();
+        private readonly List<SpriteRenderer> _elements = new List<SpriteRenderer>();
+        
         private int _countElements;
         private Color _color;
         private int _currentIndex;

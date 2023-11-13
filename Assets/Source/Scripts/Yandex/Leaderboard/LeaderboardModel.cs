@@ -1,30 +1,30 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Agava.YandexGames;
+﻿using Agava.YandexGames;
 using BikeDefied.Game.Spawner;
 using BikeDefied.Yandex.Emulator;
 using BikeDefied.Yandex.Localization;
 using BikeDefied.Yandex.Saves;
 using BikeDefied.Yandex.Saves.Data;
 using Reflex.Attributes;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BikeDefied.Yandex.Leaders
 {
     public class LeaderboardModel : MonoBehaviour
     {
+        private readonly int _defaultRank = 1;
+        
         [SerializeField] private Transform _content;
         [SerializeField] private LeaderboardPlayerDataHandler _playerDataPrefab;
         [SerializeField] private Sprite _firstPlayerIcon;
         [SerializeField] private Sprite _secondPlayerIcon;
         [SerializeField] private Sprite _otherPlayerIcon;
 
-        private readonly int _defaultRank = 1;
-
         private ISaver _saver;
         private ObjectSpawner<LeaderboardPlayerData> _playerDataSpawner;
-        private YandexEmulator _yandexEmulator = new();
+        private YandexEmulator _yandexEmulator = new YandexEmulator();
         private Dictionary<PlayerIconType, Sprite> _playerIcons;
 
         private LeaderboardEntryResponse[] _allPlayers;
@@ -39,14 +39,15 @@ namespace BikeDefied.Yandex.Leaders
             _saver = saver;
             saver.SubscribeValueUpdated<LevelInfo>(SetScore);
 
-            _playerDataSpawner = new ObjectSpawner<LeaderboardPlayerData>(new ObjectFactory<LeaderboardPlayerData>(_content),
-                                                                          new ObjectPool<LeaderboardPlayerData>());
+            _playerDataSpawner = new ObjectSpawner<LeaderboardPlayerData>(
+                new ObjectFactory<LeaderboardPlayerData>(_content),
+                new ObjectPool<LeaderboardPlayerData>());
 
-            _playerIcons = new()
+            _playerIcons = new Dictionary<PlayerIconType, Sprite>
             {
                 [PlayerIconType.First] = _firstPlayerIcon,
                 [PlayerIconType.Second] = _secondPlayerIcon,
-                [PlayerIconType.Other] = _otherPlayerIcon,
+                [PlayerIconType.Other] = _otherPlayerIcon
             };
         }
 
@@ -98,7 +99,7 @@ namespace BikeDefied.Yandex.Leaders
                 Rank = rank.ToString(),
                 Name = name,
                 Score = score.ToString(),
-                Avatar = avatar,
+                Avatar = avatar
             };
         }
 

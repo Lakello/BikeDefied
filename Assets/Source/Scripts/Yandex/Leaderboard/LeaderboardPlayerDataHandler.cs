@@ -1,5 +1,5 @@
-﻿using System;
-using BikeDefied.Game.Spawner;
+﻿using BikeDefied.Game.Spawner;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

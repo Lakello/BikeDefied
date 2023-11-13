@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
-using Agava.YandexGames;
+﻿using Agava.YandexGames;
 using BikeDefied.Yandex.Emulator;
 using BikeDefied.Yandex.Saves.Data;
+using System;
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace BikeDefied.Yandex.Saves
 {
     public class GamePlayerDataSaver : ISaver
     {
-        private PlayerData _playerData = new();
-        private YandexEmulator _yandexSimulator = new();
+        private PlayerData _playerData = new PlayerData();
+        private YandexEmulator _yandexSimulator = new YandexEmulator();
         private Hashtable _accessMethodsHolders;
         private Hashtable _playerDataEvents;
 
@@ -37,9 +37,7 @@ namespace BikeDefied.Yandex.Saves
                                 isSetted = false;
                         }
                         else
-                        {
                             AddLevelInfo(value);
-                        }
 
                         if (isSetted)
                             Save((Action<LevelInfo>)_playerDataEvents[typeof(LevelInfo)], value);
@@ -77,16 +75,17 @@ namespace BikeDefied.Yandex.Saves
                         _playerData.UnmuteSound,
                     setter: (value) =>
                     {
-                        if (_playerData.UnmuteSound.VolumePercent != value.VolumePercent)
-                        {
-                            _playerData.UnmuteSound = value;
-                            Save();
-                        }
-                    }),
+                        if (_playerData.UnmuteSound.VolumePercent == value.VolumePercent)
+                            return;
+                        
+                        _playerData.UnmuteSound = value;
+                        Save();
+                    })
             };
         }
 
-        public TData Get<TData>(TData value = default) where TData : class, IPlayerData
+        public TData Get<TData>(TData value = default)
+            where TData : class, IPlayerData
         {
             if (_accessMethodsHolders.ContainsKey(typeof(TData)))
             {
@@ -99,7 +98,8 @@ namespace BikeDefied.Yandex.Saves
             }
         }
 
-        public void Set<TData>(TData value = default) where TData : class, IPlayerData
+        public void Set<TData>(TData value = default) 
+            where TData : class, IPlayerData
         {
             if (_accessMethodsHolders.ContainsKey(typeof(TData)))
             {
@@ -112,7 +112,8 @@ namespace BikeDefied.Yandex.Saves
             }
         }
 
-        public void SubscribeValueUpdated<TData>(Action<TData> subAction) where TData : class, IPlayerData
+        public void SubscribeValueUpdated<TData>(Action<TData> subAction)
+            where TData : class, IPlayerData
         {
             if (_playerDataEvents.ContainsKey(typeof(TData)))
             {
@@ -127,7 +128,8 @@ namespace BikeDefied.Yandex.Saves
             }
         }
 
-        public void UnsubscribeValueUpdated<TData>(Action<TData> subAction) where TData : class, IPlayerData
+        public void UnsubscribeValueUpdated<TData>(Action<TData> subAction) 
+            where TData : class, IPlayerData
         {
             if (_playerDataEvents.ContainsKey(typeof(TData)))
             {
@@ -144,6 +146,14 @@ namespace BikeDefied.Yandex.Saves
 
         public void Init()
         {
+#if !UNITY_EDITOR
+            PlayerAccount.GetCloudSaveData(onSuccessCallback);
+#else
+            _yandexSimulator.Init(onSuccessCallback);
+#endif
+
+            return;
+
             void onSuccessCallback(string data)
             {
                 var playerData = JsonUtility.FromJson<PlayerData>(data);
@@ -157,12 +167,6 @@ namespace BikeDefied.Yandex.Saves
                 Set(playerData.HintDisplay);
                 Set(playerData.UnmuteSound);
             }
-
-#if !UNITY_EDITOR
-            PlayerAccount.GetCloudSaveData(onSuccessCallback);
-#else
-            _yandexSimulator.Init(onSuccessCallback);
-#endif
         }
 
         private void Save()

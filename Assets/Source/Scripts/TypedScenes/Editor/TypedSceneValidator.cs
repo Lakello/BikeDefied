@@ -40,10 +40,11 @@ namespace BikeDefied.TypedScenes.Editor
         {
             var assets = AssetDatabase.FindAssets(sceneName);
 
-            return (assets.Select(AssetDatabase.GUIDToAssetPath)
-                .Select(path => new {path, name = Path.GetFileNameWithoutExtension(path)})
+            return assets.Select(AssetDatabase.GUIDToAssetPath)
+                .Select(path => new { path, name = Path.GetFileNameWithoutExtension(path) } )
                 .Where(@t => @t.name == sceneName)
-                .Select(@t => @t.path)).Any(path => Path.GetExtension(path) == TypedSceneSettings.SceneExtension);
+                .Select(@t => @t.path)
+                .Any(path => Path.GetExtension(path) == TypedSceneSettings.SceneExtension);
         }
 
         private static string GetValidName(string sceneName)

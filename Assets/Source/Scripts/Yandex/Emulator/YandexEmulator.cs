@@ -27,8 +27,8 @@ namespace BikeDefied.Yandex.Emulator
 
             LeaderboardEntryResponse getEntry()
             {
-                LeaderboardEntryResponse entry = new();
-                PlayerAccountProfileDataResponse player = new();
+                LeaderboardEntryResponse entry = new LeaderboardEntryResponse();
+                PlayerAccountProfileDataResponse player = new PlayerAccountProfileDataResponse();
 
                 entry.rank = ++rank == _playerRank ? ++rank : rank;
                 entry.player = player;
@@ -54,8 +54,8 @@ namespace BikeDefied.Yandex.Emulator
 
         public LeaderboardEntryResponse GetLeaderboardPlayerEntry()
         {
-            _playerEntrySim = new();
-            PlayerAccountProfileDataResponse player = new();
+            _playerEntrySim = new LeaderboardEntryResponse();
+            PlayerAccountProfileDataResponse player = new PlayerAccountProfileDataResponse();
 
             _playerEntrySim.rank = _playerRank;
             _playerEntrySim.player = player;

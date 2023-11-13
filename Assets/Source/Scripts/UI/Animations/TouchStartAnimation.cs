@@ -23,8 +23,8 @@ namespace BikeDefied.UI.Animations
 
         private IEnumerator Animation()
         {
-            WaitForSeconds touchTime = new(_durationTouch);
-            WaitForSeconds notTouchTime = new(_durationNotTouch);
+            WaitForSeconds touchTime = new WaitForSeconds(_durationTouch);
+            WaitForSeconds notTouchTime = new WaitForSeconds(_durationNotTouch);
 
             while (enabled)
             {

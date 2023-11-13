@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 
 namespace BikeDefied.TypedScenes
 {
-    public abstract class TypedScene<TMachine> where TMachine : StateMachine<TMachine>
+    public abstract class TypedScene<TMachine> 
+        where TMachine : StateMachine<TMachine>
     {
         protected static AsyncOperation LoadScene(string sceneName, LoadSceneMode loadSceneMode)
         {

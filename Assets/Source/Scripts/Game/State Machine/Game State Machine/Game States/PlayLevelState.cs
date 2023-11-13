@@ -1,6 +1,6 @@
-﻿using System;
-using BikeDefied.FSM.GameWindow;
+﻿using BikeDefied.FSM.GameWindow;
 using BikeDefied.FSM.GameWindow.States;
+using System;
 
 namespace BikeDefied.FSM.Game.States
 {
@@ -8,7 +8,8 @@ namespace BikeDefied.FSM.Game.States
     {
         private readonly PlayerInput _playerInput;
 
-        public PlayLevelState(PlayerInput input, WindowStateMachine machine) : base(machine) =>
+        public PlayLevelState(PlayerInput input, WindowStateMachine machine) 
+            : base(machine) =>
             _playerInput = input;
 
         public event Func<bool> StateChanged;

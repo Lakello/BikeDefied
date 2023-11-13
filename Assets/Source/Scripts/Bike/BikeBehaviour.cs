@@ -7,6 +7,11 @@ namespace BikeDefied.BikeSystem
     [RequireComponent(typeof(GroundChecker))]
     public abstract class BikeBehaviour : MonoBehaviour
     {
+        private Player _player;
+        private IInputHandler _inputHandler;
+        private Transform _bikeBody;
+        private Coroutine _behaviourCoroutine;
+        
         protected Player Player;
         protected IInputHandler InputHandler;
         protected Transform BikeBody;

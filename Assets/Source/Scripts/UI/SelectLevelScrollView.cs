@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using BikeDefied.Yandex.Saves;
-using BikeDefied.Yandex.Saves.Data;
-using DG.Tweening;
-using Reflex.Attributes;
-using Unity.VisualScripting;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using DG.Tweening;
+using Unity.VisualScripting;
+using Reflex.Attributes;
+using System;
+using BikeDefied.Yandex.Saves;
+using BikeDefied.Yandex.Saves.Data;
 
 namespace BikeDefied.UI
 {
@@ -22,7 +22,7 @@ namespace BikeDefied.UI
         private HorizontalLayoutGroup _layoutGroup;
         private ScrollRect _scrollView;
         private Transform _content;
-        private List<float> _childrenPositions = new();
+        private List<float> _childrenPositions = new List<float>();
         private float _targetPosition;
 
         private int _currentCenterChildIndex;
@@ -132,7 +132,6 @@ namespace BikeDefied.UI
             {
                 centerChild = _content.GetChild(i).gameObject;
                 centerChild.transform.DOKill();
-
                 if (i == _currentCenterChildIndex)
                     centerChild.transform.DOScale(_centerScale * Vector3.one, _scaleTime);
                 else
@@ -148,13 +147,14 @@ namespace BikeDefied.UI
             {
                 float position = _childrenPositions[i];
                 float distance = Mathf.Abs(position - currentPosition);
-
-                if (distance >= maxDistance)
+                if (distance < maxDistance)
+                {
+                    maxDistance = distance;
+                    closest = position;
+                    _currentCenterChildIndex = i;
+                }
+                else
                     break;
-
-                maxDistance = distance;
-                closest = position;
-                _currentCenterChildIndex = i;
             }
             return closest;
         }

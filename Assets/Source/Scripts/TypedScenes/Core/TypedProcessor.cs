@@ -7,7 +7,7 @@ namespace BikeDefied.TypedScenes
     {
         private void Awake()
         {
-            foreach(var handler in FindObjectsOfType<MonoBehaviour>().OfType<ITypedAwakeHandler>())
+            foreach (ITypedAwakeHandler handler in FindObjectsOfType<MonoBehaviour>().OfType<ITypedAwakeHandler>())
             {
                 handler.OnSceneAwake();
             }

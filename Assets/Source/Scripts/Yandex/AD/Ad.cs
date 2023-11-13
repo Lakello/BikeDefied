@@ -4,8 +4,9 @@ namespace BikeDefied.Yandex.AD
 {
     public class Ad : ICounterForShowAd
     {
-        private FocusObserver _focusObserver;
         private readonly int _countOverBetweenShowsAd = 5;
+        
+        private FocusObserver _focusObserver;
         private int _currentCountOver;
 
         public Ad(FocusObserver context, int countOverBetweenShowsAd)

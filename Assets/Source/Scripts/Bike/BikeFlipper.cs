@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BikeDefied.BikeSystem
 {
-    public class BikeFliper : BikeBehaviour
+    public class BikeFlipper : BikeBehaviour
     {
         [SerializeField] private float _rotateSpeed;
 

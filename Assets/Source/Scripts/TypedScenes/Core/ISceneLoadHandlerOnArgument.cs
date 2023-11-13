@@ -1,7 +1,7 @@
 ﻿namespace BikeDefied.TypedScenes
 {
-    public interface ISceneLoadHandlerOnArgument<T>
+    public interface ISceneLoadHandlerOnArgument<in TArgument>
     {
-        void OnSceneLoaded(T argument);
+        void OnSceneLoaded(TArgument argument);
     }
 }

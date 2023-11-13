@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
-using BikeDefied.FSM.Game;
+﻿using BikeDefied.FSM.Game;
 using Reflex.Attributes;
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace BikeDefied.Game
@@ -11,13 +11,6 @@ namespace BikeDefied.Game
         private IEndLevelStateChangeble _endLevel;
 
         public bool IsAlive { get; private set; }
-
-        [Inject]
-        private void Inject(GameStateInject inject)
-        {
-            _endLevel = inject.EndLevel;
-            _endLevel.StateChanged += OnStateChanged;
-        }
 
         private void OnEnable()
         {
@@ -44,6 +37,13 @@ namespace BikeDefied.Game
 
                 yield return null;
             }
+        }
+
+        [Inject]
+        private void Inject(GameStateInject inject)
+        {
+            _endLevel = inject.EndLevel;
+            _endLevel.StateChanged += OnStateChanged;
         }
 
         private bool OnStateChanged()

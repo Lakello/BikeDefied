@@ -16,7 +16,7 @@ namespace BikeDefied.TypedScenes.Editor
         public string GUID { get; private set; }
         public string AssetPath { get; private set; }
         
-        private AnalyzableScene() {}
+        private AnalyzableScene() { }
 
         public static AnalyzableScene Create(string scenePath)
         {
@@ -38,7 +38,7 @@ namespace BikeDefied.TypedScenes.Editor
                 Name = name,
                 Scene = scene,
                 GUID = guid,
-                AssetPath = scene.path,
+                AssetPath = scene.path
             };
         }
 

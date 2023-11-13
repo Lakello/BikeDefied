@@ -22,7 +22,8 @@ namespace BikeDefied.ScoreSystem
 
         public override event Action<ScoreReward> ScoreAdding;
 
-        public FlipCounter(float backReward, float frontReward, LayerMask mask, ScoreCounterInject inject) : base(inject)
+        public FlipCounter(float backReward, float frontReward, LayerMask mask, ScoreCounterInject inject)
+            : base(inject)
         {
             _mask = mask;
             _backReward = backReward;
@@ -38,7 +39,7 @@ namespace BikeDefied.ScoreSystem
         {
             _currentFlip = new Flip()
             {
-                Directions = new FlipTriggerDirection[CountDirections],
+                Directions = new FlipTriggerDirection[CountDirections]
             };
 
             BehaviourCoroutine = Context.StartCoroutine(Player.Behaviour(
@@ -174,9 +175,7 @@ namespace BikeDefied.ScoreSystem
                 }
             }
             else
-            {
                 return false;
-            }
 
             return true;
         }

@@ -1,10 +1,11 @@
-using System.Collections;
 using BikeDefied.FSM;
 using BikeDefied.FSM.Game;
 using BikeDefied.FSM.Game.States;
 using BikeDefied.TypedScenes;
 using Reflex.Attributes;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace BikeDefied.BikeSystem
 {
@@ -14,7 +15,7 @@ namespace BikeDefied.BikeSystem
         [SerializeField] private float _maxGroundMassCenter;
         [SerializeField] private float _minGroundMassCenter;
         [SerializeField] private float _maxFlyMassCenter;
-        [SerializeField] private float _minFlymassCenter;
+        [SerializeField] private float _minFlyMassCenter;
         [SerializeField] private float _maxVelocityForMaxMassCenter;
 
         [SerializeField] private Rigidbody _bike;
@@ -58,7 +59,8 @@ namespace BikeDefied.BikeSystem
                 StopCoroutine(_movePhysicsCoroutine);
         }
 
-        public void OnSceneLoaded<TState>(GameStateMachine machine) where TState : State<GameStateMachine>
+        public void OnSceneLoaded<TState>(GameStateMachine machine)
+            where TState : State<GameStateMachine>
         {
             if (typeof(TState) == typeof(MenuState))
                 _bike.isKinematic = _backWheel.isKinematic = _frontWheel.isKinematic = true;
@@ -81,7 +83,7 @@ namespace BikeDefied.BikeSystem
                 if (_isGrounded)
                     _bike.centerOfMass = new Vector3(0, CalculateMassCenter(_maxGroundMassCenter, _minGroundMassCenter), 0);
                 else
-                    _bike.centerOfMass = new Vector3(0, CalculateMassCenter(_maxFlyMassCenter, _minFlymassCenter), 0);
+                    _bike.centerOfMass = new Vector3(0, CalculateMassCenter(_maxFlyMassCenter, _minFlyMassCenter), 0);
 
                 yield return null;
             }

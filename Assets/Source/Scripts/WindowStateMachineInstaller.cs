@@ -1,13 +1,13 @@
-﻿using BikeDefied.FSM;
-using BikeDefied.FSM.Game;
+﻿using BikeDefied.FSM.GameWindow.States;
 using BikeDefied.FSM.GameWindow;
-using BikeDefied.FSM.GameWindow.States;
-using BikeDefied.TypedScenes;
 using BikeDefied.UI.Buttons;
 using Reflex.Core;
 using UnityEngine;
+using BikeDefied.TypedScenes;
+using BikeDefied.FSM.Game;
+using BikeDefied.FSM;
 
-namespace BikeDefied
+namespace BikeDefied 
 {
     public class WindowStateMachineInstaller : MonoBehaviour, IInstaller, ISceneLoadHandlerOnState<GameStateMachine>
     {
@@ -31,7 +31,8 @@ namespace BikeDefied
             _transitionInitializer.InitTransition<MenuWindowState>(_backToMainMenuFromLeaderboardButton);
         }
 
-        public void OnSceneLoaded<TState>(GameStateMachine machine) where TState : State<GameStateMachine> =>
+        public void OnSceneLoaded<TState>(GameStateMachine machine)
+            where TState : State<GameStateMachine> =>
             _windowStateMachine = machine.WindowStateMachine;
     }
 }

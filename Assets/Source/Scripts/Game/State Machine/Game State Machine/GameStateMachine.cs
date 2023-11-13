@@ -1,6 +1,6 @@
-﻿using System;
+﻿using BikeDefied.FSM.GameWindow;
+using System;
 using System.Collections.Generic;
-using BikeDefied.FSM.GameWindow;
 
 namespace BikeDefied.FSM.Game
 {
@@ -9,14 +9,16 @@ namespace BikeDefied.FSM.Game
         public readonly WindowStateMachine WindowStateMachine;
 
         public GameStateMachine(WindowStateMachine windowStateMachine, 
-                                Func<Dictionary<Type, State<GameStateMachine>>> getStates)
-                                    : base(getStates) =>
+            Func<Dictionary<Type, State<GameStateMachine>>> getStates) 
+            : base(getStates) =>
             WindowStateMachine = windowStateMachine;
 
-        public void SetWindow<TWindow>() where TWindow : WindowState =>
+        public void SetWindow<TWindow>()
+            where TWindow : WindowState =>
             WindowStateMachine.EnterIn<TWindow>();
 
-        public TState TryGetState<TState>() where TState : State<GameStateMachine> =>
+        public TState TryGetState<TState>()
+            where TState : State<GameStateMachine> =>
             (TState)TryGetState(typeof(TState));
     }
 }

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using BikeDefied.FSM;
-using BikeDefied.FSM.Game;
+﻿using BikeDefied.FSM.Game;
 using BikeDefied.FSM.GameWindow;
+using BikeDefied.FSM;
 using BikeDefied.TypedScenes;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BikeDefied
@@ -11,7 +11,8 @@ namespace BikeDefied
     {
         [SerializeField] private List<Window> _windows;
 
-        public void OnSceneLoaded<TState>(GameStateMachine machine) where TState : State<GameStateMachine>
+        public void OnSceneLoaded<TState>(GameStateMachine machine)
+            where TState : State<GameStateMachine>
         {
             WindowsInit(machine);
 
@@ -23,7 +24,7 @@ namespace BikeDefied
             foreach (var window in _windows)
             {
                 var state = machine.WindowStateMachine.TryGetState<WindowState>(window);
-
+                
                 state.Init(window);
             }
         }

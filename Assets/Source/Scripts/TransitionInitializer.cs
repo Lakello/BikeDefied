@@ -4,10 +4,11 @@ using BikeDefied.FSM;
 
 namespace BikeDefied
 {
-    public class TransitionInitializer<TMachine> where TMachine : StateMachine<TMachine>
+    public class TransitionInitializer<TMachine>
+        where TMachine : StateMachine<TMachine>
     {
         private TMachine _stateMachine;
-        private List<Subscription> _subscribtions = new();
+        private readonly List<Subscription> _subscribtions = new List<Subscription>();
 
         private struct Subscription
         {
@@ -36,7 +37,8 @@ namespace BikeDefied
                 UnSubscribe();
         }
 
-        public void InitTransition<TTargetState>(ISubject subject, Action reloadScene = null) where TTargetState : State<TMachine>
+        public void InitTransition<TTargetState>(ISubject subject, Action reloadScene = null) 
+            where TTargetState : State<TMachine>
         {
             var transition = new Transition<TMachine, TTargetState>(_stateMachine, reloadScene);
 

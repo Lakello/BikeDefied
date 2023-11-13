@@ -1,5 +1,5 @@
-﻿using System;
-using BikeDefied.FSM;
+﻿using BikeDefied.FSM;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,7 +8,7 @@ namespace BikeDefied.TypedScenes
     public class LoadingProcessor : MonoBehaviour
     {
         private static LoadingProcessor _instance;
-        protected Action LoadingModelAction;
+        private Action _loadingModelAction;
 
         public static LoadingProcessor Instance
         {
@@ -30,13 +30,15 @@ namespace BikeDefied.TypedScenes
 
         public void ApplyLoadingModel()
         {
-            LoadingModelAction?.Invoke();
-            LoadingModelAction = null;
+            _loadingModelAction?.Invoke();
+            _loadingModelAction = null;
         }
 
-        public void RegisterLoadingModel<TMachine, TState>(TMachine machine) where TMachine : StateMachine<TMachine> where TState : State<TMachine>
+        public void RegisterLoadingModel<TMachine, TState>(TMachine machine)
+            where TMachine : StateMachine<TMachine>
+            where TState : State<TMachine>
         {
-            LoadingModelAction = () =>
+            _loadingModelAction = () =>
             {
                 CallSceneLoaded<ISceneLoadHandlerOnState<TMachine>>((handler) => handler.OnSceneLoaded<TState>(machine));
 
@@ -46,7 +48,7 @@ namespace BikeDefied.TypedScenes
 
         public void RegisterLoadingModel<T>(T argument)
         {
-            LoadingModelAction = () =>
+            _loadingModelAction = () =>
             {
                 CallSceneLoaded<ISceneLoadHandlerOnArgument<T>>((handler) => handler.OnSceneLoaded(argument));
 

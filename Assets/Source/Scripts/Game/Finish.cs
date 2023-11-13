@@ -1,8 +1,8 @@
-﻿using System;
-using BikeDefied.AudioSystem;
+﻿using BikeDefied.AudioSystem;
 using BikeDefied.BikeSystem;
 using BikeDefied.FSM.Game;
 using Reflex.Attributes;
+using System;
 using UnityEngine;
 using AudioType = BikeDefied.AudioSystem.AudioType;
 

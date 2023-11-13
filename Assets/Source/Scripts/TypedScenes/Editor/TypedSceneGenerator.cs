@@ -1,10 +1,11 @@
 ﻿#if UNITY_EDITOR
+using BikeDefied.FSM.Game;
 using System;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
-using BikeDefied.FSM.Game;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 
 namespace BikeDefied.TypedScenes.Editor
@@ -20,11 +21,9 @@ namespace BikeDefied.TypedScenes.Editor
             targetNamespace.Imports.Add(new CodeNamespaceImport("UnityEngine.SceneManagement"));
             targetNamespace.Imports.Add(new CodeNamespaceImport("BikeDefied.FSM.Game"));
             targetNamespace.Imports.Add(new CodeNamespaceImport("BikeDefied.FSM"));
-            targetClass.BaseTypes.Add(new CodeTypeReference("TypedScene",
-                                        new CodeTypeReference[]
-                                        {
-                                            new CodeTypeReference(typeof(GameStateMachine)),
-                                        }));
+            targetClass.BaseTypes.Add(new CodeTypeReference(
+                "TypedScene",
+                new CodeTypeReference[] { new CodeTypeReference(typeof(GameStateMachine)) }));
 
             targetClass.TypeAttributes = System.Reflection.TypeAttributes.Class | System.Reflection.TypeAttributes.Public;
 
@@ -59,26 +58,25 @@ namespace BikeDefied.TypedScenes.Editor
             targetClass.Members.Add(pathConstant);
         }
 
-        private static void AddLoadingMethod(CodeTypeDeclaration targetClass, Type parameterType = null, bool asyncLoad = false,
-                                             bool isStateLoad = false, Type machine = null)
+        private static void AddLoadingMethod(
+            CodeTypeDeclaration targetClass,
+            Type parameterType = null, 
+            bool asyncLoad = false,
+            bool isStateLoad = false,
+            Type machine = null)
         {
-            var loadMethod = new CodeMemberMethod();
-            loadMethod.Name = asyncLoad ? "LoadAsync" : "Load";
-            loadMethod.Attributes = MemberAttributes.Public | MemberAttributes.Static;
+            CodeMemberMethod loadMethod = new CodeMemberMethod
+            {
+                Name = asyncLoad ? "LoadAsync" : "Load",
+                Attributes = MemberAttributes.Public | MemberAttributes.Static
+            };
 
-            var loadingStatement = "LoadScene";
+            string loadingStatement = "LoadScene";
 
             if (isStateLoad)
                 loadingStatement += "<TState>";
 
             loadingStatement += "(_sceneName, loadSceneMode";
-
-            void AddParameter(Type type, string argumentName)
-            {
-                var parameter = new CodeParameterDeclarationExpression(type, argumentName);
-                loadMethod.Parameters.Add(parameter);
-                loadingStatement += $", {argumentName}";
-            }
 
             if (isStateLoad)
             {
@@ -106,10 +104,19 @@ namespace BikeDefied.TypedScenes.Editor
 
             loadingStatement += ")";
 
-            var loadingModeParameter = new CodeParameterDeclarationExpression(nameof(LoadSceneMode), "loadSceneMode = LoadSceneMode.Single");
+            CodeParameterDeclarationExpression loadingModeParameter = new CodeParameterDeclarationExpression(
+                nameof(LoadSceneMode), "loadSceneMode = LoadSceneMode.Single");
             loadMethod.Parameters.Add(loadingModeParameter);
             loadMethod.Statements.Add(new CodeSnippetExpression(loadingStatement));
             targetClass.Members.Add(loadMethod);
+            return;
+
+            void AddParameter(Type type, string argumentName)
+            {
+                var parameter = new CodeParameterDeclarationExpression(type, argumentName);
+                loadMethod.Parameters.Add(parameter);
+                loadingStatement += $", {argumentName}";
+            }
         }
     }
 }

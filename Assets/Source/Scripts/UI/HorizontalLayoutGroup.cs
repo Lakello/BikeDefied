@@ -23,14 +23,14 @@ namespace BikeDefied.UI
         protected enum Axis
         {
             Width,
-            Height,
+            Height
         };
 
         protected void CalculationAlongAxis(Axis axis)
         {
-            float combinedPadding = (axis == 0 ? padding.horizontal : padding.vertical);
-            bool controlSize = (axis != 0 && _childControlHeight);
-            bool childForceExpandSize = (axis != 0 && _childForceExpandHeight);
+            float combinedPadding = axis == 0 ? padding.horizontal : padding.vertical;
+            bool controlSize = axis != 0 && _childControlHeight;
+            bool childForceExpandSize = axis != 0 && _childForceExpandHeight;
 
             float totalMin = combinedPadding;
             float totalPreferred = combinedPadding;
@@ -72,8 +72,8 @@ namespace BikeDefied.UI
         protected void SetChildrenAlongAxis(Axis axis)
         {
             float size = rectTransform.rect.size[(int)axis];
-            bool controlSize = (axis != 0 && _childControlHeight);
-            bool childForceExpandSize = (axis != 0 && _childForceExpandHeight);
+            bool controlSize = axis != 0 && _childControlHeight;
+            bool childForceExpandSize = axis != 0 && _childForceExpandHeight;
             float alignmentOnAxis = GetAlignmentOnAxis((int)axis);
 
             float innerSize = size - (axis == 0 ? padding.horizontal : padding.vertical);
@@ -108,7 +108,7 @@ namespace BikeDefied.UI
             }
             else
             {
-                float pos = (axis == 0 ? padding.left : padding.top);
+                float pos = axis == 0 ? padding.left : padding.top;
                 float itemFlexibleMultiplier = 0;
                 float surplusSpace = size - GetTotalPreferredSize((int)Axis.Width);
 
@@ -174,8 +174,14 @@ namespace BikeDefied.UI
             }
         }
 
-        private void GetChildSizes(RectTransform child, int axis, bool controlSize, bool childForceExpand,
-            out float min, out float preferred, out float flexible)
+        private void GetChildSizes(
+            RectTransform child,
+            int axis,
+            bool controlSize,
+            bool childForceExpand,
+            out float min,
+            out float preferred,
+            out float flexible)
         {
             if (!controlSize)
             {
