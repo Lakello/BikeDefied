@@ -17,22 +17,15 @@ namespace BikeDefied.BikeSystem
         protected override void Inject(BikeBehaviourInject inject) =>
             Init(inject);
 
-        [Inject]
-        private void Inject(IInputHandler inputHandler) =>
-            InputHandler = inputHandler;
-
         private void Start()
         {
             _bikeRigidbody = BikeBody.GetComponent<Rigidbody>();
 
             BehaviourCoroutine = StartCoroutine(Player.Behaviour(
-            condition: () =>
-            {
-                return !IsGrounded;
-            },
+            condition: () => !IsGrounded,
             action: () =>
             {
-                var horizontal = InputHandler.Horizontal;
+                float horizontal = InputHandler.Horizontal;
 
                 if (horizontal != 0)
                     Flip(horizontal);
@@ -43,7 +36,7 @@ namespace BikeDefied.BikeSystem
 
         private void Flip(float direction)
         {
-            var force = _rotateSpeed * Time.deltaTime * BikeBody.up;
+            Vector3 force = _rotateSpeed * Time.deltaTime * BikeBody.up;
 
             _backWheel.AddForce(force * -direction, ForceMode.VelocityChange);
             _frontWheel.AddForce(force * direction, ForceMode.VelocityChange);

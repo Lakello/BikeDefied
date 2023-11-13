@@ -7,23 +7,29 @@ namespace BikeDefied.BikeSystem
     [RequireComponent(typeof(GroundChecker))]
     public abstract class BikeBehaviour : MonoBehaviour
     {
-        private Player _player;
-        private IInputHandler _inputHandler;
-        private Transform _bikeBody;
         private Coroutine _behaviourCoroutine;
-        
-        protected Player Player;
-        protected IInputHandler InputHandler;
-        protected Transform BikeBody;
-        protected Coroutine BehaviourCoroutine;
-
         private GroundChecker _groundChecker;
 
+        protected Coroutine BehaviourCoroutine
+        {
+            get => _behaviourCoroutine;
+            set => _behaviourCoroutine ??= value;
+        }
+        protected Player Player { get; private set; }
+        protected IInputHandler InputHandler { get; private set; }
+        protected Transform BikeBody { get; private set; }
         protected bool IsGrounded { get; private set; }
         protected bool IsBackWheelGrounded { get; private set; }
 
         protected abstract void Inject(BikeBehaviourInject inject);
 
+        protected void Init(BikeBehaviourInject inject)
+        {
+            Player = inject.Player;
+            BikeBody = inject.BikeBody.transform;
+            InputHandler = inject.InputHandler;
+        }
+        
         private void Awake()
         {
             _groundChecker = GetComponent<GroundChecker>();
@@ -35,12 +41,6 @@ namespace BikeDefied.BikeSystem
         {
             if (BehaviourCoroutine != null)
                 StopCoroutine(BehaviourCoroutine);
-        }
-
-        protected void Init(BikeBehaviourInject inject)
-        {
-            Player = inject.Player;
-            BikeBody = inject.BikeBody.transform;
         }
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using static CW.Common.CwInputManager;
 
 namespace BikeDefied.ScoreSystem
 {
@@ -8,7 +7,9 @@ namespace BikeDefied.ScoreSystem
     {
         private const int CountDirections = 4;
 
-        private LayerMask _mask;
+        private readonly float _backReward;
+        private readonly float _frontReward;
+        private readonly LayerMask _mask;
 
         private Flip _currentFlip;
         private FlipTriggerDirection _previousFlip;
@@ -16,9 +17,6 @@ namespace BikeDefied.ScoreSystem
 
         private bool _isBackFlip;
         private bool _isFrontFlip;
-
-        private float _backReward;
-        private float _frontReward;
 
         public override event Action<ScoreReward> ScoreAdding;
 
@@ -30,7 +28,7 @@ namespace BikeDefied.ScoreSystem
             _frontReward = frontReward;
         }
 
-        protected struct Flip
+        private struct Flip
         {
             public FlipTriggerDirection[] Directions;
         }
@@ -43,10 +41,7 @@ namespace BikeDefied.ScoreSystem
             };
 
             BehaviourCoroutine = Context.StartCoroutine(Player.Behaviour(
-            condition: () =>
-            {
-                return !IsGrounded;
-            },
+            condition: () => !IsGrounded,
             action: () =>
             {
                 Ray();
@@ -58,20 +53,17 @@ namespace BikeDefied.ScoreSystem
 
         private void Ray()
         {
-            if (Physics.Raycast(BikeBody.position, -BikeBody.up, out RaycastHit hit, Mathf.Infinity, _mask))
-            {
-                if (hit.transform.TryGetComponent(out FlipTrigger trigger))
-                {
-                    if (trigger != null)
-                    {
-                        if (trigger.Direction != _previousFlip)
-                        {
-                            UpdateCurrentFlipState(trigger);
-                            _previousFlip = trigger.Direction;
-                        }
-                    }
-                }
-            }
+            if (!Physics.Raycast(BikeBody.position, -BikeBody.up, out RaycastHit hit, Mathf.Infinity, _mask))
+                return;
+            if (!hit.transform.TryGetComponent(out FlipTrigger trigger))
+                return;
+            if (trigger == null)
+                return;
+            if (trigger.Direction == _previousFlip)
+                return;
+            
+            UpdateCurrentFlipState(trigger);
+            _previousFlip = trigger.Direction;
         }
 
         private void UpdateCurrentFlipState(FlipTrigger trigger)
@@ -143,11 +135,11 @@ namespace BikeDefied.ScoreSystem
 
         private void SetBottomState(FlipTrigger trigger)
         {
-            if (trigger.Direction == FlipTriggerDirection.Bottom)
-            {
-                _currentFlip.Directions[_currentState] = trigger.Direction;
-                _currentState++;
-            }
+            if (trigger.Direction != FlipTriggerDirection.Bottom)
+                return;
+            
+            _currentFlip.Directions[_currentState] = trigger.Direction;
+            _currentState++;
         }
 
         private bool CheckFlip(out bool direction)
@@ -157,44 +149,38 @@ namespace BikeDefied.ScoreSystem
             if (_currentState == _currentFlip.Directions.Length - 1)
             {
                 if (_isBackFlip)
-                {
-                    if (_currentFlip.Directions[1] == FlipTriggerDirection.Front && _currentFlip.Directions[3] == FlipTriggerDirection.Back)
-                        return true;
+                    return _currentFlip.Directions[1] == FlipTriggerDirection.Front && _currentFlip.Directions[3] == FlipTriggerDirection.Back;
 
-                    return false;
-                }
+                if (!_isFrontFlip)
+                    return true;
+                
+                direction = true;
 
-                if (_isFrontFlip)
-                {
-                    direction = true;
-
-                    if (_currentFlip.Directions[1] == FlipTriggerDirection.Back && _currentFlip.Directions[3] == FlipTriggerDirection.Front)
-                        return true;
-
-                    return false;
-                }
+                return _currentFlip.Directions[1] == FlipTriggerDirection.Back && _currentFlip.Directions[3] == FlipTriggerDirection.Front;
             }
             else
+            {
                 return false;
-
-            return true;
+            }
         }
 
         private void AddScore(bool dir)
         {
+            ScoreReward reward = new ScoreReward();
+            
             if (dir)
             {
-                Reward.Message = $"+{_frontReward}";
-                Reward.Value = _frontReward;
+                reward.Message = $"+{_frontReward}";
+                reward.Value = _frontReward;
 
-                ScoreAdding?.Invoke(Reward);
+                ScoreAdding?.Invoke(reward);
             }
             else
             {
-                Reward.Message = $"+{_backReward}";
-                Reward.Value = _backReward;
+                reward.Message = $"+{_backReward}";
+                reward.Value = _backReward;
 
-                ScoreAdding?.Invoke(Reward);
+                ScoreAdding?.Invoke(reward);
             }
 
             _currentFlip.Directions = new FlipTriggerDirection[4];

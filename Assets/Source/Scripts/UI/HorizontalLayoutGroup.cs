@@ -220,8 +220,8 @@ namespace BikeDefied.UI
 
 #if UNITY_EDITOR
 
-        private int m_Capacity = 10;
-        private Vector2[] m_Sizes = new Vector2[10];
+        private int _capacity = 10;
+        private Vector2[] _sizes = new Vector2[10];
 
         protected virtual void Update()
         {
@@ -230,24 +230,24 @@ namespace BikeDefied.UI
 
             int count = transform.childCount;
 
-            if (count > m_Capacity)
+            if (count > _capacity)
             {
-                if (count > m_Capacity * 2)
-                    m_Capacity = count;
+                if (count > _capacity * 2)
+                    _capacity = count;
                 else
-                    m_Capacity *= 2;
+                    _capacity *= 2;
 
-                m_Sizes = new Vector2[m_Capacity];
+                _sizes = new Vector2[_capacity];
             }
 
             bool dirty = false;
             for (int i = 0; i < count; i++)
             {
                 RectTransform t = transform.GetChild(i) as RectTransform;
-                if (t != null && t.sizeDelta != m_Sizes[i])
+                if (t != null && t.sizeDelta != _sizes[i])
                 {
                     dirty = true;
-                    m_Sizes[i] = t.sizeDelta;
+                    _sizes[i] = t.sizeDelta;
                 }
             }
 

@@ -1,5 +1,6 @@
 using BikeDefied.BikeSystem;
 using BikeDefied.Game;
+using BikeDefied.InputSystem;
 using BikeDefied.ScoreSystem;
 using Reflex.Core;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using UnityEngine;
 
 namespace BikeDefied
 {
+    [RequireComponent(typeof(InputHandlerInitializer))]
     public class SceneInstaller : MonoBehaviour, IInstaller
     {
         [Header("Bike")]
@@ -20,6 +22,7 @@ namespace BikeDefied
         [SerializeField] private float _backFlipReward;
         [SerializeField] private float _frontFlipReward;
 
+        private InputHandlerInitializer _inputHandler;
         private List<IScoreCounter> _scoreCounters;
 
         public void InstallBindings(ContainerDescriptor descriptor)
@@ -33,7 +36,9 @@ namespace BikeDefied
 
         private void InitBikeBehaviour(ContainerDescriptor descriptor)
         {
-            var bikeBehaviourInject = new BikeBehaviourInject(() => (_player, _bike));
+            IInputHandler inputHandler = GetComponent<InputHandlerInitializer>().Init();
+            
+            BikeBehaviourInject bikeBehaviourInject = new BikeBehaviourInject(() => (_player, _bike, inputHandler));
 
             descriptor.AddInstance(bikeBehaviourInject);
         }

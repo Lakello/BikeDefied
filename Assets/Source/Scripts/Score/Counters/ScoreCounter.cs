@@ -5,19 +5,19 @@ using UnityEngine;
 
 namespace BikeDefied.ScoreSystem
 {
-    public abstract class ScoreCounter : IScoreCounter
+    public abstract class ScoreCounter : IScoreCounter, IDisposable
     {
-        protected Player Player;
-        protected MonoBehaviour Context;
-        protected Coroutine BehaviourCoroutine;
-        protected Transform BikeBody;
-        protected ScoreReward Reward;
-
-        private GroundChecker _groundChecker;
-
+        private readonly GroundChecker _groundChecker;
+        
+        private Coroutine _behaviourCoroutine;
+        
+        protected Player Player { get; }
+        protected MonoBehaviour Context { get; }
+        protected Coroutine BehaviourCoroutine { set => _behaviourCoroutine ??= value; }
+        protected Transform BikeBody { get; }
         protected bool IsGrounded { get; private set; }
 
-        public ScoreCounter(ScoreCounterInject inject)
+        protected ScoreCounter(ScoreCounterInject inject)
         {
             Player = inject.Player;
             Context = inject.Context;
@@ -29,6 +29,12 @@ namespace BikeDefied.ScoreSystem
         }
 
         public abstract event Action<ScoreReward> ScoreAdding;
+        
+        public void Dispose()
+        {
+            if (_behaviourCoroutine != null)
+                Context.StopCoroutine(_behaviourCoroutine);
+        }
 
         protected abstract void Start();
     }

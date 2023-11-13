@@ -6,7 +6,7 @@ namespace BikeDefied.FSM.Game
 {
     public class GameStateMachine : StateMachine<GameStateMachine>
     {
-        public readonly WindowStateMachine WindowStateMachine;
+        public WindowStateMachine WindowStateMachine { get; }
 
         public GameStateMachine(WindowStateMachine windowStateMachine, 
             Func<Dictionary<Type, State<GameStateMachine>>> getStates) 

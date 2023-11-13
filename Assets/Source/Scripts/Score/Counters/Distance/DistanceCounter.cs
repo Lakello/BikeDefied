@@ -26,13 +26,15 @@ namespace BikeDefied.ScoreSystem
         {
             if (!(MathF.Round(CurrentPosition, 1) > MathF.Round(_bestPosition, 1)))
                 return;
+
+            ScoreReward reward = new ScoreReward();
             
             _bestPosition = CurrentPosition;
 
-            Reward.Message = "";
-            Reward.Value = _reward;
+            reward.Message = "";
+            reward.Value = _reward;
 
-            ScoreAdding?.Invoke(Reward);
+            ScoreAdding?.Invoke(reward);
         }
     }
 }

@@ -4,9 +4,9 @@ namespace BikeDefied.FSM.Game
 {
     public abstract class GameState : State<GameStateMachine>
     {
-        protected readonly WindowStateMachine WindowStateMachine;
+        protected WindowStateMachine WindowStateMachine { get; private set; }
 
-        public GameState(WindowStateMachine machine) =>
+        protected GameState(WindowStateMachine machine) =>
             WindowStateMachine = machine;
     }
 }
