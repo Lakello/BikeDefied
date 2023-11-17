@@ -7,7 +7,7 @@ using BikeDefied.TypedScenes;
 using BikeDefied.FSM.Game;
 using BikeDefied.FSM;
 
-namespace BikeDefied 
+namespace BikeDefied
 {
     public class WindowStateMachineInstaller : MonoBehaviour, IInstaller, ISceneLoadHandlerOnState<GameStateMachine>
     {

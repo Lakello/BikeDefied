@@ -2,5 +2,7 @@
 
 namespace BikeDefied.Other
 {
-    public class Context : MonoBehaviour { }
+    public class Context : MonoBehaviour
+    {
+    }
 }

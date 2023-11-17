@@ -16,7 +16,9 @@ namespace BikeDefied.Tutorial
         public void StartShow(bool value)
         {
             if (!TryShow(value) && CanShow)
+            {
                 gameObject.SetActive(value);
+            }
         }
 
         public void HindDisplayUpdated(bool value)
@@ -24,9 +26,13 @@ namespace BikeDefied.Tutorial
             if (!TryShow(value) && CanShow)
             {
                 if (value)
+                {
                     gameObject.SetActive(true);
+                }
                 else
+                {
                     gameObject.SetActive(false);
+                }
             }
         }
 

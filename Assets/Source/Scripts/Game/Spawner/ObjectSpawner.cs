@@ -13,9 +13,9 @@ namespace BikeDefied.Game.Spawner
             _pool = pool;
         }
 
-        public IPoolingObject<TInit> Spawn(IPoolingObject<TInit> @object, TInit init = default, System.Func<Vector3> getSpawnPosition = null)
+        public IPoolingObject<TInit> Spawn(IPoolingObject<TInit> poolingObject, TInit init = default, System.Func<Vector3> getSpawnPosition = null)
         {
-            IPoolingObject<TInit> spawningObject = GetObject(@object);
+            IPoolingObject<TInit> spawningObject = GetObject(poolingObject);
 
             if (getSpawnPosition != null)
             {
@@ -26,24 +26,25 @@ namespace BikeDefied.Game.Spawner
             spawningObject.Disabled += _pool.Return;
 
             if (init != null)
+            {
                 spawningObject.Init(init);
+            }
 
             spawningObject.SelfGameObject.SetActive(true);
 
             return spawningObject;
         }
-    
 
-        private IPoolingObject<TInit> GetObject(IPoolingObject<TInit> @object)
+        private IPoolingObject<TInit> GetObject(IPoolingObject<TInit> poolingObject)
         {
-            IPoolingObject<TInit> spawningObject = _pool.TryGetObjectByType(@object.SelfType) ?? CreateObject(@object);
+            IPoolingObject<TInit> spawningObject = _pool.TryGetObjectByType(poolingObject.SelfType) ?? CreateObject(poolingObject);
 
             return spawningObject;
         }
 
-        private IPoolingObject<TInit> CreateObject(IPoolingObject<TInit> @object)
+        private IPoolingObject<TInit> CreateObject(IPoolingObject<TInit> poolingObject)
         {
-            IPoolingObject<TInit> newObject = _factory.GetNewObject(@object);
+            IPoolingObject<TInit> newObject = _factory.GetNewObject(poolingObject);
 
             return newObject;
         }

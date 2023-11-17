@@ -5,10 +5,11 @@ namespace BikeDefied.Game.Spawner
 {
     public interface IPoolingObject<TInit>
     {
+        public event Action<IPoolingObject<TInit>> Disabled;
+        
         public Type SelfType { get; }
+        
         public GameObject SelfGameObject { get; }
-
-        public event System.Action<IPoolingObject<TInit>> Disabled;
 
         public void Init(TInit init);
     }

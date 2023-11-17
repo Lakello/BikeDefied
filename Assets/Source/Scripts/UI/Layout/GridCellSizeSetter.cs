@@ -9,7 +9,9 @@ namespace BikeDefied.UI.Layout
         [SerializeField] private RectTransform _parent;
         [SerializeField] private int _countCells;
 
-        public void SetLayoutHorizontal() { }
+        public void SetLayoutHorizontal()
+        {
+        }
 
         public void SetLayoutVertical() =>
             _grid.cellSize = CalculateSize();

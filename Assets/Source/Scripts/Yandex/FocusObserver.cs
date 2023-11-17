@@ -21,12 +21,11 @@ namespace BikeDefied.Yandex
         private void ChangeFocus(bool focus, bool isApplication)
         {
             if (_isAdShow == true && isApplication == true)
+            {
                 return;
+            }
 
-            if (focus)
-                Time.timeScale = 1.0f;
-            else
-                Time.timeScale = 0.0f;
+            Time.timeScale = focus ? 1.0f : 0.0f;
 
             FocusChanged?.Invoke(focus);
         }

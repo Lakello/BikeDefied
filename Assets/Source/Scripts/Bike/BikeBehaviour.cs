@@ -15,10 +15,15 @@ namespace BikeDefied.BikeSystem
             get => _behaviourCoroutine;
             set => _behaviourCoroutine ??= value;
         }
+        
         protected Player Player { get; private set; }
+        
         protected IInputHandler InputHandler { get; private set; }
+        
         protected Transform BikeBody { get; private set; }
+        
         protected bool IsGrounded { get; private set; }
+        
         protected bool IsBackWheelGrounded { get; private set; }
 
         protected abstract void Inject(BikeBehaviourInject inject);
@@ -40,7 +45,9 @@ namespace BikeDefied.BikeSystem
         private void OnDisable()
         {
             if (BehaviourCoroutine != null)
+            {
                 StopCoroutine(BehaviourCoroutine);
+            }
         }
     }
 }

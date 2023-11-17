@@ -15,7 +15,9 @@ namespace BikeDefied.Game
         private void OnEnable()
         {
             if (_endLevel != null)
+            {
                 _endLevel.StateChanged += OnStateChanged;
+            }
 
             IsAlive = true;
         }

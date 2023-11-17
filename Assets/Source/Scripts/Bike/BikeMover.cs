@@ -12,6 +12,7 @@ namespace BikeDefied.BikeSystem
         private float _accelerationMultiply = 1f;
 
         public float UpdateAccelerationMultiply { set => _accelerationMultiply = Mathf.Clamp(value, 1f, 5f); }
+        
         public Rigidbody SelfRigidbody { get; private set; }
 
         private void Start()
@@ -25,7 +26,9 @@ namespace BikeDefied.BikeSystem
                 float horizontal = InputHandler.Horizontal;
 
                 if (horizontal != 0)
+                {
                     Move(horizontal);
+                }
             }));
         }
 

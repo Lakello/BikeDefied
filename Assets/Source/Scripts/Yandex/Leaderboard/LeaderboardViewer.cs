@@ -7,8 +7,6 @@ namespace BikeDefied.Yandex.Leaders
     [RequireComponent(typeof(LeaderboardModel))]
     public class LeaderboardViewer : MonoBehaviour
     {
-        [SerializeField] private LeaderboardPlayerDataHandler _playerDataPrefab;
-        [SerializeField] private Transform _content;
         [SerializeField] private int _countVisiblePlayers;
         [SerializeField] private bool _isAuthorizedEmulation;
         [SerializeField] private bool _isHideIfNotAuthorized;
@@ -34,20 +32,28 @@ namespace BikeDefied.Yandex.Leaders
             {
 #if !UNITY_EDITOR
                 if (!PlayerAccount.HasPersonalProfileDataPermission)
+                {
                     PlayerAccount.RequestPersonalProfileDataPermission();
+                }
 #endif
                 if (_showCoroutine != null)
+                {
                     StopCoroutine(_showCoroutine);
+                }
 
                 _showCoroutine = StartCoroutine(ShowLeaderboard());
             }
             else if (_isHideIfNotAuthorized)
+            {
                 gameObject.SetActive(false);
+            }
             else
+            {
                 ShowBestScore();
+            }
         }
 
-        public void ShowBestScore()
+        private void ShowBestScore()
         {
             var data = _model.GetPlayerData();
 
@@ -66,7 +72,7 @@ namespace BikeDefied.Yandex.Leaders
             CreatePlayerDataInTable(_model.GetPlayersData(count));
         }
 
-        public void CreatePlayerDataInTable(LeaderboardPlayerData[] datas)
+        private void CreatePlayerDataInTable(LeaderboardPlayerData[] datas)
         {
             foreach (var data in datas)
             {

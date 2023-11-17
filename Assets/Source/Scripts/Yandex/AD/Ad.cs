@@ -18,7 +18,9 @@ namespace BikeDefied.Yandex.AD
         public void Add()
         {
             if (++_currentCountOver % _countOverBetweenShowsAd == 0)
+            {
                 Show();
+            }
         }
 
         private void Show()

@@ -10,31 +10,23 @@ namespace BikeDefied
         private TMachine _stateMachine;
         private readonly List<Subscription> _subscribtions = new List<Subscription>();
 
-        private struct Subscription
-        {
-            public ISubject Subject;
-            public Action Observer;
-
-            public Subscription(ISubject subject, Action observer)
-            {
-                Subject = subject;
-                Observer = observer;
-            }
-        }
-
-        public TransitionInitializer(TMachine stateMachine) => 
+        public TransitionInitializer(TMachine stateMachine) =>
             _stateMachine = stateMachine;
 
         public void OnEnable()
         {
             if (_subscribtions != null)
+            {
                 Subscribe();
+            }
         }
 
         public void OnDisable()
         {
             if (_subscribtions != null)
+            {
                 UnSubscribe();
+            }
         }
 
         public void InitTransition<TTargetState>(ISubject subject, Action reloadScene = null) 
@@ -50,13 +42,29 @@ namespace BikeDefied
         private void Subscribe()
         {
             foreach (var action in _subscribtions)
+            {
                 action.Subject.ActionEnded += action.Observer;
+            }
         }
 
         private void UnSubscribe()
         {
             foreach (var action in _subscribtions)
+            {
                 action.Subject.ActionEnded -= action.Observer;
+            }
+        }
+        
+        private struct Subscription
+        {
+            public ISubject Subject;
+            public Action Observer;
+
+            public Subscription(ISubject subject, Action observer)
+            {
+                Subject = subject;
+                Observer = observer;
+            }
         }
     }
 }

@@ -27,29 +27,39 @@ namespace BikeDefied.Yandex.Saves
                     setter: (value) =>
                     {
                         if (value == default)
+                        {
                             throw new ArgumentNullException(nameof(value));
+                        }
 
                         bool isSetted = true;
 
                         if (ContainsLevelInfo(value, out int index))
                         {
                             if (!TryUpdateLevelInfo(value, index))
+                            {
                                 isSetted = false;
+                            }
                         }
                         else
+                        {
                             AddLevelInfo(value);
+                        }
 
                         if (isSetted)
+                        {
                             Save((Action<LevelInfo>)_playerDataEvents[typeof(LevelInfo)], value);
+                        }
                     }),
 
                 [typeof(CurrentLevel)] = new SaveAccessMethodsHolder<CurrentLevel>(
-                    getter: (_) => 
+                    getter: (_) =>
                         _playerData.CurrentLevel,
                     setter: (value) =>
                     {
                         if (value == default)
+                        {
                             throw new ArgumentNullException(nameof(value));
+                        }
 
                         if (_playerData.CurrentLevel.Index != value.Index)
                         {
@@ -59,7 +69,7 @@ namespace BikeDefied.Yandex.Saves
                     }),
 
                 [typeof(HintDisplay)] = new SaveAccessMethodsHolder<HintDisplay>(
-                    getter: (_) => 
+                    getter: (_) =>
                         _playerData.HintDisplay,
                     setter: (value) =>
                     {
@@ -76,7 +86,9 @@ namespace BikeDefied.Yandex.Saves
                     setter: (value) =>
                     {
                         if (_playerData.UnmuteSound.VolumePercent == value.VolumePercent)
+                        {
                             return;
+                        }
                         
                         _playerData.UnmuteSound = value;
                         Save();
@@ -147,14 +159,14 @@ namespace BikeDefied.Yandex.Saves
         public void Init()
         {
 #if !UNITY_EDITOR
-            PlayerAccount.GetCloudSaveData(onSuccessCallback);
+            PlayerAccount.GetCloudSaveData(OnSuccessCallback);
 #else
-            _yandexSimulator.Init(onSuccessCallback);
+            _yandexSimulator.Init(OnSuccessCallback);
 #endif
 
             return;
 
-            void onSuccessCallback(string data)
+            void OnSuccessCallback(string data)
             {
                 var playerData = JsonUtility.FromJson<PlayerData>(data);
 

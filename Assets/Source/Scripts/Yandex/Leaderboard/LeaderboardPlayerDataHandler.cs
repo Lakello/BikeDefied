@@ -13,10 +13,11 @@ namespace BikeDefied.Yandex.Leaders
         [SerializeField] private TMP_Text _name;
         [SerializeField] private TMP_Text _score;
 
-        public Type SelfType => GetType();
-        public GameObject SelfGameObject => gameObject;
-
         public event Action<IPoolingObject<LeaderboardPlayerData>> Disabled;
+        
+        public Type SelfType => GetType();
+        
+        public GameObject SelfGameObject => gameObject;
 
         private void OnDisable() =>
             Disabled?.Invoke(this);

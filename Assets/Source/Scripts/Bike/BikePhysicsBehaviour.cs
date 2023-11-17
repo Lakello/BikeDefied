@@ -47,25 +47,35 @@ namespace BikeDefied.BikeSystem
             _isAlive = true;
 
             if (_play != null)
+            {
                 _play.StateChanged += OnGameStateChanged;
+            }
         }
 
         private void OnDisable()
         {
             if (_play != null)
+            {
                 _play.StateChanged -= OnGameStateChanged;
+            }
 
             if (_movePhysicsCoroutine != null)
+            {
                 StopCoroutine(_movePhysicsCoroutine);
+            }
         }
 
         public void OnSceneLoaded<TState>(GameStateMachine machine)
             where TState : State<GameStateMachine>
         {
             if (typeof(TState) == typeof(MenuState))
+            {
                 _bike.isKinematic = _backWheel.isKinematic = _frontWheel.isKinematic = true;
+            }
             else if (typeof(TState) == typeof(PlayLevelState))
+            {
                 _bike.isKinematic = _backWheel.isKinematic = _frontWheel.isKinematic = false;
+            }
         }
 
         private bool OnGameStateChanged()
@@ -81,9 +91,13 @@ namespace BikeDefied.BikeSystem
             while (_isAlive)
             {
                 if (_isGrounded)
+                {
                     _bike.centerOfMass = new Vector3(0, CalculateMassCenter(_maxGroundMassCenter, _minGroundMassCenter), 0);
+                }
                 else
+                {
                     _bike.centerOfMass = new Vector3(0, CalculateMassCenter(_maxFlyMassCenter, _minFlyMassCenter), 0);
+                }
 
                 yield return null;
             }

@@ -22,7 +22,9 @@ namespace BikeDefied.CameraSystem
         private void OnEnable()
         {
             if (_endLevel != null)
+            {
                 _endLevel.StateChanged += OnStateChanged;
+            }
         }
 
         private void OnDisable()

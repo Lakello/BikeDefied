@@ -10,7 +10,9 @@
             set
             {
                 if (string.IsNullOrEmpty(_value))
+                {
                     _value = value;
+                }
             }
         }
     }

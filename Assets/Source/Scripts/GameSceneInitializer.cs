@@ -24,7 +24,6 @@ namespace BikeDefied
             foreach (var window in _windows)
             {
                 var state = machine.WindowStateMachine.TryGetState<WindowState>(window);
-                
                 state.Init(window);
             }
         }

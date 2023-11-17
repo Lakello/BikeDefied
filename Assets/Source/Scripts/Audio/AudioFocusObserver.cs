@@ -22,7 +22,9 @@ namespace BikeDefied.AudioSystem
         public void Dispose()
         {
             if (_focusObserver != null)
+            {
                 _focusObserver.FocusChanged -= OnFocusChanged;
+            }
         }
 
         private void OnFocusChanged(bool focus)

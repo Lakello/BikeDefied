@@ -15,7 +15,9 @@ namespace BikeDefied.TypedScenes
             get
             {
                 if (_instance == null)
+                {
                     Initialize();
+                }
 
                 return _instance;
             }

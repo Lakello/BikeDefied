@@ -1,4 +1,6 @@
 ﻿namespace BikeDefied.FSM.GameWindow.States
 {
-    public class OverWindowState : WindowState { }
+    public class OverWindowState : WindowState
+    {
+    }
 }

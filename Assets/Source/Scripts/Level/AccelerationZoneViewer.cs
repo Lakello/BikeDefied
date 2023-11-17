@@ -9,8 +9,8 @@ namespace BikeDefied.LevelComponents
         [SerializeField] private SpriteRenderer _elementPrefab;
         [SerializeField] private float _speedAlphaChanged;
 
-        [SerializeField, Range(0f, 1f)] private float _minAlpha;
-        [SerializeField, Range(0f, 1f)] private float _maxAlpha;
+        [SerializeField] [Range(0f, 1f)] private float _minAlpha;
+        [SerializeField] [Range(0f, 1f)] private float _maxAlpha;
 
         [SerializeField] private float _timeChangeCurrentIndex;
         [SerializeField] private bool _isUseParentScaleY;
@@ -85,9 +85,13 @@ namespace BikeDefied.LevelComponents
                 _color = _elements[i].color;
 
                 if (i == _currentIndex)
+                {
                     _color.a = _maxAlpha;
+                }
                 else
+                {
                     _color.a -= _speedAlphaChanged * Time.deltaTime;
+                }
 
                 _elements[i].color = _color;
             }

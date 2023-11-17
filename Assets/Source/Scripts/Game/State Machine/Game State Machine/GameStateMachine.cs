@@ -8,8 +8,8 @@ namespace BikeDefied.FSM.Game
     {
         public WindowStateMachine WindowStateMachine { get; }
 
-        public GameStateMachine(WindowStateMachine windowStateMachine, 
-            Func<Dictionary<Type, State<GameStateMachine>>> getStates) 
+        public GameStateMachine(WindowStateMachine windowStateMachine,
+            Func<Dictionary<Type, State<GameStateMachine>>> getStates)
             : base(getStates) =>
             WindowStateMachine = windowStateMachine;
 

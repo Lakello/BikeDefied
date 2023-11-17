@@ -15,6 +15,7 @@ namespace BikeDefied.Yandex.Leaders
     public class LeaderboardModel : MonoBehaviour
     {
         private readonly int _defaultRank = 1;
+        private readonly YandexEmulator _yandexEmulator = new YandexEmulator();
         
         [SerializeField] private Transform _content;
         [SerializeField] private LeaderboardPlayerDataHandler _playerDataPrefab;
@@ -24,14 +25,14 @@ namespace BikeDefied.Yandex.Leaders
 
         private ISaver _saver;
         private ObjectSpawner<LeaderboardPlayerData> _playerDataSpawner;
-        private YandexEmulator _yandexEmulator = new YandexEmulator();
         private Dictionary<PlayerIconType, Sprite> _playerIcons;
 
         private LeaderboardEntryResponse[] _allPlayers;
         private LeaderboardEntryResponse _playerEntry;
 
         public int CountPlayers => _allPlayers.Length;
-        public int GetCurrentLevelScore => _saver.Get(new LevelInfo(_saver.Get<CurrentLevel>().Index, 0)).BestScore;
+
+        private int GetCurrentLevelScore => _saver.Get(new LevelInfo(_saver.Get<CurrentLevel>().Index, 0)).BestScore;
 
         [Inject]
         private void Inject(ISaver saver)
@@ -76,7 +77,9 @@ namespace BikeDefied.Yandex.Leaders
                 string name = _allPlayers[i].player.publicName;
 
                 if (string.IsNullOrEmpty(name))
+                {
                     name = GetLocalizationAnonymousName();
+                }
 
                 data[i] = GetPlayerData(_allPlayers[i].rank, name, _allPlayers[i].score);
             }
@@ -85,24 +88,7 @@ namespace BikeDefied.Yandex.Leaders
 
             return data;
         }
-
-        private LeaderboardPlayerData GetPlayerData(int rank, string name, int score)
-        {
-            int iconIndex = rank - 1;
-            iconIndex = Mathf.Clamp(iconIndex, 0, Enum.GetNames(typeof(PlayerIconType)).Length - 1);
-
-            if (!_playerIcons.TryGetValue((PlayerIconType)iconIndex, out Sprite avatar))
-                throw new NullReferenceException();
-
-            return new LeaderboardPlayerData
-            {
-                Rank = rank.ToString(),
-                Name = name,
-                Score = score.ToString(),
-                Avatar = avatar
-            };
-        }
-
+        
         public IEnumerator UpdateEntries()
         {
             bool isSuccess = false;
@@ -121,7 +107,9 @@ namespace BikeDefied.Yandex.Leaders
 #endif
 
             while (!isSuccess)
+            {
                 yield return null;
+            }
         }
 
         public IEnumerator UpdatePlayerEntry()
@@ -142,7 +130,9 @@ namespace BikeDefied.Yandex.Leaders
 #endif
 
             while (!isSuccess)
+            {
                 yield return null;
+            }
         }
 
         public string GetLocalizationAnonymousName()
@@ -156,6 +146,25 @@ namespace BikeDefied.Yandex.Leaders
             };
         }
 
+        private LeaderboardPlayerData GetPlayerData(int rank, string name, int score)
+        {
+            int iconIndex = rank - 1;
+            iconIndex = Mathf.Clamp(iconIndex, 0, Enum.GetNames(typeof(PlayerIconType)).Length - 1);
+
+            if (!_playerIcons.TryGetValue((PlayerIconType)iconIndex, out Sprite avatar))
+            {
+                throw new NullReferenceException();
+            }
+
+            return new LeaderboardPlayerData
+            {
+                Rank = rank.ToString(),
+                Name = name,
+                Score = score.ToString(),
+                Avatar = avatar
+            };
+        }
+
         private string GetLeaderboardName() =>
             $"Level{_saver.Get<CurrentLevel>().Index + 1}";
 
@@ -166,7 +175,9 @@ namespace BikeDefied.Yandex.Leaders
 
             int score = levelInfo.BestScore;
             if (PlayerAccount.IsAuthorized)
+            {
                 Leaderboard.SetScore(GetLeaderboardName(), score);
+            }
 #endif
         }
     }

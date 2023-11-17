@@ -10,7 +10,7 @@ namespace BikeDefied.FSM
 
         public State<TMachine> CurrentState { get; private set; }
 
-        protected StateMachine(Func<Dictionary<Type, State<TMachine>>> getStates) => 
+        protected StateMachine(Func<Dictionary<Type, State<TMachine>>> getStates) =>
             _states = getStates();
 
         public void Dispose() =>
@@ -20,10 +20,14 @@ namespace BikeDefied.FSM
             where TState : State<TMachine>
         {
             if (_states.ContainsKey(typeof(TState)) == false)
+            {
                 throw new NullReferenceException(nameof(_states));
+            }
 
             if (!_states.TryGetValue(typeof(TState), out State<TMachine> state))
+            {
                 return;
+            }
             
             CurrentState?.Exit();
             CurrentState = state;

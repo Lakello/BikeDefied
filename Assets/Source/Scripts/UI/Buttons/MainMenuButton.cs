@@ -1,4 +1,6 @@
 ﻿namespace BikeDefied.UI.Buttons
 {
-    public class MainMenuButton : EventTriggerButton { }
+    public class MainMenuButton : EventTriggerButton
+    {
+    }
 }

@@ -21,7 +21,9 @@ namespace BikeDefied.Game.Character
         private void OnDisable()
         {
             if (_endLevel != null)
+            {
                 _endLevel.LateStateChanged -= OnStateChanged;
+            }
         }
 
         private void OnCollisionEnter(Collision collision)

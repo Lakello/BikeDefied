@@ -1,4 +1,6 @@
 ﻿namespace BikeDefied.Yandex.Saves.Data
 {
-    public interface IPlayerData { }
+    public interface IPlayerData
+    {
+    }
 }

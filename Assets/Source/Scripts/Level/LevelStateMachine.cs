@@ -15,7 +15,9 @@ namespace BikeDefied.LevelComponents
         public void EnterIn(int index)
         {
             if (index < 0 || index > _states.Count - 1)
+            {
                 throw new ArgumentOutOfRangeException("index");
+            }
 
             _currentState?.Exit();
             _currentState = _states[index];

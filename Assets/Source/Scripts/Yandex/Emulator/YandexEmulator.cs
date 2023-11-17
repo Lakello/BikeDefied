@@ -25,7 +25,7 @@ namespace BikeDefied.Yandex.Emulator
         {
             int rank = 0;
 
-            LeaderboardEntryResponse getEntry()
+            LeaderboardEntryResponse GetEntry()
             {
                 LeaderboardEntryResponse entry = new LeaderboardEntryResponse();
                 PlayerAccountProfileDataResponse player = new PlayerAccountProfileDataResponse();
@@ -44,9 +44,13 @@ namespace BikeDefied.Yandex.Emulator
             for (int i = 0; i < count; i++)
             {
                 if (i + 1 == _playerRank)
+                {
                     _allPlayersSim[i] = GetLeaderboardPlayerEntry();
+                }
                 else
-                    _allPlayersSim[i] = getEntry();
+                {
+                    _allPlayersSim[i] = GetEntry();
+                }
             }
 
             return _allPlayersSim;

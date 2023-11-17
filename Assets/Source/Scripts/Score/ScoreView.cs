@@ -42,37 +42,51 @@ namespace BikeDefied.ScoreSystem
         private void OnEnable()
         {
             if (_counters != null && _counters.Count >= 1)
+            {
                 SubscribeCounters();
+            }
 
             if (_endLevel != null)
+            {
                 _endLevel.StateChanged += OnStateChanged;
+            }
         }
 
         private void OnDisable()
         {
             if (_counters != null && _counters.Count >= 1)
+            {
                 UnSubscribeCounters();
+            }
 
             if (_endLevel != null)
+            {
                 _endLevel.StateChanged -= OnStateChanged;
+            }
         }
 
         private void SubscribeCounters()
         {
             foreach (IScoreCounter counter in _counters)
+            {
                 counter.ScoreAdding += OnScoreAdding;
+            }
         }
 
         private void UnSubscribeCounters()
         {
             foreach (IScoreCounter counter in _counters)
+            {
                 counter.ScoreAdding -= OnScoreAdding;
+            }
         }
 
         private bool OnStateChanged()
         {
             if (_totalScoreShowCoroutine != null)
+            {
                 StopCoroutine(_totalScoreShowCoroutine);
+            }
 
             SaveScore();
 

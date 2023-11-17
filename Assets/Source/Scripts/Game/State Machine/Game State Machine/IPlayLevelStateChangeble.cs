@@ -1,4 +1,6 @@
 ﻿namespace BikeDefied.FSM.Game
 {
-    public interface IPlayLevelStateChangeble : IStateChangeble { }
+    public interface IPlayLevelStateChangeble : IStateChangeble
+    {
+    }
 }

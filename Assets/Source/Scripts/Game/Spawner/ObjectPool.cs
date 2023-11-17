@@ -31,7 +31,9 @@ namespace BikeDefied.Game.Spawner
         private void Add(IPoolingObject<TInit> @object)
         {
             if (!_objects.ContainsKey(@object.SelfType))
+            {
                 AddType(@object.SelfType);
+            }
 
             if (_objects.TryGetValue(@object.SelfType, out Queue<IPoolingObject<TInit>> playersData))
             {

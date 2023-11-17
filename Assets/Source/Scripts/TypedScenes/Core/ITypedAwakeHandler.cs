@@ -3,5 +3,5 @@
     public interface ITypedAwakeHandler
     {
         void OnSceneAwake();
-    } 
+    }
 }

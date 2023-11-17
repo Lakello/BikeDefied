@@ -14,6 +14,7 @@ namespace BikeDefied.BikeSystem
         private float _angle;
 
         private float NormalVelocity => Mathf.Abs(_bikeRigidbody.velocity.z / _maxVelocity);
+        
         private float Direction => Mathf.Clamp(_bikeRigidbody.velocity.z, -1, 1);
 
         [Inject]

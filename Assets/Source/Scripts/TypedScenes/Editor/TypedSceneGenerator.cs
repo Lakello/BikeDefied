@@ -74,14 +74,18 @@ namespace BikeDefied.TypedScenes.Editor
             string loadingStatement = "LoadScene";
 
             if (isStateLoad)
+            {
                 loadingStatement += "<TState>";
+            }
 
             loadingStatement += "(_sceneName, loadSceneMode";
 
             if (isStateLoad)
             {
                 if (machine != null)
+                {
                     AddParameter(machine, nameof(machine));
+                }
 
                 var targetTypeParameter = new CodeTypeParameter("TState");
 
@@ -94,7 +98,9 @@ namespace BikeDefied.TypedScenes.Editor
             }
 
             if (parameterType != null)
+            {
                 AddParameter(parameterType, "argument");
+            }
 
             if (asyncLoad)
             {

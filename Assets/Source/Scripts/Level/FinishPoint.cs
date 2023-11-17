@@ -2,5 +2,7 @@
 
 namespace BikeDefied.LevelComponents
 {
-    public class FinishPoint : MonoBehaviour { }
+    public class FinishPoint : MonoBehaviour
+    {
+    }
 }

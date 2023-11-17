@@ -6,7 +6,9 @@ namespace BikeDefied.FSM.GameWindow
     public class WindowStateMachine : StateMachine<WindowStateMachine>
     {
         public WindowStateMachine(Func<Dictionary<Type, State<WindowStateMachine>>> getStates)
-            : base(getStates) { }
+            : base(getStates)
+        {
+        }
 
         public event Action StateUpdated;
 

@@ -14,7 +14,9 @@ namespace BikeDefied.UI.Buttons
         public virtual void OnClick()
         {
             if (!_isInteractable)
+            {
                 return;
+            }
 
             ActionEnded?.Invoke();
         }

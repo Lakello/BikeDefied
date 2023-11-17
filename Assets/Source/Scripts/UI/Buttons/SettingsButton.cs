@@ -1,4 +1,6 @@
 ﻿namespace BikeDefied.UI.Buttons
 {
-    public class SettingsButton : EventTriggerButton { }
+    public class SettingsButton : EventTriggerButton
+    {
+    }
 }

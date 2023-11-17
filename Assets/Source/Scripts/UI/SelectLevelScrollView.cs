@@ -44,7 +44,9 @@ namespace BikeDefied.UI
         private void OnEnable()
         {
             if (_layoutGroup != null)
+            {
                 _layoutGroup.LayoutUpdated += UpdateContentPosition;
+            }
         }
 
         private void OnDisable() =>
@@ -133,9 +135,13 @@ namespace BikeDefied.UI
                 centerChild = _content.GetChild(i).gameObject;
                 centerChild.transform.DOKill();
                 if (i == _currentCenterChildIndex)
+                {
                     centerChild.transform.DOScale(_centerScale * Vector3.one, _scaleTime);
+                }
                 else
+                {
                     centerChild.transform.DOScale(_unCenterScale * Vector3.one, _scaleTime);
+                }
             }
         }
 
@@ -154,8 +160,11 @@ namespace BikeDefied.UI
                     _currentCenterChildIndex = i;
                 }
                 else
+                {
                     break;
+                }
             }
+            
             return closest;
         }
 

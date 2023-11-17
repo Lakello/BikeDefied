@@ -11,21 +11,41 @@ namespace BikeDefied.UI
 
         private bool _childForceExpandHeight = true;
         private bool _childControlHeight = true;
-
-        public float Spacing 
-        {
-            get => _spacing; 
-            private set => SetProperty(ref _spacing, value); 
-        }
-
+        private int _capacity = 10;
+        private Vector2[] _sizes = new Vector2[10];
+        
         public event Action LayoutUpdated;
+
+        public float Spacing
+        {
+            get => _spacing;
+            private set => SetProperty(ref _spacing, value);
+        }
 
         protected enum Axis
         {
             Width,
-            Height
+            Height,
         };
 
+        public override void CalculateLayoutInputHorizontal()
+        {
+            base.CalculateLayoutInputHorizontal();
+            CalculationAlongAxis(Axis.Width);
+        }
+
+        public override void CalculateLayoutInputVertical() =>
+            CalculationAlongAxis(Axis.Height);
+
+        public override void SetLayoutHorizontal() =>
+            SetChildrenAlongAxis(Axis.Width);
+
+        public override void SetLayoutVertical()
+        {
+            SetChildrenAlongAxis(Axis.Height);
+            LayoutUpdated?.Invoke();
+        }
+        
         protected void CalculationAlongAxis(Axis axis)
         {
             float combinedPadding = axis == 0 ? padding.horizontal : padding.vertical;
@@ -115,14 +135,20 @@ namespace BikeDefied.UI
                 if (surplusSpace > 0)
                 {
                     if (GetTotalFlexibleSize((int)Axis.Width) == 0)
+                    {
                         pos = GetStartOffset((int)Axis.Width, GetTotalPreferredSize((int)Axis.Width) - (axis == 0 ? padding.horizontal : padding.vertical));
+                    }
                     else if (GetTotalFlexibleSize((int)Axis.Width) > 0)
+                    {
                         itemFlexibleMultiplier = surplusSpace / GetTotalFlexibleSize((int)Axis.Width);
+                    }
                 }
 
                 float minMaxLerp = 0;
                 if (GetTotalMinSize((int)Axis.Width) != GetTotalPreferredSize((int)Axis.Width))
+                {
                     minMaxLerp = Mathf.Clamp01((size - GetTotalMinSize((int)Axis.Width)) / (GetTotalPreferredSize((int)Axis.Width) - GetTotalMinSize((int)Axis.Width)));
+                }
 
                 for (int i = 0; i < rectChildren.Count; i++)
                 {
@@ -148,7 +174,9 @@ namespace BikeDefied.UI
                         child.sizeDelta = sizeDelta;
 
                         Vector2 anchoredPosition = child.anchoredPosition;
-                        anchoredPosition[(int)Axis.Width] = (axis == 0) ? (pos + requiredSpace * child.pivot[(int)Axis.Width] * 1f) : (-pos - requiredSpace * (1f - child.pivot[(int)Axis.Width]) * 1f);
+                        anchoredPosition[(int)Axis.Width] = axis == 0 
+                            ? pos + requiredSpace * child.pivot[(int)Axis.Width] * 1f
+                            : -pos - requiredSpace * (1f - child.pivot[(int)Axis.Width]) * 1f;
                         child.anchoredPosition = anchoredPosition;
                         pos += childSize + Spacing;
                     }
@@ -168,6 +196,7 @@ namespace BikeDefied.UI
                             float offsetInCell = (childSize - child.sizeDelta[(int)Axis.Width]) * alignmentOnAxis;
                             SetChildAlongAxisWithScale(child, (int)Axis.Width, pos + offsetInCell, scaleFactor);
                         }
+                        
                         pos += childSize * scaleFactor + Spacing;
                     }
                 }
@@ -197,45 +226,31 @@ namespace BikeDefied.UI
             }
 
             if (childForceExpand)
+            {
                 flexible = Mathf.Max(flexible, 1);
-        }
-
-        public override void CalculateLayoutInputHorizontal()
-        {
-            base.CalculateLayoutInputHorizontal();
-            CalculationAlongAxis(Axis.Width);
-        }
-
-        public override void CalculateLayoutInputVertical() =>
-            CalculationAlongAxis(Axis.Height);
-
-        public override void SetLayoutHorizontal() =>
-            SetChildrenAlongAxis(Axis.Width);
-
-        public override void SetLayoutVertical()
-        {
-            SetChildrenAlongAxis(Axis.Height);
-            LayoutUpdated?.Invoke();
+            }
         }
 
 #if UNITY_EDITOR
-
-        private int _capacity = 10;
-        private Vector2[] _sizes = new Vector2[10];
-
         protected virtual void Update()
         {
             if (Application.isPlaying)
+            {
                 return;
+            }
 
             int count = transform.childCount;
 
             if (count > _capacity)
             {
                 if (count > _capacity * 2)
+                {
                     _capacity = count;
+                }
                 else
+                {
                     _capacity *= 2;
+                }
 
                 _sizes = new Vector2[_capacity];
             }
@@ -252,7 +267,9 @@ namespace BikeDefied.UI
             }
 
             if (dirty)
+            {
                 UnityEngine.UI.LayoutRebuilder.MarkLayoutForRebuild(transform as RectTransform);
+            }
         }
 
 #endif

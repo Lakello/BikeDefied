@@ -12,7 +12,9 @@ namespace BikeDefied.TypedScenes.Editor
             Directory.CreateDirectory(TypedSceneSettings.SavingDirectory);
 
             if (File.Exists(path) && File.ReadAllText(path) == sourceCode)
+            {
                 return;
+            }
 
             File.WriteAllText(path, sourceCode);
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);

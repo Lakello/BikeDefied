@@ -8,5 +8,5 @@
         public const string ClassExtension = ".cs";
         public const string SceneExtension = ".unity";
         public const string MetaExtension = ".meta";
-    } 
+    }
 }

@@ -2,5 +2,7 @@ using UnityEngine;
 
 namespace BikeDefied.Other
 {
-    public class Ground : MonoBehaviour { }
+    public class Ground : MonoBehaviour
+    {
+    }
 }

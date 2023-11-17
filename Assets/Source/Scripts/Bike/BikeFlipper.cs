@@ -28,9 +28,13 @@ namespace BikeDefied.BikeSystem
                 float horizontal = InputHandler.Horizontal;
 
                 if (horizontal != 0)
+                {
                     Flip(horizontal);
+                }
                 else if (_bikeRigidbody.isKinematic == false)
+                {
                     _bikeRigidbody.angularVelocity = new Vector3(0, _bikeRigidbody.velocity.y, _bikeRigidbody.velocity.z);
+                }
             }));
         }
 

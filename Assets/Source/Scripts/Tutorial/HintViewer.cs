@@ -21,7 +21,9 @@ namespace BikeDefied.Tutorial
             _toggle.isOn = _saver.Get<HintDisplay>().IsHintDisplay;
 
             foreach (var hint in _hints)
+            {
                 hint.StartShow(_toggle.isOn);
+            }
         }
 
         public void OnToggleChanged(bool value)
@@ -29,7 +31,9 @@ namespace BikeDefied.Tutorial
             _saver.Set(new HintDisplay(value));
 
             foreach (var hint in _hints)
+            {
                 hint.HindDisplayUpdated(value);
+            }
         }
     }
 }

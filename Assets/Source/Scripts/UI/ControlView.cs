@@ -12,13 +12,17 @@ namespace BikeDefied.UI
         public void Enable()
         {
             foreach (var control in _controls)
+            {
                 control.gameObject.SetActive(true);
+            }
         }
 
         public void Disable()
         {
             foreach (var control in _controls)
+            {
                 control.gameObject.SetActive(false);
+            }
         }
     }
 }

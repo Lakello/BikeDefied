@@ -12,11 +12,12 @@ namespace BikeDefied.TypedScenes.Editor
         private bool _closeOnDispose;
         
         public Scene Scene { get; private set; }
-        public string Name { get; private set; }
-        public string GUID { get; private set; }
-        public string AssetPath { get; private set; }
         
-        private AnalyzableScene() { }
+        public string Name { get; private set; }
+        
+        public string GUID { get; private set; }
+        
+        public string AssetPath { get; private set; }
 
         public static AnalyzableScene Create(string scenePath)
         {
@@ -38,14 +39,16 @@ namespace BikeDefied.TypedScenes.Editor
                 Name = name,
                 Scene = scene,
                 GUID = guid,
-                AssetPath = scene.path
+                AssetPath = scene.path,
             };
         }
 
         public void Dispose()
         {
-            if (!_closeOnDispose) return;
-            EditorSceneManager.CloseScene(Scene, true);
+            if (_closeOnDispose)
+            {
+                EditorSceneManager.CloseScene(Scene, true);
+            }
         }
     }
 }

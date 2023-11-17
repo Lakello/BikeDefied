@@ -13,7 +13,9 @@ namespace BikeDefied.InputSystem
         private void OnDisable()
         {
             if (_control != null)
+            {
                 _control.HorizontalChanged -= OnHorizontalChanged;
+            }
         }
 
         public void Init(MobileControl control)

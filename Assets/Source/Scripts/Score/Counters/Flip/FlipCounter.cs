@@ -18,8 +18,6 @@ namespace BikeDefied.ScoreSystem
         private bool _isBackFlip;
         private bool _isFrontFlip;
 
-        public override event Action<ScoreReward> ScoreAdding;
-
         public FlipCounter(float backReward, float frontReward, LayerMask mask, ScoreCounterInject inject)
             : base(inject)
         {
@@ -27,11 +25,8 @@ namespace BikeDefied.ScoreSystem
             _backReward = backReward;
             _frontReward = frontReward;
         }
-
-        private struct Flip
-        {
-            public FlipTriggerDirection[] Directions;
-        }
+        
+        public override event Action<ScoreReward> ScoreAdding;
 
         protected override void Start()
         {
@@ -47,7 +42,9 @@ namespace BikeDefied.ScoreSystem
                 Ray();
 
                 if (CheckFlip(out bool direction))
+                {
                     AddScore(direction);
+                }
             }));
         }
 
@@ -149,10 +146,14 @@ namespace BikeDefied.ScoreSystem
             if (_currentState == _currentFlip.Directions.Length - 1)
             {
                 if (_isBackFlip)
+                {
                     return _currentFlip.Directions[1] == FlipTriggerDirection.Front && _currentFlip.Directions[3] == FlipTriggerDirection.Back;
+                }
 
                 if (!_isFrontFlip)
+                {
                     return true;
+                }
                 
                 direction = true;
 
@@ -189,6 +190,11 @@ namespace BikeDefied.ScoreSystem
 
             _isBackFlip = false;
             _isFrontFlip = false;
+        }
+        
+        private struct Flip
+        {
+            public FlipTriggerDirection[] Directions;
         }
     }
 }

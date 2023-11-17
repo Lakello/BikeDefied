@@ -25,7 +25,9 @@ namespace BikeDefied.TypedScenes.Editor
                     (type, method) => method.GetParameters()[0].ParameterType));
 
             if (loadParameters.Count > 1)
+            {
                 loadParameters.Remove(null);
+            }
 
             return loadParameters;
         }
@@ -34,14 +36,18 @@ namespace BikeDefied.TypedScenes.Editor
         {
             Scene scene = analyzableScene.Scene;
             IEnumerable<Type> componentTypes = GetAllTypes(scene);
-            
-            if (componentTypes.Contains(typeof(TypedProcessor))) return false;
+
+            if (componentTypes.Contains(typeof(TypedProcessor)))
+            {
+                return false;
+            }
 
             GameObject gameObject = new GameObject("TypedProcessor");
             gameObject.AddComponent<TypedProcessor>();
             scene.GetRootGameObjects().Append(gameObject);
             Undo.RegisterCreatedObjectUndo(gameObject, "Typed processor added");
             EditorSceneManager.SaveScene(scene);
+            
             return true;
         }
 

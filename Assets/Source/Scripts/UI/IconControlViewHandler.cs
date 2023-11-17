@@ -21,7 +21,9 @@ namespace BikeDefied.UI
         private void OnDisable()
         {
             if (_checker != null)
+            {
                 _checker.GroundChanged -= OnGroundChanged;
+            }
         }
 
         private void OnGroundChanged(bool isGrouded)

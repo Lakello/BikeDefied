@@ -13,6 +13,8 @@ namespace BikeDefied.Game
         private IAudioVolumeChanger _audioVolumeChanger;
         private IEndLevelStateChangeble _endLevel;
 
+        public event Action ActionEnded;
+        
         [Inject]
         private void Inject(IAudioVolumeChanger audioVolumeChanger, GameStateInject states)
         {
@@ -21,15 +23,15 @@ namespace BikeDefied.Game
             _endLevel.LateStateChanged += OnStateChanged;
         }
 
-        public event Action ActionEnded;
-
         private void OnEnable() =>
             ActionEnded += OnActionEnded;
 
         private void OnDisable()
         {
             if (_endLevel != null)
+            {
                 _endLevel.LateStateChanged -= OnStateChanged;
+            }
         }
 
         private void OnTriggerEnter(Collider other)

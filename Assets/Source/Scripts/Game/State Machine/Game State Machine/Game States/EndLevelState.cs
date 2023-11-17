@@ -13,24 +13,31 @@ namespace BikeDefied.FSM.Game.States
         private Coroutine _gameOverWaitCoroutine;
 
         public EndLevelState(Context context, WindowStateMachine machine)
-            : base(machine) => 
+            : base(machine) =>
             _context = context;
 
         public event Func<bool> StateChanged;
+        
         public event Action LateStateChanged;
 
         public override void Enter()
         {
-            if (StateChanged != null)
+            if (StateChanged == null)
             {
-                if (_gameOverWaitCoroutine != null)
-                    _context.StopCoroutine(_gameOverWaitCoroutine);
-
-                _gameOverWaitCoroutine = _context.StartCoroutine(GameOverWait());
+                return;
             }
+            
+            if (_gameOverWaitCoroutine != null)
+            {
+                _context.StopCoroutine(_gameOverWaitCoroutine);
+            }
+
+            _gameOverWaitCoroutine = _context.StartCoroutine(GameOverWait());
         }
 
-        public override void Exit() { }
+        public override void Exit()
+        {
+        }
 
         private IEnumerator GameOverWait()
         {

@@ -2,5 +2,7 @@
 
 namespace BikeDefied.BikeSystem
 {
-    public class Bike : MonoBehaviour { }
+    public class Bike : MonoBehaviour
+    {
+    }
 }

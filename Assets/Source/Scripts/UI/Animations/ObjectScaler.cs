@@ -16,13 +16,17 @@ namespace BikeDefied.UI.Animations
         private void OnEnable()
         {
             if (_isPlayToEnable)
+            {
                 Play();
+            }
         }
 
         public void Play(Action<float> subAnimation = null, Action successAction = null)
         {
             if (_animationCoroutine != null)
+            {
                 return;
+            }
 
             _animationCoroutine = StartCoroutine(Animation(subAnimation, successAction));
         }

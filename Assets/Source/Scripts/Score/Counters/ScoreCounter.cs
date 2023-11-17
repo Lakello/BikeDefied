@@ -10,12 +10,6 @@ namespace BikeDefied.ScoreSystem
         private readonly GroundChecker _groundChecker;
         
         private Coroutine _behaviourCoroutine;
-        
-        protected Player Player { get; }
-        protected MonoBehaviour Context { get; }
-        protected Coroutine BehaviourCoroutine { set => _behaviourCoroutine ??= value; }
-        protected Transform BikeBody { get; }
-        protected bool IsGrounded { get; private set; }
 
         protected ScoreCounter(ScoreCounterInject inject)
         {
@@ -27,6 +21,16 @@ namespace BikeDefied.ScoreSystem
 
             Start();
         }
+        
+        protected Player Player { get; }
+        
+        protected MonoBehaviour Context { get; }
+        
+        protected Coroutine BehaviourCoroutine { set => _behaviourCoroutine ??= value; }
+        
+        protected Transform BikeBody { get; }
+        
+        protected bool IsGrounded { get; private set; }
 
         public abstract event Action<ScoreReward> ScoreAdding;
         

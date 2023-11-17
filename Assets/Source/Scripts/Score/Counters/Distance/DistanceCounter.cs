@@ -7,13 +7,13 @@ namespace BikeDefied.ScoreSystem
         private float _bestPosition;
         private float _reward;
 
-        private float CurrentPosition => BikeBody.position.z;
-
         public DistanceCounter(float reward, ScoreCounterInject inject)
             : base(inject) =>
             _reward = reward;
 
         public override event Action<ScoreReward> ScoreAdding;
+        
+        private float CurrentPosition => BikeBody.position.z;
 
         protected override void Start()
         {
