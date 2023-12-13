@@ -28,17 +28,21 @@ namespace BikeDefied.BikeSystem
         private void TryChangeGround(ref bool isGround, bool condition, Action<bool> action = null)
         {
             if (isGround == condition)
+            {
                 return;
+            }
             
             isGround = condition;
             action?.Invoke(isGround);
         }
 
         private bool IsGround(Collider collider) =>
-            Physics.CheckCapsule(collider.bounds.center,
+            Physics.CheckCapsule(
+                collider.bounds.center,
                 collider.bounds.center,
                 _checkRadius,
                 _groundMask,
-                QueryTriggerInteraction.Ignore);
+                QueryTriggerInteraction.Ignore
+            );
     }
 }

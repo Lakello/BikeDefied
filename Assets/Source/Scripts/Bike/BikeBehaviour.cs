@@ -25,7 +25,7 @@ namespace BikeDefied.BikeSystem
         protected bool IsGrounded { get; private set; }
         
         protected bool IsBackWheelGrounded { get; private set; }
-
+        
         protected abstract void Inject(BikeBehaviourInject inject);
 
         protected void Init(BikeBehaviourInject inject)

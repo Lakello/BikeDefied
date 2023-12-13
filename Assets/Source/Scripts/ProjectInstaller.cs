@@ -1,4 +1,6 @@
-﻿using Agava.YandexGames;
+﻿using System;
+using System.Collections.Generic;
+using Agava.YandexGames;
 using BikeDefied.AudioSystem;
 using BikeDefied.FSM;
 using BikeDefied.FSM.Game;
@@ -12,7 +14,6 @@ using BikeDefied.Yandex.AD;
 using BikeDefied.Yandex.Localization;
 using BikeDefied.Yandex.Saves;
 using Reflex.Core;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BikeDefied
@@ -65,12 +66,12 @@ namespace BikeDefied
         {
             var windowStateMachine = new WindowStateMachine(() =>
             {
-                return new Dictionary<System.Type, State<WindowStateMachine>>()
+                return new Dictionary<Type, State<WindowStateMachine>>()
                 {
                     [typeof(MenuWindowState)] = new MenuWindowState(),
                     [typeof(PlayWindowState)] = new PlayWindowState(),
                     [typeof(OverWindowState)] = new OverWindowState(),
-                    [typeof(LeaderboardWindowState)] = new LeaderboardWindowState()
+                    [typeof(LeaderboardWindowState)] = new LeaderboardWindowState(),
                 };
             });
 
@@ -84,11 +85,11 @@ namespace BikeDefied
 
             return new GameStateMachine(windowStateMachine, () =>
             {
-                return new Dictionary<System.Type, State<GameStateMachine>>()
+                return new Dictionary<Type, State<GameStateMachine>>()
                 {
                     [typeof(MenuState)] = gameMenuState,
                     [typeof(PlayLevelState)] = gamePlayState,
-                    [typeof(EndLevelState)] = gameOverState
+                    [typeof(EndLevelState)] = gameOverState,
                 };
             });
         }

@@ -1,11 +1,11 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using BikeDefied.FSM.Game;
 using BikeDefied.UI.Animations;
 using BikeDefied.Yandex.Saves;
 using BikeDefied.Yandex.Saves.Data;
 using Reflex.Attributes;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -116,14 +116,16 @@ namespace BikeDefied.ScoreSystem
         private void OnScoreAdding(ScoreReward reward)
         {
             if (reward.Value < 1)
+            {
                 return;
+            }
 
             _currentScore += reward.Value;
 
             _scoreText.text = _currentScore.ToString("0");
             _scoreScaler.Play(subAnimation: (scale) => _scoreText.alpha = scale);
 
-            if (reward.Message != "")
+            if (reward.Message != String.Empty)
             {
                 _flipMessageScaler.gameObject.SetActive(true);
                 _flipMessageText.text = reward.Message;

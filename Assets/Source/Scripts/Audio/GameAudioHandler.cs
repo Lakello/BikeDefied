@@ -14,7 +14,7 @@ namespace BikeDefied.AudioSystem
         [SerializeField] [Range(0f, 1f)] private float _maxVolumeBackgroundAudio = 0.8f;
 
         private Dictionary<AudioType, List<AudioClip>> _clips;
-        
+
         public float SmoothlyTime => _smoothlyTime;
         
         public float TimeBetweenChangeBackgroundAudio => _timeBetweenChangeBackgroundAudio;
@@ -33,7 +33,7 @@ namespace BikeDefied.AudioSystem
         }
 
         public AudioClip GetRandomAudio(AudioType audioType) =>
-            _clips.TryGetValue(audioType, out List<AudioClip> clips) 
+            _clips.TryGetValue(audioType, out List<AudioClip> clips)
                 ? clips[Random.Range(0, clips.Count)]
                 : null;
     }

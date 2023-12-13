@@ -1,5 +1,5 @@
-﻿using BikeDefied.Yandex.Saves.Data;
-using System;
+﻿using System;
+using BikeDefied.Yandex.Saves.Data;
 using UnityEngine;
 
 namespace BikeDefied.Yandex.Saves
@@ -13,8 +13,11 @@ namespace BikeDefied.Yandex.Saves
         [SerializeField] private UnmuteSound _unmuteSound = new UnmuteSound(1f);
 
         public LevelInfo[] LevelInfo { get => _levelInfo; set => _levelInfo = value; }
+        
         public CurrentLevel CurrentLevel { get => _currentLevel; set => _currentLevel = value; }
+        
         public HintDisplay HintDisplay { get => _hintDisplay; set => _hintDisplay = value; }
+        
         public UnmuteSound UnmuteSound { get => _unmuteSound; set => _unmuteSound = value; }
     }
 }

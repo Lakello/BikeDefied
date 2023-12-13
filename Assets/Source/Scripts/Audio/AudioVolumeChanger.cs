@@ -1,6 +1,6 @@
-﻿using BikeDefied.Other;
-using System;
+﻿using System;
 using System.Collections;
+using BikeDefied.Other;
 using UnityEngine;
 
 namespace BikeDefied.AudioSystem
@@ -19,9 +19,9 @@ namespace BikeDefied.AudioSystem
         private float _volumePercent = 1f;
 
         public AudioVolumeChanger(
-            AudioSource gameAudio, 
+            AudioSource gameAudio,
             AudioSource backgroundAudio,
-            GameAudioHandler audioHandler, 
+            GameAudioHandler audioHandler,
             Context context)
         {
             _gameAudioHandler = audioHandler;
@@ -51,6 +51,7 @@ namespace BikeDefied.AudioSystem
             {
                 _context.StopCoroutine(_gameAudioCoroutine);
             }
+            
             if (_backgroundAudioCoroutine != null)
             {
                 _context.StopCoroutine(_backgroundAudioCoroutine);
@@ -74,9 +75,14 @@ namespace BikeDefied.AudioSystem
             while (Application.isPlaying)
             {
                 yield return _context.StartCoroutine(SmoothlyChangeVolume(_backgroundAudio, MinVolume));
-                yield return _context.StartCoroutine(PlayClip(_backgroundAudio,
-                                                             _gameAudioHandler.GetRandomAudio(AudioType.Background),
-                                                             _gameAudioHandler.MaxVolumeBackgroundAudio));
+                yield return _context.StartCoroutine(
+                    PlayClip(
+                        _backgroundAudio,
+                        _gameAudioHandler.GetRandomAudio(AudioType.Background),
+                        _gameAudioHandler.MaxVolumeBackgroundAudio
+                    )
+                );
+                
                 yield return wait;
             }
         }

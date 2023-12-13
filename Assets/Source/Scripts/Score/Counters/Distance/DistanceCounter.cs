@@ -25,14 +25,17 @@ namespace BikeDefied.ScoreSystem
         private void TryAddScore()
         {
             if (!(MathF.Round(CurrentPosition, 1) > MathF.Round(_bestPosition, 1)))
+            {
                 return;
-
-            ScoreReward reward = new ScoreReward();
+            }
             
             _bestPosition = CurrentPosition;
-
-            reward.Message = "";
-            reward.Value = _reward;
+            
+            ScoreReward reward = new ScoreReward
+            {
+                Message = String.Empty,
+                Value = _reward,
+            };
 
             ScoreAdding?.Invoke(reward);
         }

@@ -1,11 +1,10 @@
+using System.Collections;
 using BikeDefied.FSM;
 using BikeDefied.FSM.Game;
 using BikeDefied.FSM.Game.States;
 using BikeDefied.TypedScenes;
 using Reflex.Attributes;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace BikeDefied.BikeSystem
 {

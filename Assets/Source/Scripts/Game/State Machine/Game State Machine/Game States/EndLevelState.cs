@@ -1,8 +1,8 @@
-﻿using BikeDefied.FSM.GameWindow;
+﻿using System;
+using System.Collections;
+using BikeDefied.FSM.GameWindow;
 using BikeDefied.FSM.GameWindow.States;
 using BikeDefied.Other;
-using System;
-using System.Collections;
 using UnityEngine;
 
 namespace BikeDefied.FSM.Game.States

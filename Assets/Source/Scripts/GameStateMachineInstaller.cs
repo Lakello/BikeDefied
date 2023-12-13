@@ -1,12 +1,12 @@
-﻿using BikeDefied.FSM.Game.States;
+﻿using BikeDefied.FSM;
 using BikeDefied.FSM.Game;
-using BikeDefied.Game.Character;
+using BikeDefied.FSM.Game.States;
 using BikeDefied.Game;
+using BikeDefied.Game.Character;
+using BikeDefied.TypedScenes;
 using BikeDefied.UI.Buttons;
 using Reflex.Core;
 using UnityEngine;
-using BikeDefied.TypedScenes;
-using BikeDefied.FSM;
 
 namespace BikeDefied
 {

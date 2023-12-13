@@ -20,9 +20,12 @@ namespace BikeDefied.TypedScenes.Editor
             loadParameters.AddRange(componentTypes
                 .Where(type => type.GetInterfaces()
                     .Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ISceneLoadHandler)))
-                .SelectMany(type => type.GetMethods()
+                .SelectMany(
+                    type => type.GetMethods()
                         .Where(method => method.Name == "OnSceneLoaded"),
-                    (type, method) => method.GetParameters()[0].ParameterType));
+                    (type, method) => method.GetParameters()[0].ParameterType
+                )
+            );
 
             if (loadParameters.Count > 1)
             {

@@ -1,8 +1,8 @@
-﻿using BikeDefied.FSM.Game;
-using BikeDefied.FSM.GameWindow;
+﻿using System.Collections.Generic;
 using BikeDefied.FSM;
+using BikeDefied.FSM.Game;
+using BikeDefied.FSM.GameWindow;
 using BikeDefied.TypedScenes;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BikeDefied

@@ -1,7 +1,7 @@
-﻿using BikeDefied.FSM.Game;
-using Reflex.Attributes;
-using System;
+﻿using System;
 using System.Collections;
+using BikeDefied.FSM.Game;
+using Reflex.Attributes;
 using UnityEngine;
 
 namespace BikeDefied.Game

@@ -14,6 +14,12 @@ namespace BikeDefied.UI
         private int _capacity = 10;
         private Vector2[] _sizes = new Vector2[10];
         
+        protected enum Axis
+        {
+            Width,
+            Height,
+        }
+        
         public event Action LayoutUpdated;
 
         public float Spacing
@@ -21,13 +27,7 @@ namespace BikeDefied.UI
             get => _spacing;
             private set => SetProperty(ref _spacing, value);
         }
-
-        protected enum Axis
-        {
-            Width,
-            Height,
-        };
-
+        
         public override void CalculateLayoutInputHorizontal()
         {
             base.CalculateLayoutInputHorizontal();
@@ -174,9 +174,9 @@ namespace BikeDefied.UI
                         child.sizeDelta = sizeDelta;
 
                         Vector2 anchoredPosition = child.anchoredPosition;
-                        anchoredPosition[(int)Axis.Width] = axis == 0 
-                            ? pos + requiredSpace * child.pivot[(int)Axis.Width] * 1f
-                            : -pos - requiredSpace * (1f - child.pivot[(int)Axis.Width]) * 1f;
+                        anchoredPosition[(int)Axis.Width] = axis == 0
+                            ? pos + ((requiredSpace * child.pivot[(int)Axis.Width]) * 1f)
+                            : -pos - ((requiredSpace * (1f - child.pivot[(int)Axis.Width])) * 1f);
                         child.anchoredPosition = anchoredPosition;
                         pos += childSize + Spacing;
                     }
@@ -187,6 +187,7 @@ namespace BikeDefied.UI
 
                         float childSize = Mathf.Lerp(min, preferred, minMaxLerp);
                         childSize += flexible * itemFlexibleMultiplier;
+                        
                         if (controlSize)
                         {
                             SetChildAlongAxisWithScale(child, (int)Axis.Width, pos, childSize, scaleFactor);
@@ -197,7 +198,7 @@ namespace BikeDefied.UI
                             SetChildAlongAxisWithScale(child, (int)Axis.Width, pos + offsetInCell, scaleFactor);
                         }
                         
-                        pos += childSize * scaleFactor + Spacing;
+                        pos += (childSize * scaleFactor) + Spacing;
                     }
                 }
             }

@@ -7,9 +7,9 @@ namespace BikeDefied
     public class TransitionInitializer<TMachine>
         where TMachine : StateMachine<TMachine>
     {
-        private TMachine _stateMachine;
         private readonly List<Subscription> _subscribtions = new List<Subscription>();
-
+        private readonly TMachine _stateMachine;
+        
         public TransitionInitializer(TMachine stateMachine) =>
             _stateMachine = stateMachine;
 
@@ -29,7 +29,7 @@ namespace BikeDefied
             }
         }
 
-        public void InitTransition<TTargetState>(ISubject subject, Action reloadScene = null) 
+        public void InitTransition<TTargetState>(ISubject subject, Action reloadScene = null)
             where TTargetState : State<TMachine>
         {
             var transition = new Transition<TMachine, TTargetState>(_stateMachine, reloadScene);

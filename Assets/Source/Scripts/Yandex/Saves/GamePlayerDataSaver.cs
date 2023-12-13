@@ -1,9 +1,9 @@
-﻿using Agava.YandexGames;
-using BikeDefied.Yandex.Emulator;
-using BikeDefied.Yandex.Saves.Data;
-using System;
+﻿using System;
 using System.Collections;
 using System.Linq;
+using Agava.YandexGames;
+using BikeDefied.Yandex.Emulator;
+using BikeDefied.Yandex.Saves.Data;
 using UnityEngine;
 
 namespace BikeDefied.Yandex.Saves
@@ -92,7 +92,7 @@ namespace BikeDefied.Yandex.Saves
                         
                         _playerData.UnmuteSound = value;
                         Save();
-                    })
+                    }),
             };
         }
 
@@ -110,7 +110,7 @@ namespace BikeDefied.Yandex.Saves
             }
         }
 
-        public void Set<TData>(TData value = default) 
+        public void Set<TData>(TData value = default)
             where TData : class, IPlayerData
         {
             if (_accessMethodsHolders.ContainsKey(typeof(TData)))
@@ -140,7 +140,7 @@ namespace BikeDefied.Yandex.Saves
             }
         }
 
-        public void UnsubscribeValueUpdated<TData>(Action<TData> subAction) 
+        public void UnsubscribeValueUpdated<TData>(Action<TData> subAction)
             where TData : class, IPlayerData
         {
             if (_playerDataEvents.ContainsKey(typeof(TData)))
@@ -229,7 +229,9 @@ namespace BikeDefied.Yandex.Saves
             var newLevelInfo = new LevelInfo[_playerData.LevelInfo.Length + 1];
 
             for (int i = 0; i < _playerData.LevelInfo.Length; i++)
+            {
                 newLevelInfo[i] = _playerData.LevelInfo[i];
+            }
 
             newLevelInfo[^1] = value;
 

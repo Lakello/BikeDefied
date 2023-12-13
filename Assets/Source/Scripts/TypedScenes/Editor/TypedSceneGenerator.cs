@@ -1,11 +1,11 @@
 ﻿#if UNITY_EDITOR
-using BikeDefied.FSM.Game;
 using System;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
+using System.Reflection;
+using BikeDefied.FSM.Game;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 
 namespace BikeDefied.TypedScenes.Editor
@@ -25,7 +25,7 @@ namespace BikeDefied.TypedScenes.Editor
                 "TypedScene",
                 new CodeTypeReference[] { new CodeTypeReference(typeof(GameStateMachine)) }));
 
-            targetClass.TypeAttributes = System.Reflection.TypeAttributes.Class | System.Reflection.TypeAttributes.Public;
+            targetClass.TypeAttributes = TypeAttributes.Class | TypeAttributes.Public;
 
             AddConstantValue(targetClass, typeof(string), "_sceneName", sceneName);
 
@@ -60,7 +60,7 @@ namespace BikeDefied.TypedScenes.Editor
 
         private static void AddLoadingMethod(
             CodeTypeDeclaration targetClass,
-            Type parameterType = null, 
+            Type parameterType = null,
             bool asyncLoad = false,
             bool isStateLoad = false,
             Type machine = null)
@@ -68,7 +68,7 @@ namespace BikeDefied.TypedScenes.Editor
             CodeMemberMethod loadMethod = new CodeMemberMethod
             {
                 Name = asyncLoad ? "LoadAsync" : "Load",
-                Attributes = MemberAttributes.Public | MemberAttributes.Static
+                Attributes = MemberAttributes.Static | MemberAttributes.Public,
             };
 
             string loadingStatement = "LoadScene";

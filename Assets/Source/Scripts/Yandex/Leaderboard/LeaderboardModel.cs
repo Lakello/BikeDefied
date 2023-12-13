@@ -1,13 +1,13 @@
-﻿using Agava.YandexGames;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Agava.YandexGames;
 using BikeDefied.Game.Spawner;
 using BikeDefied.Yandex.Emulator;
 using BikeDefied.Yandex.Localization;
 using BikeDefied.Yandex.Saves;
 using BikeDefied.Yandex.Saves.Data;
 using Reflex.Attributes;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BikeDefied.Yandex.Leaders
@@ -48,7 +48,7 @@ namespace BikeDefied.Yandex.Leaders
             {
                 [PlayerIconType.First] = _firstPlayerIcon,
                 [PlayerIconType.Second] = _secondPlayerIcon,
-                [PlayerIconType.Other] = _otherPlayerIcon
+                [PlayerIconType.Other] = _otherPlayerIcon,
             };
         }
 
@@ -161,7 +161,7 @@ namespace BikeDefied.Yandex.Leaders
                 Rank = rank.ToString(),
                 Name = name,
                 Score = score.ToString(),
-                Avatar = avatar
+                Avatar = avatar,
             };
         }
 

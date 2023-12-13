@@ -1,6 +1,6 @@
+using System;
 using BikeDefied.BikeSystem;
 using BikeDefied.Game;
-using System;
 using UnityEngine;
 
 namespace BikeDefied.ScoreSystem
@@ -22,6 +22,8 @@ namespace BikeDefied.ScoreSystem
             Start();
         }
         
+        public abstract event Action<ScoreReward> ScoreAdding;
+        
         protected Player Player { get; }
         
         protected MonoBehaviour Context { get; }
@@ -29,15 +31,15 @@ namespace BikeDefied.ScoreSystem
         protected Coroutine BehaviourCoroutine { set => _behaviourCoroutine ??= value; }
         
         protected Transform BikeBody { get; }
-        
-        protected bool IsGrounded { get; private set; }
 
-        public abstract event Action<ScoreReward> ScoreAdding;
+        protected bool IsGrounded { get; private set; }
         
         public void Dispose()
         {
             if (_behaviourCoroutine != null)
+            {
                 Context.StopCoroutine(_behaviourCoroutine);
+            }
         }
 
         protected abstract void Start();

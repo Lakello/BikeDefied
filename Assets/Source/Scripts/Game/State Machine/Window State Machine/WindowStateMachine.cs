@@ -18,7 +18,7 @@ namespace BikeDefied.FSM.GameWindow
             StateUpdated?.Invoke();
         }
 
-        public TState TryGetState<TState>(Window window) 
+        public TState TryGetState<TState>(Window window)
             where TState : State<WindowStateMachine> =>
             (TState)TryGetState(window.WindowType);
     }

@@ -23,13 +23,17 @@ namespace BikeDefied.Yandex.Leaders
             }
 
             foreach (var button in _disablingButtons)
+            {
                 button.IsInteractable = false;
+            }
         }
 
         private void OnDisable()
         {
             foreach (var button in _disablingButtons)
+            {
                 button.IsInteractable = true;
+            }
         }
 
         public void OnAuthorizeClick() =>

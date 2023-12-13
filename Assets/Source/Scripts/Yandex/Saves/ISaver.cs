@@ -1,5 +1,5 @@
-﻿using BikeDefied.Yandex.Saves.Data;
-using System;
+﻿using System;
+using BikeDefied.Yandex.Saves.Data;
 
 namespace BikeDefied.Yandex.Saves
 {
@@ -11,10 +11,10 @@ namespace BikeDefied.Yandex.Saves
         public void Set<TData>(TData value = default)
             where TData : class, IPlayerData;
 
-        public void SubscribeValueUpdated<TData>(Action<TData> subAction) 
+        public void SubscribeValueUpdated<TData>(Action<TData> subAction)
             where TData : class, IPlayerData;
         
-        public void UnsubscribeValueUpdated<TData>(Action<TData> unsubAction) 
+        public void UnsubscribeValueUpdated<TData>(Action<TData> unsubAction)
             where TData : class, IPlayerData;
     }
 }

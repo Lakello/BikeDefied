@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using BikeDefied.Yandex.Saves;
+using System;
+using System.Collections.Generic;
+using BikeDefied.Yandex.Saves.Data;
+using DG.Tweening;
+using Reflex.Attributes;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using DG.Tweening;
-using Unity.VisualScripting;
-using Reflex.Attributes;
-using System;
-using BikeDefied.Yandex.Saves;
-using BikeDefied.Yandex.Saves.Data;
 
 namespace BikeDefied.UI
 {
@@ -53,13 +53,13 @@ namespace BikeDefied.UI
             _layoutGroup.LayoutUpdated -= UpdateContentPosition;
 
         public void OnDrag(PointerEventData eventData) =>
-            UpdateTargetPositon();
+            UpdateTargetPosition();
 
         public void OnEndDrag(PointerEventData eventData)
         {
             _scrollView.StopMovement();
 
-            UpdateTargetPositon();
+            UpdateTargetPosition();
 
             SetCurrentLevel(_currentCenterChildIndex);
 
@@ -97,7 +97,7 @@ namespace BikeDefied.UI
             float spacing;
             float widthMultiplier = 0.5f;
 
-            float childPositionX = _scrollView.GetComponent<RectTransform>().rect.width * widthMultiplier - GetChildItemWidth(0) * widthMultiplier;
+            float childPositionX = (_scrollView.GetComponent<RectTransform>().rect.width * widthMultiplier) - (GetChildItemWidth(0) * widthMultiplier);
             spacing = _layoutGroup.Spacing;
 
             _childrenPositions.Clear();
@@ -105,7 +105,7 @@ namespace BikeDefied.UI
 
             for (int i = 1; i < _content.childCount; i++)
             {
-                childPositionX -= GetChildItemWidth(i) * widthMultiplier + GetChildItemWidth(i - 1) * widthMultiplier + spacing;
+                childPositionX -= ((GetChildItemWidth(i) * widthMultiplier) + (GetChildItemWidth(i - 1) * widthMultiplier)) + spacing;
                 _childrenPositions.Add(childPositionX);
             }
         }
@@ -121,7 +121,7 @@ namespace BikeDefied.UI
             SetCellScale();
         }
 
-        private void UpdateTargetPositon()
+        private void UpdateTargetPosition()
         {
             _targetPosition = FindClosestChildPosition(_content.localPosition.x);
             SetCellScale();

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BikeDefied.FSM
 {
@@ -8,10 +8,10 @@ namespace BikeDefied.FSM
     {
         private Dictionary<Type, State<TMachine>> _states;
 
-        public State<TMachine> CurrentState { get; private set; }
-
         protected StateMachine(Func<Dictionary<Type, State<TMachine>>> getStates) =>
             _states = getStates();
+
+        public State<TMachine> CurrentState { get; private set; }
 
         public void Dispose() =>
             CurrentState?.Exit();

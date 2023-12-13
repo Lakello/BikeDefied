@@ -1,5 +1,5 @@
-﻿using BikeDefied.FSM;
-using System;
+﻿using System;
+using BikeDefied.FSM;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,13 +21,6 @@ namespace BikeDefied.TypedScenes
 
                 return _instance;
             }
-        }
-
-        private static void Initialize()
-        {
-            _instance = new GameObject("LoadingProcessor").AddComponent<LoadingProcessor>();
-            _instance.transform.SetParent(null);
-            DontDestroyOnLoad(_instance);
         }
 
         public void ApplyLoadingModel()
@@ -61,6 +54,13 @@ namespace BikeDefied.TypedScenes
         public void RegisterLoadingModel() =>
             CallSceneLoaded<ISceneLoadHandler>((handler) => handler.OnSceneLoaded());
 
+        private static void Initialize()
+        {
+            _instance = new GameObject("LoadingProcessor").AddComponent<LoadingProcessor>();
+            _instance.transform.SetParent(null);
+            DontDestroyOnLoad(_instance);
+        }
+        
         private void CallSceneLoaded<THandler>(Action<THandler> onSceneLoaded)
         {
             foreach (var rootObjects in SceneManager.GetActiveScene().GetRootGameObjects())

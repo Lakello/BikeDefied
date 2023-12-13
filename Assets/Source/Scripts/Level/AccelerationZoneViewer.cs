@@ -5,6 +5,8 @@ namespace BikeDefied.LevelComponents
 {
     public class AccelerationZoneViewer : MonoBehaviour
     {
+        private readonly List<SpriteRenderer> _elements = new List<SpriteRenderer>();
+
         [SerializeField] private BoxCollider _selfCollider;
         [SerializeField] private SpriteRenderer _elementPrefab;
         [SerializeField] private float _speedAlphaChanged;
@@ -14,8 +16,6 @@ namespace BikeDefied.LevelComponents
 
         [SerializeField] private float _timeChangeCurrentIndex;
         [SerializeField] private bool _isUseParentScaleY;
-
-        private readonly List<SpriteRenderer> _elements = new List<SpriteRenderer>();
         
         private int _countElements;
         private Color _color;

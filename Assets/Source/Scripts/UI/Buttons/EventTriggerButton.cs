@@ -7,9 +7,9 @@ namespace BikeDefied.UI.Buttons
     {
         [SerializeField] private bool _isInteractable = true;
 
-        public bool IsInteractable { get => _isInteractable; set => _isInteractable = value; }
-
         public virtual event Action ActionEnded;
+
+        public bool IsInteractable { get => _isInteractable; set => _isInteractable = value; }
 
         public virtual void OnClick()
         {

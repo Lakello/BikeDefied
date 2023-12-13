@@ -10,7 +10,7 @@ namespace BikeDefied.Game.Spawner
         public Type SelfType { get; }
         
         public GameObject SelfGameObject { get; }
-
+        
         public void Init(TInit init);
     }
 }
