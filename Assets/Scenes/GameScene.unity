@@ -23337,7 +23337,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8919590447913049995, guid: a4d734a8bc95e0145bac5f30ecad7072, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: OnAddCounterForShowAd
+      value: OnClick
       objectReference: {fileID: 0}
     - target: {fileID: 8919590447913049995, guid: a4d734a8bc95e0145bac5f30ecad7072, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName

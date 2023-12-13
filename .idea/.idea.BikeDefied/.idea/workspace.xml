@@ -4,68 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe8f5a65-1358-4785-b0fc-844906f66067" name="Changes" comment="">
+    <list default="true" id="fe8f5a65-1358-4785-b0fc-844906f66067" name="Changes" comment="refactoring">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BikeDefied/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BikeDefied/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Audio/AudioFocusObserver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Audio/AudioFocusObserver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Audio/AudioVolumeChanger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Audio/AudioVolumeChanger.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Audio/GameAudioHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Audio/GameAudioHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Audio/IAudioVolumeChanger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Audio/IAudioVolumeChanger.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikeBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikeBehaviour.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikePhysicsBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikePhysicsBehaviour.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/GroundChecker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/GroundChecker.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Character/CharacterHead.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Character/CharacterHead.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Character/CharacterIKHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Character/CharacterIKHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Finish.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Finish.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Spawner/IPoolingObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Spawner/IPoolingObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/Game States/EndLevelState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/Game States/EndLevelState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/Game States/MenuState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/Game States/MenuState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/Game States/PlayLevelState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/Game States/PlayLevelState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/GameStateInject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/GameStateInject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/GameStateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/GameStateMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/StateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/StateMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Window State Machine/Window States/LeaderboardWindowState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Window State Machine/Window States/LeaderboardWindowState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Window State Machine/WindowStateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Window State Machine/WindowStateMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/GameSceneInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/GameSceneInitializer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/GameStateMachineInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/GameStateMachineInstaller.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Level/AccelerationZoneViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Level/AccelerationZoneViewer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Level/LevelView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Level/LevelView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Level/LevelViewInject.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Level/LevelViewInject.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/ProjectInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/ProjectInstaller.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/SceneInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/SceneInstaller.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/Distance/DistanceCounter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/Distance/DistanceCounter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/Flip/FlipCounter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/Flip/FlipCounter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/Flip/FlipTriggerDirection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/Flip/FlipTriggerDirection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/ScoreCounter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/ScoreCounter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Score/ScoreView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Score/ScoreView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/TransitionInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/TransitionInitializer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Tutorial/HintViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Tutorial/HintViewer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Core/LoadingProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Core/LoadingProcessor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Core/TypedScene.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Core/TypedScene.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/SceneAnalyzer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/SceneAnalyzer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/ScenePostprocessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/ScenePostprocessor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/TypedSceneGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/TypedSceneGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/UI/Buttons/EventTriggerButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/UI/Buttons/EventTriggerButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/UI/HorizontalLayoutGroup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/UI/HorizontalLayoutGroup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/UI/SelectLevelScrollView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/UI/SelectLevelScrollView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/UI/Windows/LeaderboardWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/UI/Windows/LeaderboardWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/UI/Windows/MenuWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/UI/Windows/MenuWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/UI/Windows/OverWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/UI/Windows/OverWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/UI/Windows/PlayWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/UI/Windows/PlayWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/WindowStateMachineInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/WindowStateMachineInstaller.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/AD/Ad.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/AD/Ad.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/AuthorizeForLeaderboard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/AuthorizeForLeaderboard.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/LeaderboardModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/LeaderboardModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/LeaderboardPlayerDataHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/LeaderboardPlayerDataHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/LeaderboardViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/LeaderboardViewer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/PlayerIconType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/PlayerIconType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/Data/UnmuteSound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/Data/UnmuteSound.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/GamePlayerDataSaver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/GamePlayerDataSaver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/ISaver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/ISaver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/PlayerData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/PlayerData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/SaveAccessMethodsHolder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/SaveAccessMethodsHolder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/YandexInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/YandexInitializer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/UI/Buttons/CounterForShowAdButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/UI/Buttons/CounterForShowAdButton.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +112,7 @@
       <workItem from="1699881419457" duration="2861000" />
       <workItem from="1700233438852" duration="6282000" />
       <workItem from="1700495484399" duration="1086000" />
-      <workItem from="1702470840880" duration="7501000" />
+      <workItem from="1702470840880" duration="7891000" />
     </task>
     <task id="LOCAL-00001" summary="refactoring">
       <option name="closed" value="true" />
@@ -188,7 +130,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700239583292</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="refactoring">
+      <option name="closed" value="true" />
+      <created>1702479809914</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1702479809914</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
