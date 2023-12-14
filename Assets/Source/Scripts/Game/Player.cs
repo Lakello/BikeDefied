@@ -9,8 +9,14 @@ namespace BikeDefied.Game
     public class Player : MonoBehaviour
     {
         private IEndLevelStateChangeble _endLevel;
+        private bool _isAlive;
 
-        public bool IsAlive { get; private set; }
+        [Inject]
+        private void Inject(GameStateInject inject)
+        {
+            _endLevel = inject.EndLevel;
+            _endLevel.StateChanged += OnStateChanged;
+        }
 
         private void OnEnable()
         {
@@ -19,7 +25,7 @@ namespace BikeDefied.Game
                 _endLevel.StateChanged += OnStateChanged;
             }
 
-            IsAlive = true;
+            _isAlive = true;
         }
 
         private void OnDisable() =>
@@ -27,11 +33,12 @@ namespace BikeDefied.Game
 
         public IEnumerator Behaviour(Func<bool> condition, Action action)
         {
-            while (IsAlive)
+            while (_isAlive)
             {
                 if (!condition())
                 {
                     yield return null;
+
                     continue;
                 }
 
@@ -41,16 +48,9 @@ namespace BikeDefied.Game
             }
         }
 
-        [Inject]
-        private void Inject(GameStateInject inject)
-        {
-            _endLevel = inject.EndLevel;
-            _endLevel.StateChanged += OnStateChanged;
-        }
-
         private bool OnStateChanged()
         {
-            IsAlive = false;
+            _isAlive = false;
 
             return true;
         }

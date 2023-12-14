@@ -13,21 +13,21 @@ namespace BikeDefied.UI
         private bool _childControlHeight = true;
         private int _capacity = 10;
         private Vector2[] _sizes = new Vector2[10];
-        
+
+        public event Action LayoutUpdated;
+
         protected enum Axis
         {
             Width,
             Height,
         }
-        
-        public event Action LayoutUpdated;
 
         public float Spacing
         {
             get => _spacing;
             private set => SetProperty(ref _spacing, value);
         }
-        
+
         public override void CalculateLayoutInputHorizontal()
         {
             base.CalculateLayoutInputHorizontal();
@@ -45,7 +45,7 @@ namespace BikeDefied.UI
             SetChildrenAlongAxis(Axis.Height);
             LayoutUpdated?.Invoke();
         }
-        
+
         protected void CalculationAlongAxis(Axis axis)
         {
             float combinedPadding = axis == 0 ? padding.horizontal : padding.vertical;
@@ -145,6 +145,7 @@ namespace BikeDefied.UI
                 }
 
                 float minMaxLerp = 0;
+
                 if (GetTotalMinSize((int)Axis.Width) != GetTotalPreferredSize((int)Axis.Width))
                 {
                     minMaxLerp = Mathf.Clamp01((size - GetTotalMinSize((int)Axis.Width)) / (GetTotalPreferredSize((int)Axis.Width) - GetTotalMinSize((int)Axis.Width)));
@@ -174,9 +175,11 @@ namespace BikeDefied.UI
                         child.sizeDelta = sizeDelta;
 
                         Vector2 anchoredPosition = child.anchoredPosition;
+
                         anchoredPosition[(int)Axis.Width] = axis == 0
                             ? pos + ((requiredSpace * child.pivot[(int)Axis.Width]) * 1f)
                             : -pos - ((requiredSpace * (1f - child.pivot[(int)Axis.Width])) * 1f);
+
                         child.anchoredPosition = anchoredPosition;
                         pos += childSize + Spacing;
                     }
@@ -187,7 +190,7 @@ namespace BikeDefied.UI
 
                         float childSize = Mathf.Lerp(min, preferred, minMaxLerp);
                         childSize += flexible * itemFlexibleMultiplier;
-                        
+
                         if (controlSize)
                         {
                             SetChildAlongAxisWithScale(child, (int)Axis.Width, pos, childSize, scaleFactor);
@@ -197,7 +200,7 @@ namespace BikeDefied.UI
                             float offsetInCell = (childSize - child.sizeDelta[(int)Axis.Width]) * alignmentOnAxis;
                             SetChildAlongAxisWithScale(child, (int)Axis.Width, pos + offsetInCell, scaleFactor);
                         }
-                        
+
                         pos += (childSize * scaleFactor) + Spacing;
                     }
                 }
@@ -257,9 +260,11 @@ namespace BikeDefied.UI
             }
 
             bool dirty = false;
+
             for (int i = 0; i < count; i++)
             {
                 RectTransform t = transform.GetChild(i) as RectTransform;
+
                 if (t != null && t.sizeDelta != _sizes[i])
                 {
                     dirty = true;

@@ -28,7 +28,7 @@ namespace BikeDefied.FSM
             {
                 return;
             }
-            
+
             CurrentState?.Exit();
             CurrentState = state;
             CurrentState.Enter();

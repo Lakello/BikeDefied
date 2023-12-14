@@ -1,6 +1,4 @@
-using BikeDefied.InputSystem;
 using BikeDefied.LevelComponents;
-using Reflex.Attributes;
 using UnityEngine;
 
 namespace BikeDefied.BikeSystem
@@ -12,7 +10,7 @@ namespace BikeDefied.BikeSystem
         private float _accelerationMultiply = 1f;
 
         public float UpdateAccelerationMultiply { set => _accelerationMultiply = Mathf.Clamp(value, 1f, 5f); }
-        
+
         public Rigidbody SelfRigidbody { get; private set; }
 
         private void Start()
@@ -20,21 +18,17 @@ namespace BikeDefied.BikeSystem
             SelfRigidbody = BikeBody.GetComponent<Rigidbody>();
 
             BehaviourCoroutine = StartCoroutine(Player.Behaviour(
-            condition: () => IsGrounded,
-            action: () =>
-            {
-                float horizontal = InputHandler.Horizontal;
-
-                if (horizontal != 0)
+                condition: () => IsGrounded,
+                action: () =>
                 {
-                    Move(horizontal);
-                }
-            }));
-        }
+                    float horizontal = InputHandler.Horizontal;
 
-        [Inject]
-        protected override void Inject(BikeBehaviourInject inject) =>
-            Init(inject);
+                    if (horizontal != 0)
+                    {
+                        Move(horizontal);
+                    }
+                }));
+        }
 
         private void Move(float value)
         {

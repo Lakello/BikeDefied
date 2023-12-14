@@ -9,7 +9,7 @@ namespace BikeDefied
     {
         private readonly List<Subscription> _subscribtions = new List<Subscription>();
         private readonly TMachine _stateMachine;
-        
+
         public TransitionInitializer(TMachine stateMachine) =>
             _stateMachine = stateMachine;
 
@@ -54,7 +54,7 @@ namespace BikeDefied
                 action.Subject.ActionEnded -= action.Observer;
             }
         }
-        
+
         private struct Subscription
         {
             public ISubject Subject;

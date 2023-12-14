@@ -13,7 +13,7 @@ namespace BikeDefied.Yandex.Saves
         }
 
         public Func<TData, TData> Getter { get; }
-        
+
         public Action<TData> Setter { get; }
     }
 }

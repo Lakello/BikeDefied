@@ -1,5 +1,6 @@
 ﻿using BikeDefied.Game;
 using BikeDefied.InputSystem;
+using Reflex.Attributes;
 using UnityEngine;
 
 namespace BikeDefied.BikeSystem
@@ -15,26 +16,25 @@ namespace BikeDefied.BikeSystem
             get => _behaviourCoroutine;
             set => _behaviourCoroutine ??= value;
         }
-        
-        protected Player Player { get; private set; }
-        
-        protected IInputHandler InputHandler { get; private set; }
-        
-        protected Transform BikeBody { get; private set; }
-        
-        protected bool IsGrounded { get; private set; }
-        
-        protected bool IsBackWheelGrounded { get; private set; }
-        
-        protected abstract void Inject(BikeBehaviourInject inject);
 
-        protected void Init(BikeBehaviourInject inject)
+        protected Player Player { get; private set; }
+
+        protected IInputHandler InputHandler { get; private set; }
+
+        protected Transform BikeBody { get; private set; }
+
+        protected bool IsGrounded { get; private set; }
+
+        protected bool IsBackWheelGrounded { get; private set; }
+
+        [Inject]
+        protected void Inject(BikeBehaviourInject inject)
         {
             Player = inject.Player;
             BikeBody = inject.BikeBody.transform;
             InputHandler = inject.InputHandler;
         }
-        
+
         private void Awake()
         {
             _groundChecker = GetComponent<GroundChecker>();

@@ -15,7 +15,7 @@ namespace BikeDefied.BikeSystem
         private bool _isFrontWheelGround;
 
         public event Action<bool> GroundChanged;
-        
+
         public event Action<bool> BackWheelGroundChanged;
 
         private void FixedUpdate()
@@ -31,7 +31,7 @@ namespace BikeDefied.BikeSystem
             {
                 return;
             }
-            
+
             isGround = condition;
             action?.Invoke(isGround);
         }
@@ -42,7 +42,6 @@ namespace BikeDefied.BikeSystem
                 collider.bounds.center,
                 _checkRadius,
                 _groundMask,
-                QueryTriggerInteraction.Ignore
-            );
+                QueryTriggerInteraction.Ignore);
     }
 }

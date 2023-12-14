@@ -12,13 +12,13 @@ namespace BikeDefied.Yandex.Leaders
         [SerializeField] private Image _avatar;
         [SerializeField] private TMP_Text _name;
         [SerializeField] private TMP_Text _score;
-        
+
         public event Action<IPoolingObject<LeaderboardPlayerData>> Disabled;
-        
+
         public Type SelfType => GetType();
-        
+
         public GameObject SelfGameObject => gameObject;
-        
+
         private void OnDisable() =>
             Disabled?.Invoke(this);
 

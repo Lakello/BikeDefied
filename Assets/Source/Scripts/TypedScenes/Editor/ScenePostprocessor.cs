@@ -18,7 +18,7 @@ namespace BikeDefied.TypedScenes.Editor
                     HandleImportedScene(validScenePath);
                 }
             }
-            
+
             foreach (var deletedAsset in deletedAssets)
             {
                 if (Path.GetExtension(deletedAsset) == TypedSceneSettings.SceneExtension
@@ -27,7 +27,7 @@ namespace BikeDefied.TypedScenes.Editor
                     HandleSceneDeletion(deletedAsset);
                 }
             }
-            
+
             for (var i = 0; i < movedFromAssetPaths.Length; i++)
             {
                 if (Path.GetExtension(movedFromAssetPaths[i]) == TypedSceneSettings.SceneExtension)
@@ -43,6 +43,7 @@ namespace BikeDefied.TypedScenes.Editor
             {
                 var sourceCode = TypedSceneGenerator.Generate(analyzableScene);
                 TypedSceneStorage.Save(analyzableScene.Name, sourceCode);
+
                 if (EditorBuildSettings.scenes.All(scene => scene.guid.ToString() != analyzableScene.GUID))
                 {
                     var buildScenes = EditorBuildSettings.scenes;

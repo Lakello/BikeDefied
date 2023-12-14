@@ -13,7 +13,7 @@ namespace BikeDefied.Yandex.Saves
 
         public void SubscribeValueUpdated<TData>(Action<TData> subAction)
             where TData : class, IPlayerData;
-        
+
         public void UnsubscribeValueUpdated<TData>(Action<TData> unsubAction)
             where TData : class, IPlayerData;
     }

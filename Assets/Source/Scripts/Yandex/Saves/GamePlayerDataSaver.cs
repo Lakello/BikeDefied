@@ -50,7 +50,6 @@ namespace BikeDefied.Yandex.Saves
                             Save((Action<LevelInfo>)_playerDataEvents[typeof(LevelInfo)], value);
                         }
                     }),
-
                 [typeof(CurrentLevel)] = new SaveAccessMethodsHolder<CurrentLevel>(
                     getter: (_) =>
                         _playerData.CurrentLevel,
@@ -67,7 +66,6 @@ namespace BikeDefied.Yandex.Saves
                             Save((Action<CurrentLevel>)_playerDataEvents[typeof(CurrentLevel)], value);
                         }
                     }),
-
                 [typeof(HintDisplay)] = new SaveAccessMethodsHolder<HintDisplay>(
                     getter: (_) =>
                         _playerData.HintDisplay,
@@ -79,7 +77,6 @@ namespace BikeDefied.Yandex.Saves
                             Save();
                         }
                     }),
-
                 [typeof(UnmuteSound)] = new SaveAccessMethodsHolder<UnmuteSound>(
                     getter: (_) =>
                         _playerData.UnmuteSound,
@@ -89,7 +86,7 @@ namespace BikeDefied.Yandex.Saves
                         {
                             return;
                         }
-                        
+
                         _playerData.UnmuteSound = value;
                         Save();
                     }),
@@ -102,6 +99,7 @@ namespace BikeDefied.Yandex.Saves
             if (_accessMethodsHolders.ContainsKey(typeof(TData)))
             {
                 var holder = (SaveAccessMethodsHolder<TData>)_accessMethodsHolders[typeof(TData)];
+
                 return holder.Getter(value);
             }
             else
@@ -206,6 +204,7 @@ namespace BikeDefied.Yandex.Saves
                 if (_playerData.LevelInfo[i].LevelIndex == levelInfo.LevelIndex)
                 {
                     index = i;
+
                     return true;
                 }
             }
@@ -218,6 +217,7 @@ namespace BikeDefied.Yandex.Saves
             if (_playerData.LevelInfo[index].BestScore < value.BestScore)
             {
                 _playerData.LevelInfo[index] = value;
+
                 return true;
             }
 

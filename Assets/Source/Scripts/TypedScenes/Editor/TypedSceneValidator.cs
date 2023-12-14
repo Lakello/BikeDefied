@@ -11,6 +11,7 @@ namespace BikeDefied.TypedScenes.Editor
         public static bool DetectSceneImport(string assetPath, out string validScenePath)
         {
             validScenePath = null;
+
             if (Path.GetExtension(assetPath) != TypedSceneSettings.SceneExtension)
             {
                 return false;
@@ -26,6 +27,7 @@ namespace BikeDefied.TypedScenes.Editor
                     File.Move(assetPath, validPath);
                     File.Delete(assetPath + TypedSceneSettings.MetaExtension);
                     AssetDatabase.ImportAsset(validPath, ImportAssetOptions.ForceUpdate);
+
                     return false;
                 }
 
@@ -33,8 +35,9 @@ namespace BikeDefied.TypedScenes.Editor
                 {
                     return false;
                 }
-                
+
                 validScenePath = analyzableScene.AssetPath;
+
                 return true;
             }
         }
@@ -44,7 +47,10 @@ namespace BikeDefied.TypedScenes.Editor
             var assets = AssetDatabase.FindAssets(sceneName);
 
             return assets.Select(AssetDatabase.GUIDToAssetPath)
-                .Select(path => new { path, name = Path.GetFileNameWithoutExtension(path) })
+                .Select(path => new
+                {
+                    path, name = Path.GetFileNameWithoutExtension(path)
+                })
                 .Where(@t => @t.name == sceneName)
                 .Select(@t => @t.path)
                 .Any(path => Path.GetExtension(path) == TypedSceneSettings.SceneExtension);

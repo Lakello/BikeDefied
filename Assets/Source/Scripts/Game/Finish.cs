@@ -14,7 +14,7 @@ namespace BikeDefied.Game
         private IEndLevelStateChangeble _endLevel;
 
         public event Action ActionEnded;
-        
+
         [Inject]
         private void Inject(IAudioVolumeChanger audioVolumeChanger, GameStateInject states)
         {

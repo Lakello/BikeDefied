@@ -17,7 +17,7 @@ namespace BikeDefied.FSM.Game.States
             _context = context;
 
         public event Func<bool> StateChanged;
-        
+
         public event Action LateStateChanged;
 
         public override void Enter()
@@ -26,7 +26,7 @@ namespace BikeDefied.FSM.Game.States
             {
                 return;
             }
-            
+
             if (_gameOverWaitCoroutine != null)
             {
                 _context.StopCoroutine(_gameOverWaitCoroutine);

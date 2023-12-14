@@ -25,7 +25,7 @@ namespace BikeDefied.ScoreSystem
             _backReward = backReward;
             _frontReward = frontReward;
         }
-        
+
         public override event Action<ScoreReward> ScoreAdding;
 
         protected override void Start()
@@ -36,16 +36,16 @@ namespace BikeDefied.ScoreSystem
             };
 
             BehaviourCoroutine = Context.StartCoroutine(Player.Behaviour(
-            condition: () => !IsGrounded,
-            action: () =>
-            {
-                Ray();
-
-                if (CheckFlip(out bool direction))
+                condition: () => !IsGrounded,
+                action: () =>
                 {
-                    AddScore(direction);
-                }
-            }));
+                    Ray();
+
+                    if (CheckFlip(out bool direction))
+                    {
+                        AddScore(direction);
+                    }
+                }));
         }
 
         private void Ray()
@@ -54,19 +54,22 @@ namespace BikeDefied.ScoreSystem
             {
                 return;
             }
+
             if (!hit.transform.TryGetComponent(out FlipTrigger trigger))
             {
                 return;
             }
+
             if (trigger == null)
             {
                 return;
             }
+
             if (trigger.Direction == _previousFlip)
             {
                 return;
             }
-            
+
             UpdateCurrentFlipState(trigger);
             _previousFlip = trigger.Direction;
         }
@@ -77,6 +80,7 @@ namespace BikeDefied.ScoreSystem
             {
                 case 0:
                     SetBottomState(trigger);
+
                     break;
                 case 1:
                     if (trigger.Direction == FlipTriggerDirection.Front)
@@ -85,6 +89,7 @@ namespace BikeDefied.ScoreSystem
                         _isFrontFlip = false;
                         _currentFlip.Directions[_currentState] = trigger.Direction;
                         _currentState++;
+
                         break;
                     }
 
@@ -94,6 +99,7 @@ namespace BikeDefied.ScoreSystem
                         _isBackFlip = false;
                         _currentFlip.Directions[_currentState] = trigger.Direction;
                         _currentState++;
+
                         break;
                     }
 
@@ -105,10 +111,12 @@ namespace BikeDefied.ScoreSystem
                     {
                         _currentFlip.Directions[_currentState] = trigger.Direction;
                         _currentState++;
+
                         break;
                     }
 
                     _currentState--;
+
                     break;
                 case 3:
                     if (_isBackFlip)
@@ -116,10 +124,12 @@ namespace BikeDefied.ScoreSystem
                         if (trigger.Direction == FlipTriggerDirection.Back)
                         {
                             _currentFlip.Directions[_currentState] = trigger.Direction;
+
                             break;
                         }
 
                         _currentState--;
+
                         break;
                     }
 
@@ -128,12 +138,13 @@ namespace BikeDefied.ScoreSystem
                         if (trigger.Direction == FlipTriggerDirection.Front)
                         {
                             _currentFlip.Directions[_currentState] = trigger.Direction;
+
                             break;
                         }
 
                         _currentState--;
                     }
-                    
+
                     break;
             }
         }
@@ -144,7 +155,7 @@ namespace BikeDefied.ScoreSystem
             {
                 return;
             }
-            
+
             _currentFlip.Directions[_currentState] = trigger.Direction;
             _currentState++;
         }
@@ -164,12 +175,12 @@ namespace BikeDefied.ScoreSystem
                 {
                     return true;
                 }
-                
+
                 direction = true;
 
                 return _currentFlip.Directions[1] == FlipTriggerDirection.Back && _currentFlip.Directions[3] == FlipTriggerDirection.Front;
             }
-            
+
             return false;
         }
 
@@ -180,7 +191,7 @@ namespace BikeDefied.ScoreSystem
                 Message = dir ? $"+{_frontReward}" : $"+{_backReward}",
                 Value = dir ? _frontReward : _backReward,
             };
-            
+
             ScoreAdding?.Invoke(reward);
 
             _currentFlip.Directions = new FlipTriggerDirection[4];
@@ -190,7 +201,7 @@ namespace BikeDefied.ScoreSystem
             _isBackFlip = false;
             _isFrontFlip = false;
         }
-        
+
         private struct Flip
         {
             public FlipTriggerDirection[] Directions;

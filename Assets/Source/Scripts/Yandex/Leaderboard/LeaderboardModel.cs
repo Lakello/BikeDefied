@@ -16,7 +16,7 @@ namespace BikeDefied.Yandex.Leaders
     {
         private readonly int _defaultRank = 1;
         private readonly YandexEmulator _yandexEmulator = new YandexEmulator();
-        
+
         [SerializeField] private Transform _content;
         [SerializeField] private LeaderboardPlayerDataHandler _playerDataPrefab;
         [SerializeField] private Sprite _firstPlayerIcon;
@@ -46,9 +46,7 @@ namespace BikeDefied.Yandex.Leaders
 
             _playerIcons = new Dictionary<PlayerIconType, Sprite>
             {
-                [PlayerIconType.First] = _firstPlayerIcon,
-                [PlayerIconType.Second] = _secondPlayerIcon,
-                [PlayerIconType.Other] = _otherPlayerIcon,
+                [PlayerIconType.First] = _firstPlayerIcon, [PlayerIconType.Second] = _secondPlayerIcon, [PlayerIconType.Other] = _otherPlayerIcon,
             };
         }
 
@@ -74,21 +72,21 @@ namespace BikeDefied.Yandex.Leaders
 
             for (int i = 0; i < count; i++)
             {
-                string name = _allPlayers[i].player.publicName;
+                string publicName = _allPlayers[i].player.publicName;
 
-                if (string.IsNullOrEmpty(name))
+                if (string.IsNullOrEmpty(publicName))
                 {
-                    name = GetLocalizationAnonymousName();
+                    publicName = GetLocalizationAnonymousName();
                 }
 
-                data[i] = GetPlayerData(_allPlayers[i].rank, name, _allPlayers[i].score);
+                data[i] = GetPlayerData(_allPlayers[i].rank, publicName, _allPlayers[i].score);
             }
 
             addPlayer?.Invoke();
 
             return data;
         }
-        
+
         public IEnumerator UpdateEntries()
         {
             bool isSuccess = false;
@@ -158,10 +156,7 @@ namespace BikeDefied.Yandex.Leaders
 
             return new LeaderboardPlayerData
             {
-                Rank = rank.ToString(),
-                Name = name,
-                Score = score.ToString(),
-                Avatar = avatar,
+                Rank = rank.ToString(), Name = name, Score = score.ToString(), Avatar = avatar,
             };
         }
 

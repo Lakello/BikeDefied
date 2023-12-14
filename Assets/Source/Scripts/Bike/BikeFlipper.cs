@@ -1,6 +1,4 @@
-﻿using BikeDefied.InputSystem;
-using Reflex.Attributes;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BikeDefied.BikeSystem
 {
@@ -12,10 +10,6 @@ namespace BikeDefied.BikeSystem
         [SerializeField] private Rigidbody _frontWheel;
 
         private Rigidbody _bikeRigidbody;
-
-        [Inject]
-        protected override void Inject(BikeBehaviourInject inject) =>
-            Init(inject);
 
         private void Start()
         {

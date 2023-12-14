@@ -60,7 +60,7 @@ namespace BikeDefied.TypedScenes
             _instance.transform.SetParent(null);
             DontDestroyOnLoad(_instance);
         }
-        
+
         private void CallSceneLoaded<THandler>(Action<THandler> onSceneLoaded)
         {
             foreach (var rootObjects in SceneManager.GetActiveScene().GetRootGameObjects())

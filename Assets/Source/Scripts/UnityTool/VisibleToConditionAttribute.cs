@@ -9,9 +9,9 @@ namespace BikeDefied.UnityTool
             PropertyName = propertyName;
             Condition = condition;
         }
-        
+
         public string PropertyName { get; }
-        
+
         public bool Condition { get; }
     }
 }

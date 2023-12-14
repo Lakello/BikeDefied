@@ -6,7 +6,7 @@ namespace BikeDefied.FSM.Game
     {
         protected GameState(WindowStateMachine machine) =>
             WindowStateMachine = machine;
-        
+
         protected WindowStateMachine WindowStateMachine { get; private set; }
     }
 }

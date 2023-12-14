@@ -1,6 +1,6 @@
-﻿using BikeDefied.Yandex.Saves;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using BikeDefied.Yandex.Saves;
 using BikeDefied.Yandex.Saves.Data;
 using DG.Tweening;
 using Reflex.Attributes;
@@ -130,10 +130,12 @@ namespace BikeDefied.UI
         private void SetCellScale()
         {
             GameObject centerChild;
+
             for (int i = 0; i < _content.childCount; i++)
             {
                 centerChild = _content.GetChild(i).gameObject;
                 centerChild.transform.DOKill();
+
                 if (i == _currentCenterChildIndex)
                 {
                     centerChild.transform.DOScale(_centerScale * Vector3.one, _scaleTime);
@@ -149,10 +151,12 @@ namespace BikeDefied.UI
         {
             float closest = 0;
             float maxDistance = Mathf.Infinity;
+
             for (int i = 0; i < _childrenPositions.Count; i++)
             {
                 float position = _childrenPositions[i];
                 float distance = Mathf.Abs(position - currentPosition);
+
                 if (distance < maxDistance)
                 {
                     maxDistance = distance;
@@ -164,7 +168,7 @@ namespace BikeDefied.UI
                     break;
                 }
             }
-            
+
             return closest;
         }
 

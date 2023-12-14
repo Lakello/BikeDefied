@@ -44,14 +44,14 @@ namespace BikeDefied.AudioSystem
                 _context.StartCoroutine(SmoothlyChangeVolume(_gameAudio, _volumePercent));
             }
         }
-        
+
         public void Dispose()
         {
             if (_gameAudioCoroutine != null)
             {
                 _context.StopCoroutine(_gameAudioCoroutine);
             }
-            
+
             if (_backgroundAudioCoroutine != null)
             {
                 _context.StopCoroutine(_backgroundAudioCoroutine);
@@ -75,14 +75,13 @@ namespace BikeDefied.AudioSystem
             while (Application.isPlaying)
             {
                 yield return _context.StartCoroutine(SmoothlyChangeVolume(_backgroundAudio, MinVolume));
+
                 yield return _context.StartCoroutine(
                     PlayClip(
                         _backgroundAudio,
                         _gameAudioHandler.GetRandomAudio(AudioType.Background),
-                        _gameAudioHandler.MaxVolumeBackgroundAudio
-                    )
-                );
-                
+                        _gameAudioHandler.MaxVolumeBackgroundAudio));
+
                 yield return wait;
             }
         }

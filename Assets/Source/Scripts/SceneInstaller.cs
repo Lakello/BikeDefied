@@ -37,7 +37,7 @@ namespace BikeDefied
         private void InitBikeBehaviour(ContainerDescriptor descriptor)
         {
             IInputHandler inputHandler = GetComponent<InputHandlerInitializer>().Init();
-            
+
             BikeBehaviourInject bikeBehaviourInject = new BikeBehaviourInject(() => (_player, _bike, inputHandler));
 
             descriptor.AddInstance(bikeBehaviourInject);
@@ -49,8 +49,7 @@ namespace BikeDefied
 
             _scoreCounters = new List<IScoreCounter>()
             {
-                new DistanceCounter(_distanceReward, scoreCounterInject),
-                new FlipCounter(_backFlipReward, _frontFlipReward, _flipTriggerMask, scoreCounterInject),
+                new DistanceCounter(_distanceReward, scoreCounterInject), new FlipCounter(_backFlipReward, _frontFlipReward, _flipTriggerMask, scoreCounterInject),
             };
 
             descriptor.AddInstance(_scoreCounters, typeof(IReadOnlyList<IScoreCounter>));

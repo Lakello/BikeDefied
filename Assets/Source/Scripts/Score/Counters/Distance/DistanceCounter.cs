@@ -12,14 +12,14 @@ namespace BikeDefied.ScoreSystem
             _reward = reward;
 
         public override event Action<ScoreReward> ScoreAdding;
-        
+
         private float CurrentPosition => BikeBody.position.z;
 
         protected override void Start()
         {
             BehaviourCoroutine = Context.StartCoroutine(Player.Behaviour(
-            condition: () => true,
-            action: TryAddScore));
+                condition: () => true,
+                action: TryAddScore));
         }
 
         private void TryAddScore()
@@ -28,13 +28,12 @@ namespace BikeDefied.ScoreSystem
             {
                 return;
             }
-            
+
             _bestPosition = CurrentPosition;
-            
+
             ScoreReward reward = new ScoreReward
             {
-                Message = String.Empty,
-                Value = _reward,
+                Message = String.Empty, Value = _reward,
             };
 
             ScoreAdding?.Invoke(reward);

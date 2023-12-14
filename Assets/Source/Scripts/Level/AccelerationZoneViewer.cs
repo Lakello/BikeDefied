@@ -16,7 +16,7 @@ namespace BikeDefied.LevelComponents
 
         [SerializeField] private float _timeChangeCurrentIndex;
         [SerializeField] private bool _isUseParentScaleY;
-        
+
         private int _countElements;
         private Color _color;
         private int _currentIndex;
@@ -63,11 +63,10 @@ namespace BikeDefied.LevelComponents
         private void SetTransform()
         {
             Vector3 currentPosition = transform.position + (-transform.forward * (_selfCollider.size.z / 2));
+
             Vector3 scale = new Vector3()
             {
-                x = 1,
-                y = _isUseParentScaleY ? _selfCollider.size.y : 1,
-                z = 1,
+                x = 1, y = _isUseParentScaleY ? _selfCollider.size.y : 1, z = 1,
             };
 
             foreach (var element in _elements)

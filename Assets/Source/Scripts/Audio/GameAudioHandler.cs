@@ -16,19 +16,16 @@ namespace BikeDefied.AudioSystem
         private Dictionary<AudioType, List<AudioClip>> _clips;
 
         public float SmoothlyTime => _smoothlyTime;
-        
+
         public float TimeBetweenChangeBackgroundAudio => _timeBetweenChangeBackgroundAudio;
-        
+
         public float MaxVolumeBackgroundAudio => _maxVolumeBackgroundAudio;
 
         public void Init()
         {
             _clips = new Dictionary<AudioType, List<AudioClip>>()
             {
-                [AudioType.Background] = _backgroundMusics,
-                [AudioType.LevelPlay] = _levelPlayAudios,
-                [AudioType.LossGameOver] = _lossGameOverAudios,
-                [AudioType.VictoryGameOver] = _victoryGameOverAudios,
+                [AudioType.Background] = _backgroundMusics, [AudioType.LevelPlay] = _levelPlayAudios, [AudioType.LossGameOver] = _lossGameOverAudios, [AudioType.VictoryGameOver] = _victoryGameOverAudios,
             };
         }
 

@@ -14,17 +14,17 @@ namespace BikeDefied.TypedScenes.Editor
         public static IEnumerable<Type> GetLoadingParameters(AnalyzableScene analyzableScene)
         {
             Scene scene = analyzableScene.Scene;
-            List<Type> loadParameters = new List<Type> { null };
+
+            List<Type> loadParameters = new List<Type>
+            {
+                null
+            };
+
             IEnumerable<Type> componentTypes = GetAllTypes(scene);
 
             loadParameters.AddRange(componentTypes
-                .Where(type => type.GetInterfaces()
-                    .Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ISceneLoadHandler)))
-                .SelectMany(
-                    type => type.GetMethods()
-                        .Where(method => method.Name == "OnSceneLoaded"),
-                    (type, method) => method.GetParameters()[0].ParameterType
-                )
+                .Where(type => type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ISceneLoadHandler)))
+                .SelectMany(type => type.GetMethods().Where(method => method.Name == "OnSceneLoaded"), (type, method) => method.GetParameters()[0].ParameterType)
             );
 
             if (loadParameters.Count > 1)
@@ -50,7 +50,7 @@ namespace BikeDefied.TypedScenes.Editor
             scene.GetRootGameObjects().Append(gameObject);
             Undo.RegisterCreatedObjectUndo(gameObject, "Typed processor added");
             EditorSceneManager.SaveScene(scene);
-            
+
             return true;
         }
 
