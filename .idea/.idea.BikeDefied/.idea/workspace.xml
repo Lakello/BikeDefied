@@ -4,53 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe8f5a65-1358-4785-b0fc-844906f66067" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.BikeDefied/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BikeDefied/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Audio/AudioVolumeChanger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Audio/AudioVolumeChanger.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Audio/GameAudioHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Audio/GameAudioHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikeBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikeBehaviour.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikeBehaviourInject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikeBehaviourInject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikeFlipper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikeFlipper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikeMover.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikeMover.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikePedalRotator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/BikePedalRotator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/GroundChecker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Bike/GroundChecker.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Finish.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Finish.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Spawner/IPoolingObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/Spawner/IPoolingObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/Game States/EndLevelState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/Game States/EndLevelState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/GameState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/GameState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/GameStateInject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/Game State Machine/GameStateInject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/State.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/StateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Game/State Machine/StateMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Level/AccelerationZoneViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Level/AccelerationZoneViewer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Level/IAccelerationable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Level/IAccelerationable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/SceneInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/SceneInstaller.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/Distance/DistanceCounter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/Distance/DistanceCounter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/Flip/FlipCounter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/Flip/FlipCounter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/ScoreCounter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/ScoreCounter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/ScoreCounterInject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Score/Counters/ScoreCounterInject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Score/ScoreReward.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Score/ScoreReward.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/TransitionInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/TransitionInitializer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Core/LoadingProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Core/LoadingProcessor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/AnalyzableScene.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/AnalyzableScene.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/SceneAnalyzer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/SceneAnalyzer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/ScenePostprocessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/ScenePostprocessor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/TypedSceneValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/TypedScenes/Editor/TypedSceneValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/UI/HorizontalLayoutGroup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/UI/HorizontalLayoutGroup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/UI/SelectLevelScrollView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/UI/SelectLevelScrollView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/UnityTool/VisibleToConditionAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/UnityTool/VisibleToConditionAttribute.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/AD/Ad.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/AD/Ad.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/LeaderboardModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/LeaderboardModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/LeaderboardPlayerDataHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Leaderboard/LeaderboardPlayerDataHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/Data/CurrentLevel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/Data/CurrentLevel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/Data/HintDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/Data/HintDisplay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/Data/LevelInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/Data/LevelInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/Data/UnmuteSound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/Data/UnmuteSound.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/GamePlayerDataSaver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/GamePlayerDataSaver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/ISaver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/ISaver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/PlayerData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/PlayerData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/SaveAccessMethodsHolder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Scripts/Yandex/Saves/SaveAccessMethodsHolder.cs" afterDir="false" />
-    </list>
+    <list default="true" id="fe8f5a65-1358-4785-b0fc-844906f66067" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,6 +16,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/17484a9af6b944dea5cd9be4dbb0da2c171c00/c4/cb950cd1/020002DB.il" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/17484a9af6b944dea5cd9be4dbb0da2c171c00/2a/a7570006/Transform.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://G:/Unity/Repos/BikeDefied/Assets/Source/Scripts/Level/AccelerationZoneViewer.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -156,7 +111,7 @@
       <workItem from="1700233438852" duration="6282000" />
       <workItem from="1700495484399" duration="1086000" />
       <workItem from="1702470840880" duration="8561000" />
-      <workItem from="1702554706104" duration="3829000" />
+      <workItem from="1702554706104" duration="3927000" />
     </task>
     <task id="LOCAL-00001" summary="refactoring">
       <option name="closed" value="true" />
@@ -190,7 +145,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702480037916</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Refactoring">
+      <option name="closed" value="true" />
+      <created>1702558586226</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1702558586226</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,7 +176,8 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring" />
+    <MESSAGE value="Refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
